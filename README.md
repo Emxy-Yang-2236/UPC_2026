@@ -12,4 +12,4 @@ python3 design/start.py
 
 写作交接使用 [UPC skill 0.4.0 分支版本](https://github.com/Emxy-Yang-2236/UPC-skills/tree/08f45a8bb6a7b55e58395c2d2d67274faae7c522)。[比赛规则与写作入口](contest-rules.md) · [首次独立积分结果](experiment/runs/B01/README.md)
 
-B01–B03 已完成。[盲测与官方样例结果](experiment/results/README.md)。下一步为核验真实点球标注的可用性。
+B01–B03 已完成。[盲测与官方样例结果](experiment/results/README.md)。[只需此目录即可复核与接手写作](report/README.md)。下一步为核验真实点球标注的可用性。

@@ -1,1 +1,8 @@
 path,role,description
+recheck.py,code,从交接表独立重算的标准库入口
+evidence/b03-source.bundle,code,可离线克隆的精确 B03 代码和固定配置
+evidence/measurements.json,validation,模型摘要及原始数值核验和环境信息
+evidence/blind.csv,table,盲测逐脚四个掩码的评分与分母
+evidence/grid.csv,table,官方样例的全部格心概率和预测区
+evidence/goal.png,figure,官方两帧条件入门分布
+evidence/blind.png,figure,留出射门位置误差及区域覆盖与面积

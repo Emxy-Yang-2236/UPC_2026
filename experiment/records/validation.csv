@@ -7,3 +7,4 @@ V05,C2,固定先验敏感性、两种子与格网移动,区分名义格与稳健
 V06,C3,实测点球轨迹筛查与独立过线评分,先核实点球 origin、受控帧、直接过线真值和分组,仅核实数据文档；标注下载需登录；实测精度待验,experiment/data/raw/ball3d-status.md,pending
 V07a,C3,B02 校准分位数等号边界,晚帧至少包含第 18 项,当时 17/19；已由 V07b 替代，留作实现失效记录,experiment/runs/B02/calibration.json;experiment/results/README.md,fail
 V07b,C3,B03 统一前缀累积后复算全部原始脚,"全部掩码达到 min(k,n) 且检查受影响的分数",校准包含数为 19/18/18/18；两批盲测分数与官方预测逐字节相同,experiment/runs/B03/calibration.json;experiment/runs/B03/blind_scores.csv;experiment/runs/B02/blind_scores.csv,pass
+V00,C4,解析共线必要条件及误差盒 16 个角点,精确读数及半格误差风界、静风相容阈值均在首项容差内,14.84924 m/s、4.35321 m/s、7.27903 mm,design/start.py;report/evidence/measurements.json,pass

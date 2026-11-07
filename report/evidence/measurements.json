@@ -1,0 +1,1137 @@
+{
+  "official": {
+    "events": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "point": [
+      2.5620000000000003,
+      2.074
+    ],
+    "model_posterior": [
+      0.0,
+      0.3459210147016547,
+      0.6540789852983786
+    ],
+    "models": [
+      {
+        "n": 262144,
+        "hits": 0,
+        "evidence": 0.0,
+        "second": 0.0,
+        "ess": 0.0
+      },
+      {
+        "n": 262144,
+        "hits": 1200,
+        "evidence": 2.8108295296257765e-09,
+        "second": 6.583968870513549e-21,
+        "ess": 1200.0000000000007
+      },
+      {
+        "n": 262144,
+        "hits": 2269,
+        "evidence": 5.314810168934072e-09,
+        "second": 1.2449187805996043e-20,
+        "ess": 2269.0
+      }
+    ],
+    "mixture_ess": 3468.999999999769,
+    "ess_pass": true,
+    "raw_cells": [
+      247,
+      248,
+      257,
+      258,
+      267,
+      268
+    ],
+    "raw_area_m2": 0.3572159999999999,
+    "raw_mass": 0.9051599884692999,
+    "cal_area_m2": 0.29767999999999994,
+    "cal_cells": [
+      248,
+      257,
+      258,
+      267,
+      268
+    ],
+    "gate_time_q05_q50_q95_s": [
+      0.3922124844365584,
+      0.39913294547095435,
+      0.40721881372764906
+    ],
+    "prior_envelope": [
+      {
+        "cell": 258,
+        "point": [
+          2.5620000000000003,
+          2.074
+        ],
+        "pi_from": 0.1,
+        "pi_to": 0.9
+      }
+    ],
+    "grid_modes": {
+      "base": [
+        2.5620000000000003,
+        2.074
+      ],
+      "fine": [
+        2.5010000000000003,
+        2.013
+      ],
+      "shift": [
+        2.684,
+        1.952
+      ]
+    },
+    "stable_single_hotspot": false,
+    "replicates": [
+      {
+        "events": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "point": [
+          2.5620000000000003,
+          2.074
+        ],
+        "mixture_ess": 1708.999999999985,
+        "model_posterior": [
+          0.0,
+          0.3446459918080765,
+          0.655354008191928
+        ],
+        "models": [
+          {
+            "n": 131072,
+            "hits": 0,
+            "evidence": 0.0,
+            "second": 0.0,
+            "ess": 0.0
+          },
+          {
+            "n": 131072,
+            "hits": 589,
+            "evidence": 2.7592976549159706e-09,
+            "second": 1.2926525549108268e-20,
+            "ess": 589.0000000000005
+          },
+          {
+            "n": 131072,
+            "hits": 1120,
+            "evidence": 5.2468817886347825e-09,
+            "second": 2.4580150449917265e-20,
+            "ess": 1120.0
+          }
+        ]
+      },
+      {
+        "events": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "point": [
+          2.5620000000000003,
+          2.074
+        ],
+        "mixture_ess": 1759.9999999999814,
+        "model_posterior": [
+          0.0,
+          0.34715909090909275,
+          0.6528409090909126
+        ],
+        "models": [
+          {
+            "n": 131072,
+            "hits": 0,
+            "evidence": 0.0,
+            "second": 0.0,
+            "ess": 0.0
+          },
+          {
+            "n": 131072,
+            "hits": 611,
+            "evidence": 2.8623614043355825e-09,
+            "second": 1.3409349932945928e-20,
+            "ess": 611.0000000000005
+          },
+          {
+            "n": 131072,
+            "hits": 1149,
+            "evidence": 5.382738549233362e-09,
+            "second": 2.5216600774066906e-20,
+            "ess": 1149.0
+          }
+        ]
+      }
+    ],
+    "controls": {
+      "gravity": {
+        "event": "in",
+        "point": [
+          3.2169811320754715,
+          1.9570064288620395
+        ],
+        "T": 0.3706199460916443
+      },
+      "constant_a": {
+        "event": "in",
+        "point": [
+          2.4948244142247114,
+          1.9203670564844242
+        ],
+        "T": 0.4050083612273948
+      }
+    }
+  },
+  "blind": {
+    "groups": {
+      "all": {
+        "origin": {
+          "shots": 48,
+          "in_goal": 33,
+          "point_n": 33,
+          "mean_point_m": 2.404445084455136,
+          "median_point_m": 2.3474026157661347,
+          "brier_n": 48,
+          "brier": 0.2898255920410156,
+          "brier_upper_if_missing": 0.2898255920410156,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 23,
+            "n": 33,
+            "wilson95": [
+              0.5266186485419991,
+              0.8262446857594613
+            ],
+            "mean_area_m2": 11.430911999999998
+          },
+          "cal": {
+            "hit": 33,
+            "n": 33,
+            "wilson95": [
+              0.8957300024575532,
+              1
+            ],
+            "mean_area_m2": 17.860799999999998
+          }
+        },
+        "first": {
+          "shots": 48,
+          "in_goal": 33,
+          "point_n": 33,
+          "mean_point_m": 0.25926998898028486,
+          "median_point_m": 0.12667191803314784,
+          "brier_n": 48,
+          "brier": 0.11531685619609457,
+          "brier_upper_if_missing": 0.1153168561960946,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 32,
+            "n": 33,
+            "wilson95": [
+              0.846812746178816,
+              0.994630589463128
+            ],
+            "mean_area_m2": 3.703860848484848
+          },
+          "cal": {
+            "hit": 28,
+            "n": 33,
+            "wilson95": [
+              0.690801241195584,
+              0.9334954271839229
+            ],
+            "mean_area_m2": 2.0873682424242426
+          }
+        },
+        "late": {
+          "shots": 48,
+          "in_goal": 33,
+          "point_n": 33,
+          "mean_point_m": 0.21554304858816778,
+          "median_point_m": 0.13118079982859082,
+          "brier_n": 48,
+          "brier": 0.10573077118343245,
+          "brier_upper_if_missing": 0.1057307711834324,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 33,
+            "n": 33,
+            "wilson95": [
+              0.8957300024575532,
+              1
+            ],
+            "mean_area_m2": 3.02190303030303
+          },
+          "cal": {
+            "hit": 27,
+            "n": 33,
+            "wilson95": [
+              0.6561176836533059,
+              0.9138923179105917
+            ],
+            "mean_area_m2": 1.2899466666666668
+          }
+        },
+        "both": {
+          "shots": 48,
+          "in_goal": 33,
+          "point_n": 33,
+          "mean_point_m": 0.18148783860385445,
+          "median_point_m": 0.13311505185289418,
+          "brier_n": 48,
+          "brier": 0.05009855457543445,
+          "brier_upper_if_missing": 0.050098554575434516,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 30,
+            "n": 33,
+            "wilson95": [
+              0.7642739435353078,
+              0.9685960584754175
+            ],
+            "mean_area_m2": 0.2994841212121212
+          },
+          "cal": {
+            "hit": 29,
+            "n": 33,
+            "wilson95": [
+              0.7267449482892527,
+              0.9518383869058633
+            ],
+            "mean_area_m2": 0.22010278787878784
+          }
+        }
+      },
+      "no_spin": {
+        "origin": {
+          "shots": 16,
+          "in_goal": 16,
+          "point_n": 16,
+          "mean_point_m": 2.456642805279765,
+          "median_point_m": 2.815205111693868,
+          "brier_n": 16,
+          "brier": 0.3437806701660156,
+          "brier_upper_if_missing": 0.34378067016601555,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 11,
+            "n": 16,
+            "wilson95": [
+              0.44404355834741305,
+              0.8583535614521766
+            ],
+            "mean_area_m2": 11.430911999999998
+          },
+          "cal": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 17.860799999999998
+          }
+        },
+        "first": {
+          "shots": 16,
+          "in_goal": 16,
+          "point_n": 16,
+          "mean_point_m": 0.10247235047729564,
+          "median_point_m": 0.09491265075566424,
+          "brier_n": 16,
+          "brier": 0.08336529043007013,
+          "brier_upper_if_missing": 0.08336529043007013,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 3.8363509999999996
+          },
+          "cal": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 2.1507380000000005
+          }
+        },
+        "late": {
+          "shots": 16,
+          "in_goal": 16,
+          "point_n": 16,
+          "mean_point_m": 0.10247235047729564,
+          "median_point_m": 0.09491265075566424,
+          "brier_n": 16,
+          "brier": 0.07339351824767794,
+          "brier_upper_if_missing": 0.07339351824767792,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 3.077267
+          },
+          "cal": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 1.291187
+          }
+        },
+        "both": {
+          "shots": 16,
+          "in_goal": 16,
+          "point_n": 16,
+          "mean_point_m": 0.10949362385393417,
+          "median_point_m": 0.09910502370404389,
+          "brier_n": 16,
+          "brier": 0.02126032145895399,
+          "brier_upper_if_missing": 0.021260321458953957,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 0.19721299999999997
+          },
+          "cal": {
+            "hit": 16,
+            "n": 16,
+            "wilson95": [
+              0.8063923194655722,
+              1
+            ],
+            "mean_area_m2": 0.137677
+          }
+        }
+      },
+      "stable_spin": {
+        "origin": {
+          "shots": 16,
+          "in_goal": 9,
+          "point_n": 9,
+          "mean_point_m": 2.4051752294520465,
+          "median_point_m": 2.2556805357512917,
+          "brier_n": 16,
+          "brier": 0.26824356079101563,
+          "brier_upper_if_missing": 0.26824356079101563,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 6,
+            "n": 9,
+            "wilson95": [
+              0.3542021355804034,
+              0.8794161816130857
+            ],
+            "mean_area_m2": 11.430911999999998
+          },
+          "cal": {
+            "hit": 9,
+            "n": 9,
+            "wilson95": [
+              0.7008549515804674,
+              1
+            ],
+            "mean_area_m2": 17.860799999999998
+          }
+        },
+        "first": {
+          "shots": 16,
+          "in_goal": 9,
+          "point_n": 9,
+          "mean_point_m": 0.667526965713551,
+          "median_point_m": 0.6549844001186539,
+          "brier_n": 16,
+          "brier": 0.1464711381223749,
+          "brier_upper_if_missing": 0.1464711381223749,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 8,
+            "n": 9,
+            "wilson95": [
+              0.5650002944233536,
+              0.9801091123614543
+            ],
+            "mean_area_m2": 3.830149333333333
+          },
+          "cal": {
+            "hit": 6,
+            "n": 9,
+            "wilson95": [
+              0.3542021355804034,
+              0.8794161816130857
+            ],
+            "mean_area_m2": 2.2028320000000003
+          }
+        },
+        "late": {
+          "shots": 16,
+          "in_goal": 9,
+          "point_n": 9,
+          "mean_point_m": 0.4917608603820175,
+          "median_point_m": 0.5043790012173809,
+          "brier_n": 16,
+          "brier": 0.1375246895238149,
+          "brier_upper_if_missing": 0.1375246895238149,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 9,
+            "n": 9,
+            "wilson95": [
+              0.7008549515804674,
+              1
+            ],
+            "mean_area_m2": 3.340631111111111
+          },
+          "cal": {
+            "hit": 5,
+            "n": 9,
+            "wilson95": [
+              0.266651293495499,
+              0.8112214789023309
+            ],
+            "mean_area_m2": 1.4619395555555554
+          }
+        },
+        "both": {
+          "shots": 16,
+          "in_goal": 9,
+          "point_n": 9,
+          "mean_point_m": 0.31109672044579584,
+          "median_point_m": 0.27925327221577934,
+          "brier_n": 16,
+          "brier": 0.06489173048888633,
+          "brier_upper_if_missing": 0.0648917304888863,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 8,
+            "n": 9,
+            "wilson95": [
+              0.5650002944233536,
+              0.9801091123614543
+            ],
+            "mean_area_m2": 0.5027484444444443
+          },
+          "cal": {
+            "hit": 8,
+            "n": 9,
+            "wilson95": [
+              0.5650002944233536,
+              0.9801091123614543
+            ],
+            "mean_area_m2": 0.3836764444444443
+          }
+        }
+      },
+      "wake": {
+        "origin": {
+          "shots": 16,
+          "in_goal": 8,
+          "point_n": 8,
+          "mean_point_m": 2.2992282296843545,
+          "median_point_m": 2.348861982505717,
+          "brier_n": 16,
+          "brier": 0.2574525451660156,
+          "brier_upper_if_missing": 0.2574525451660157,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 6,
+            "n": 8,
+            "wilson95": [
+              0.40927543031017727,
+              0.9285207872478887
+            ],
+            "mean_area_m2": 11.430911999999998
+          },
+          "cal": {
+            "hit": 8,
+            "n": 8,
+            "wilson95": [
+              0.6755924351161318,
+              1
+            ],
+            "mean_area_m2": 17.860799999999998
+          }
+        },
+        "first": {
+          "shots": 16,
+          "in_goal": 8,
+          "point_n": 8,
+          "mean_point_m": 0.11357616716133886,
+          "median_point_m": 0.12205210528382412,
+          "brier_n": 16,
+          "brier": 0.11611414003583868,
+          "brier_upper_if_missing": 0.11611414003583875,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 8,
+            "n": 8,
+            "wilson95": [
+              0.6755924351161318,
+              1
+            ],
+            "mean_area_m2": 3.296806
+          },
+          "cal": {
+            "hit": 6,
+            "n": 8,
+            "wilson95": [
+              0.40927543031017727,
+              0.9285207872478887
+            ],
+            "mean_area_m2": 1.8307320000000002
+          }
+        },
+        "late": {
+          "shots": 16,
+          "in_goal": 8,
+          "point_n": 8,
+          "mean_point_m": 0.13093940654183117,
+          "median_point_m": 0.13570698712847984,
+          "brier_n": 16,
+          "brier": 0.10627410577880454,
+          "brier_upper_if_missing": 0.10627410577880458,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 8,
+            "n": 8,
+            "wilson95": [
+              0.6755924351161318,
+              1
+            ],
+            "mean_area_m2": 2.5526060000000004
+          },
+          "cal": {
+            "hit": 6,
+            "n": 8,
+            "wilson95": [
+              0.40927543031017727,
+              0.9285207872478887
+            ],
+            "mean_area_m2": 1.0939740000000002
+          }
+        },
+        "both": {
+          "shots": 16,
+          "in_goal": 8,
+          "point_n": 8,
+          "mean_point_m": 0.1796662760315109,
+          "median_point_m": 0.14455382556066493,
+          "brier_n": 16,
+          "brier": 0.06414361177846303,
+          "brier_upper_if_missing": 0.06414361177846306,
+          "low_ess": 0,
+          "failed": 0,
+          "raw": {
+            "hit": 6,
+            "n": 8,
+            "wilson95": [
+              0.40927543031017727,
+              0.9285207872478887
+            ],
+            "mean_area_m2": 0.2753540000000001
+          },
+          "cal": {
+            "hit": 5,
+            "n": 8,
+            "wilson95": [
+              0.3057423946026341,
+              0.8631557141763988
+            ],
+            "mean_area_m2": 0.20093400000000006
+          }
+        }
+      }
+    },
+    "both_minus_late": {
+      "point_error_m": {
+        "n": 33,
+        "mean_both_minus_late": -0.03405520998431334,
+        "interval95": [
+          -0.08215369483948459,
+          0.0098562183126712
+        ]
+      },
+      "brier": {
+        "n": 48,
+        "mean_both_minus_late": -0.055632216607998004,
+        "interval95": [
+          -0.09876112298329645,
+          -0.008587576343035776
+        ]
+      },
+      "raw_hit": {
+        "n": 33,
+        "mean_both_minus_late": -0.09090909090909091,
+        "interval95": [
+          -0.21212121212121213,
+          0.0
+        ]
+      },
+      "cal_hit": {
+        "n": 33,
+        "mean_both_minus_late": 0.06060606060606061,
+        "interval95": [
+          -0.06060606060606061,
+          0.18181818181818182
+        ]
+      },
+      "raw_area_m2": {
+        "n": 33,
+        "mean_both_minus_late": -2.722418909090909,
+        "interval95": [
+          -2.9786492242424245,
+          -2.4662336969696974
+        ]
+      },
+      "cal_area_m2": {
+        "n": 33,
+        "mean_both_minus_late": -1.0698438787878788,
+        "interval95": [
+          -1.1727238909090911,
+          -0.9688130909090911
+        ]
+      }
+    },
+    "kinematic_controls": {
+      "gravity": {
+        "point_n": 33,
+        "median_point_m": 0.10391793589044546,
+        "mean_point_m": 0.20304472024640846,
+        "event_brier": 0.125
+      },
+      "constant_a": {
+        "point_n": 32,
+        "median_point_m": 0.20141790282081376,
+        "mean_point_m": 0.25791643994027263,
+        "event_brier": 0.14583333333333334
+      }
+    }
+  },
+  "calibration": {
+    "origin": {
+      "n": 19,
+      "rank": 18,
+      "level": 1.0,
+      "calibration_hits": 19
+    },
+    "first": {
+      "n": 19,
+      "rank": 18,
+      "level": 0.7257933974660367,
+      "calibration_hits": 18
+    },
+    "late": {
+      "n": 19,
+      "rank": 18,
+      "level": 0.639544445091908,
+      "calibration_hits": 18
+    },
+    "both": {
+      "n": 19,
+      "rank": 18,
+      "level": 0.810385898046689,
+      "calibration_hits": 18
+    }
+  },
+  "checks": [
+    {
+      "case": "vacuum",
+      "event": "in",
+      "error_m": 0.00017031250000210107,
+      "error_s": 1.6653345369377348e-16,
+      "pass": true
+    },
+    {
+      "case": "drag_ground",
+      "event": "ground",
+      "error_m": 9.371767240058133e-10,
+      "error_s": 3.797995054283243e-05,
+      "pass": true
+    },
+    {
+      "case": "spin",
+      "event": "in",
+      "error_m": 0.00013715952928794621,
+      "error_s": 4.606579783072995e-06,
+      "pass": true
+    },
+    {
+      "case": "empirical",
+      "event": "out",
+      "error_m": 3.065380899267404e-05,
+      "error_s": 7.505734010981868e-06,
+      "pass": true
+    }
+  ],
+  "structural": {
+    "open_boundary_and_event_order": true,
+    "empty_evidence": true,
+    "evidence_denominator": true,
+    "shifted_grid_area": true,
+    "empty_calibrated_full_goal": true,
+    "hidden_frame_invariance": true
+  },
+  "pair": {
+    "environment": {
+      "python": "3.13.9",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1"
+    },
+    "g_m_s2": 9.81,
+    "start_m": [
+      0,
+      0,
+      0.11
+    ],
+    "times_s": [
+      0.05,
+      0.1
+    ],
+    "readings_m": [
+      [
+        1.5,
+        0.45,
+        0.44
+      ],
+      [
+        2.96,
+        0.86,
+        0.74
+      ]
+    ],
+    "hard_coordinate_error_m": 0.005,
+    "shots": [
+      {
+        "velocity0_m_s": [
+          30.41551974416947,
+          9.413055352685879,
+          6.912833807648177
+        ],
+        "kappa_per_m": 0.020071214267228972,
+        "beta_per_s": [
+          -0.5,
+          -0.20564659070289734,
+          -0.46349110815968314
+        ],
+        "max_early_residual_m": 4.4986236957811343e-13,
+        "arrival_s": 0.40054254300171793,
+        "goal_yz_m": [
+          2.5737791002561945,
+          2.002506344971834
+        ],
+        "goal_solver_difference_m": 1.9626381825558957e-13,
+        "third_frame_xyz_m": [
+          [
+            4.3821484227085294,
+            1.231822579812813,
+            1.0117983240618778
+          ],
+          [
+            5.7683774876012155,
+            1.5671277729554527,
+            1.2570406814517485
+          ],
+          [
+            7.120428646069661,
+            1.8674332684454091,
+            1.4772381028641772
+          ]
+        ]
+      },
+      {
+        "velocity0_m_s": [
+          30.415426958721756,
+          9.420333530227174,
+          6.903145383782936
+        ],
+        "kappa_per_m": 0.020070468647372688,
+        "beta_per_s": [
+          0.5,
+          0.08474764612823459,
+          -0.25073694620971176
+        ],
+        "max_early_residual_m": 3.4772185131259903e-13,
+        "arrival_s": 0.4005161981560539,
+        "goal_yz_m": [
+          2.6283099300789385,
+          1.9339570305513887
+        ],
+        "goal_solver_difference_m": 2.0759923748532154e-13,
+        "third_frame_xyz_m": [
+          [
+            4.382145303333416,
+            1.2328642408887283,
+            1.0104435096085054
+          ],
+          [
+            5.768377976992621,
+            1.5712334258957659,
+            1.2517408313421623
+          ],
+          [
+            7.120460713947447,
+            1.8775512368360192,
+            1.4642740805077616
+          ]
+        ]
+      }
+    ],
+    "goal_separation_m": 0.08759349238767775,
+    "half_separation_m": 0.04379674619383887,
+    "third_frames": [
+      {
+        "t_s": 0.15,
+        "distance_m": 0.0017089732972298264,
+        "max_coordinate_difference_m": 0.0013548144533723772,
+        "hard_error_boxes_disjoint": false,
+        "round_to_cm_differs": false
+      },
+      {
+        "t_s": 0.2,
+        "distance_m": 0.0067040881177000715,
+        "max_coordinate_difference_m": 0.005299850109586224,
+        "hard_error_boxes_disjoint": false,
+        "round_to_cm_differs": true
+      },
+      {
+        "t_s": 0.25,
+        "distance_m": 0.016445065775478475,
+        "max_coordinate_difference_m": 0.012964022356415583,
+        "hard_error_boxes_disjoint": true,
+        "round_to_cm_differs": true
+      }
+    ]
+  },
+  "matlab": {
+    "version": "26.2.0.3386108 (R2026b)",
+    "goal_yz_m": [
+      [
+        2.573779100256157,
+        2.0025063449718097
+      ],
+      [
+        2.62830993007907,
+        1.9339570305513911
+      ]
+    ],
+    "early_max_m": [
+      4.973799150320701e-14,
+      4.5102810375396984e-13
+    ],
+    "difference_m": [
+      4.458841437395206e-14,
+      1.314730962157535e-13
+    ],
+    "difference_s": [
+      3.774758283725532e-15,
+      3.941291737419306e-15
+    ],
+    "status": "pass"
+  },
+  "provenance": {
+    "status": "running",
+    "started_utc": "2026-11-07T04:00:30.004876+00:00",
+    "design_commit": "4ad681dc280c5abfd8b78f01348e1b1620ba00b3",
+    "source_commit": "4cb0292f4e7ca656ce8ca4cfca3699ab5266b57c",
+    "settings_sha256": "5fdd59e015d750183ab4856760f835b96a475f6e921f2c65fb7dd94befc7758d",
+    "source_sha256": {
+      "controls.py": "14f3f632f29f0e0d7b567f9bbe0721d98ea4221998923ee10337fd26113048e0",
+      "evaluate.py": "29e182ccff2501a93e29a4c15f1e60d119384a958dff3ff86236314f825bbf1c",
+      "flight.py": "9e3324be29fe536301bf9facdf6d7bc945b1326c93d9ff4179fdf17829e8e8d0",
+      "official.py": "2a1bdc250c74b36de68f6dbf375b3d25ef3aec5b3761a58c4237a8f6d4409eab",
+      "pair.py": "f0b001167e8ac3d66d9019431b945e2d312382343ddf129e858db1a42cccd428",
+      "plot_blind.py": "03748a87e41b7c586b099b37c196d1f03d2a824c1536ad54c8e9d030a844aaa4",
+      "predict.py": "cf0ab8fb059edfd1a9b5202dda7130b3e862f1702b89f10611f99b1fd1fd36ad",
+      "reference.py": "6ed99ef45ee766bf02bfd0438c41240c5a19ae205d9151ec59766ed186048b2d",
+      "run_pipeline.py": "2ffebe15e9e529bd8820f000ea9dc2a999027cd1ed5b5d03f62b13e2500e101a"
+    },
+    "python": "3.13.9",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2",
+    "machine": "arm64",
+    "workers": 3,
+    "backend": "CPU float64; one BLAS thread per shot worker",
+    "seeds": {
+      "dev": 42401,
+      "cal": 42437,
+      "blind": 42509
+    },
+    "official_seeds": [
+      8111,
+      8117
+    ]
+  },
+  "config": {
+    "version": "B-1.0",
+    "official": {
+      "r0": [
+        0,
+        0,
+        0.11
+      ],
+      "times": [
+        0.05,
+        0.1
+      ],
+      "xyz": [
+        [
+          1.5,
+          0.45,
+          0.44
+        ],
+        [
+          2.96,
+          0.86,
+          0.74
+        ]
+      ],
+      "gate": 11,
+      "half_width": 3.66,
+      "height": 2.44
+    },
+    "physics": {
+      "g": 9.81,
+      "radius": 0.11,
+      "mass": 0.43,
+      "air_density": 1.2,
+      "wind_cap": 3,
+      "kappa": [
+        0.006,
+        0.024
+      ],
+      "beta_cap": 0.8,
+      "omega_cap": 65,
+      "drag_offset": [
+        -0.04,
+        0.27
+      ],
+      "velocity_lo": [
+        18,
+        -12,
+        1.5
+      ],
+      "velocity_hi": [
+        38,
+        12,
+        11
+      ]
+    },
+    "observation": {
+      "quantum_m": 0.01,
+      "mask_names": [
+        "origin",
+        "first",
+        "late",
+        "both"
+      ]
+    },
+    "solver": {
+      "early_dt": 0.025,
+      "late_dt": 0.0125,
+      "horizon": 1.25,
+      "reference_rtol": 1e-10,
+      "reference_atol": 1e-12
+    },
+    "sampling": {
+      "models": [
+        "D",
+        "S",
+        "E"
+      ],
+      "prior": [
+        0.2,
+        0.4,
+        0.4
+      ],
+      "spin_fraction_range": [
+        0.1,
+        0.9
+      ],
+      "prior_proposal": 0.02,
+      "proposal_halfwidth_m": 0.007,
+      "inverse_steps": 3,
+      "n_single": 2048,
+      "n_both": 16384,
+      "n_official": 131072,
+      "resample_cap": 512,
+      "official_cap": 8192,
+      "official_seeds": [
+        8111,
+        8117
+      ],
+      "batch": 4096
+    },
+    "study": {
+      "dev": 9,
+      "cal": 36,
+      "blind": 48,
+      "seeds": {
+        "dev": 42401,
+        "cal": 42437,
+        "blind": 42509
+      },
+      "bootstrap_seed": 42937,
+      "bootstrap_n": 2000,
+      "grid": [
+        30,
+        10
+      ],
+      "coverage": 0.9,
+      "min_ess": 25,
+      "official_min_ess": 200,
+      "reference_position_tol_m": 0.003,
+      "reference_time_tol_s": 0.0002
+    }
+  },
+  "geometry": {
+    "version": "B-1.0",
+    "wind_floor_m_s": [
+      14.849242404917396,
+      4.35320697404856
+    ],
+    "still_air_threshold_mm": 7.2790294627382846,
+    "status": "pass"
+  }
+}
