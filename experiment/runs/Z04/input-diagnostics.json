@@ -1,0 +1,68 @@
+[
+  {
+    "match_id": "DFL-MAT-J03WMX",
+    "repeated_adjacent_position": false,
+    "anchor_away_from_penalty_mark": true,
+    "release_time_independently_verified": false,
+    "original_hard_box": {
+      "match_id": "DFL-MAT-J03WMX",
+      "event_id": "18226500001426",
+      "u_ceiling_m_s": 45.12485321718877,
+      "a_ceiling_D_m_s2": 58.68005706894797,
+      "a_ceiling_S_m_s2": 89.16922784048538,
+      "a_ceiling_E_m_s2": 102.64786320791185,
+      "a_ceiling_all_m_s2": 102.64786320791185,
+      "min_ax_from_second_difference_m_s2": 9.374999999999877,
+      "min_ay_from_second_difference_m_s2": 3.1250000000000546,
+      "min_az_from_second_difference_m_s2": 9.375,
+      "min_downward_a_from_vz_floor_m_s2": 106.24999999999999,
+      "min_a_needed_m_s2": 106.24999999999999,
+      "minimum_halfwidth_from_necessary_tests_m": 0.007881709433670503,
+      "incompatible_both": 1
+    }
+  },
+  {
+    "match_id": "DFL-MAT-J03WOH",
+    "repeated_adjacent_position": false,
+    "anchor_away_from_penalty_mark": false,
+    "release_time_independently_verified": false,
+    "original_hard_box": {
+      "match_id": "DFL-MAT-J03WOH",
+      "event_id": "18232100000995",
+      "u_ceiling_m_s": 45.12485321718877,
+      "a_ceiling_D_m_s2": 58.68005706894797,
+      "a_ceiling_S_m_s2": 89.16922784048538,
+      "a_ceiling_E_m_s2": 102.64786320791185,
+      "a_ceiling_all_m_s2": 102.64786320791185,
+      "min_ax_from_second_difference_m_s2": 309.375,
+      "min_ay_from_second_difference_m_s2": 78.125,
+      "min_az_from_second_difference_m_s2": 46.87500000000002,
+      "min_downward_a_from_vz_floor_m_s2": 0.0,
+      "min_a_needed_m_s2": 309.375,
+      "minimum_halfwidth_from_necessary_tests_m": 0.11525447295578034,
+      "incompatible_both": 1
+    }
+  },
+  {
+    "match_id": "DFL-MAT-J03WR9",
+    "repeated_adjacent_position": true,
+    "anchor_away_from_penalty_mark": true,
+    "release_time_independently_verified": false,
+    "original_hard_box": {
+      "match_id": "DFL-MAT-J03WR9",
+      "event_id": "18242100001386",
+      "u_ceiling_m_s": 45.12485321718877,
+      "a_ceiling_D_m_s2": 58.68005706894797,
+      "a_ceiling_S_m_s2": 89.16922784048538,
+      "a_ceiling_E_m_s2": 102.64786320791185,
+      "a_ceiling_all_m_s2": 102.64786320791185,
+      "min_ax_from_second_difference_m_s2": 678.125,
+      "min_ay_from_second_difference_m_s2": 215.62499999999997,
+      "min_az_from_second_difference_m_s2": 59.37500000000001,
+      "min_downward_a_from_vz_floor_m_s2": 68.75,
+      "min_a_needed_m_s2": 678.125,
+      "minimum_halfwidth_from_necessary_tests_m": 0.311921139622447,
+      "incompatible_both": 1
+    }
+  }
+]

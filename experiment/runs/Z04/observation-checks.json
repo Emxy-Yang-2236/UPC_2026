@@ -1,0 +1,7 @@
+{
+  "shared_phase": true,
+  "single_rounding": true,
+  "stale_frame": true,
+  "synthetic_lag1_correlation": 0.6953152194231872,
+  "field_calibrated": false
+}

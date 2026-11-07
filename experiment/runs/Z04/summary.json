@@ -1,0 +1,41 @@
+{
+  "late": {
+    "predictions": 144,
+    "unique_shots": 48,
+    "seeds": 3,
+    "missing": 0,
+    "low_ess": 0,
+    "point_error_n": 99,
+    "mean_point_error_m": 0.21458273980025874,
+    "nominal90_hits": 99,
+    "nominal90_denominator": 99,
+    "mean_area_on_in_goal_m2": 3.071215676767677
+  },
+  "both": {
+    "predictions": 144,
+    "unique_shots": 48,
+    "seeds": 3,
+    "missing": 0,
+    "low_ess": 11,
+    "point_error_n": 99,
+    "mean_point_error_m": 0.16995148674361837,
+    "nominal90_hits": 91,
+    "nominal90_denominator": 99,
+    "mean_area_on_in_goal_m2": 0.28805802020202015
+  },
+  "paired": {
+    "complete_shots": 33,
+    "mean_both_minus_late_m": -0.044631253056640355,
+    "shot_bootstrap95_m": [
+      -0.091361595488532,
+      0.0007696334777628646
+    ],
+    "unit": "shot after averaging three seeds; no seed pseudoreplication"
+  },
+  "limitations": [
+    "existing synthetic set reused",
+    "2048 proposals per model per mask",
+    "nominal regions only; no new calibration",
+    "observation layer not integrated into posterior; field calibration unavailable"
+  ]
+}

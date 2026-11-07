@@ -1,0 +1,251 @@
+{
+  "status": "conditional toy-model mechanism checks, not new empirical measurements or a posterior probability calculation",
+  "environment": {
+    "python": "3.10.11",
+    "numpy": "2.2.6"
+  },
+  "ranges": "wind +/-2 m/s, coefficient power +/-1, effective beta e-fold times 40, 1 and .2 s are chosen scenarios, not calibrated football ranges; strong beta decay is not measured spin decay",
+  "fixed_assumptions": "beta_x=0 in every scenario; six refitted parameters, exact two observed positions; constant wind; no bounce",
+  "physical_checks": {
+    "zero_force_limit_endpoint_error_m": 7.123761025526256e-08,
+    "no_wind_energy_identity_residual": 0.0,
+    "quadratic_common_clock_scale_1_01_endpoint_difference_m": 6.280369834735101e-16
+  },
+  "scenarios": [
+    {
+      "name": "baseline",
+      "config": {},
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.415459443446448,
+        9.41672446235389,
+        6.908012398513101,
+        0.020070841485787035,
+        -0.06043430454470497,
+        -0.3571339760152306
+      ],
+      "goal_yz_m": [
+        2.5994379483780126,
+        1.9669916774735692
+      ],
+      "goal_time_s": 0.40050336184919505,
+      "refined_observation_residual_m": 1.780797731498751e-13,
+      "step_difference_m": 5.210291286582303e-09,
+      "goal_velocity_m_s": [
+        24.88204282423397,
+        3.9677868250714843,
+        2.555432680283898
+      ],
+      "shift_from_refitted_baseline_m": 0.0
+    },
+    {
+      "name": "crosswind_minus_2",
+      "config": {
+        "wind_y": -2.0
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.41641822303976,
+        9.417042765118143,
+        6.9081153601284075,
+        0.019928344496935115,
+        -0.0620426787140468,
+        -0.31176655812138704
+      ],
+      "goal_yz_m": [
+        2.600130570523858,
+        1.966974676841875
+      ],
+      "goal_time_s": 0.40023684299182255,
+      "refined_observation_residual_m": 4.8344439562697517e-11,
+      "step_difference_m": 3.6686962457447814e-07,
+      "goal_velocity_m_s": [
+        24.939777273945406,
+        3.9840301059346572,
+        2.563387514805018
+      ],
+      "shift_from_refitted_baseline_m": 0.0006928307573957147
+    },
+    {
+      "name": "crosswind_plus_2",
+      "config": {
+        "wind_y": 2.0
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.414206718008707,
+        9.416311114664605,
+        6.907823457538569,
+        0.019954599582189442,
+        -0.057589299600930684,
+        -0.40277450461361164
+      ],
+      "goal_yz_m": [
+        2.5986447379753606,
+        1.9666845084457703
+      ],
+      "goal_time_s": 0.4008490295034365,
+      "refined_observation_residual_m": 4.6920245466708366e-11,
+      "step_difference_m": 2.3424626383972606e-07,
+      "goal_velocity_m_s": [
+        24.80756188221485,
+        3.9478909146077177,
+        2.542562953355613
+      ],
+      "shift_from_refitted_baseline_m": 0.0008506089315980074
+    },
+    {
+      "name": "coefficient_power_minus_1",
+      "config": {
+        "alpha": -1.0
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.404239670371624,
+        9.413304744104087,
+        6.905549720077698,
+        0.02104817339339702,
+        -0.06038173628721957,
+        -0.3571632615993729
+      ],
+      "goal_yz_m": [
+        2.5969934564682764,
+        1.9624337996922268
+      ],
+      "goal_time_s": 0.4034232889364375,
+      "refined_observation_residual_m": 8.391065620116933e-12,
+      "step_difference_m": 1.175520475723364e-07,
+      "goal_velocity_m_s": [
+        24.274039934632505,
+        3.844649809313116,
+        2.442455920299317
+      ],
+      "shift_from_refitted_baseline_m": 0.005172019969646338
+    },
+    {
+      "name": "coefficient_power_plus_1",
+      "config": {
+        "alpha": 1.0
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.427065797869627,
+        9.42026334742131,
+        6.910562081987414,
+        0.019138544344544667,
+        -0.060486882248257184,
+        -0.3571046881605988
+      ],
+      "goal_yz_m": [
+        2.6014869364936852,
+        1.9707652200632537
+      ],
+      "goal_time_s": 0.3981737981849132,
+      "refined_observation_residual_m": 2.302233959028399e-10,
+      "step_difference_m": 2.717725641429887e-07,
+      "goal_velocity_m_s": [
+        25.35150710680038,
+        4.064525030785138,
+        2.645162859037698
+      ],
+      "shift_from_refitted_baseline_m": 0.004293946433565624
+    },
+    {
+      "name": "effective_lift_decay_40s",
+      "config": {
+        "tau": 40.0
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.415399292310806,
+        9.416949309725085,
+        6.907974358479048,
+        0.020070856256282268,
+        -0.06050981571870973,
+        -0.35757948568266906
+      ],
+      "goal_yz_m": [
+        2.6011057786216973,
+        1.9667442242301785
+      ],
+      "goal_time_s": 0.4005141439994225,
+      "refined_observation_residual_m": 4.983076173914469e-10,
+      "step_difference_m": 2.1834351284278006e-08,
+      "goal_velocity_m_s": [
+        24.880086628072128,
+        3.98118957604181,
+        2.55304097298123
+      ],
+      "shift_from_refitted_baseline_m": 0.00168608743231607
+    },
+    {
+      "name": "effective_lift_decay_1s",
+      "config": {
+        "tau": 1.0
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.413022566323786,
+        9.425827378518196,
+        6.906472224542289,
+        0.02007142383742892,
+        -0.0635165500293567,
+        -0.37531854208074594
+      ],
+      "goal_yz_m": [
+        2.6610650507940963,
+        1.9578948691477507
+      ],
+      "goal_time_s": 0.400916614355588,
+      "refined_observation_residual_m": 2.3225865675158275e-13,
+      "step_difference_m": 1.139982855928517e-07,
+      "goal_velocity_m_s": [
+        24.806940862882083,
+        4.447933678689059,
+        2.4694362750066228
+      ],
+      "shift_from_refitted_baseline_m": 0.062294876787093424
+    },
+    {
+      "name": "effective_lift_decay_02s",
+      "config": {
+        "tau": 0.2
+      },
+      "parameters_v0xyz_kappaRef_betaYZ": [
+        30.402635148494685,
+        9.46450924126186,
+        6.8999247561859045,
+        0.020073763495621986,
+        -0.07717790415802459,
+        -0.45589742785843124
+      ],
+      "goal_yz_m": [
+        2.8297774379658502,
+        1.9334417901320606
+      ],
+      "goal_time_s": 0.4021946273943557,
+      "refined_observation_residual_m": 7.816236546887012e-11,
+      "step_difference_m": 2.363103629463105e-07,
+      "goal_velocity_m_s": [
+        24.58619945328504,
+        5.58703942659009,
+        2.261941190256103
+      ],
+      "shift_from_refitted_baseline_m": 0.23277000537915854
+    }
+  ],
+  "timing": {
+    "interpretation": "Quadratic model only. Fixed exact positions, independent 1 ms timestamp uncertainty, exact kick time. Local linear propagation, not total prediction error.",
+    "goal_jacobian_m_per_s": [
+      [
+        246.40807895193186,
+        -123.20401662613278
+      ],
+      [
+        186.56611692091653,
+        -93.28304115974184
+      ]
+    ],
+    "linear_std_yz_m": [
+      0.27549259715207214,
+      0.20858725212955653
+    ],
+    "common_frame_offset_sensitivity_yz_m_per_s": [
+      123.20406232579907,
+      93.28307576117469
+    ]
+  }
+}

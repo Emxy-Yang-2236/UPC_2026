@@ -1,0 +1,17 @@
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.asv
+.env
+.env.*
+*.pem
+*.key
+/private/
+/scratch/
+/exports/

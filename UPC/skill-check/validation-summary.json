@@ -1,0 +1,21 @@
+{
+  "source": "https://github.com/Emxy-Yang-2236/UPC-skills",
+  "retrieval": "GitHub main source archive; Git clone connection reset; no upstream Git history copied",
+  "version": "0.4.0-local",
+  "tests": {
+    "discovered": 75,
+    "passed": 65,
+    "skipped": 10,
+    "skip_reason": "Windows account lacks symbolic-link privilege"
+  },
+  "validated_with": [
+    "Python 3.10.11",
+    "bundled Python 3.12"
+  ],
+  "skill_format": "passed quick_validate.py",
+  "package": "UPC-skills/dist/v0.4.0/upc-physics-v0.4.0.zip",
+  "latex_pdf_validation": "not run: no TeX compiler installed",
+  "forward_test": "Complete synthetic cooling practice manuscript and six-scenario results produced; separate algebra/arithmetic check passed; inline-math QA added after review",
+  "package_sha256": "2322a1d9c4cf80e9db90eeb0746047ffe252519ec80af4fec9550b5f805720e5",
+  "installed_payload_files_verified": 53
+}

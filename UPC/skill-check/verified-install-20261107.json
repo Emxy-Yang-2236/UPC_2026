@@ -1,0 +1,149 @@
+{
+  "applied": true,
+  "upc_commit": "08f45a8bb6a7b55e58395c2d2d67274faae7c522",
+  "matt_commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+  "installed_root": "C:\\Users\\zhy\\.codex\\skills",
+  "backup_if_needed": "C:\\Users\\zhy\\Desktop\\UPC\\skill-backups\\verified-install-20261107T044520Z",
+  "skills": [
+    {
+      "skill": "ask-matt",
+      "file_count": 3,
+      "changed_files": []
+    },
+    {
+      "skill": "code-review",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "codebase-design",
+      "file_count": 4,
+      "changed_files": []
+    },
+    {
+      "skill": "diagnosing-bugs",
+      "file_count": 3,
+      "changed_files": []
+    },
+    {
+      "skill": "domain-modeling",
+      "file_count": 4,
+      "changed_files": []
+    },
+    {
+      "skill": "grill-me",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "grill-with-docs",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "grilling",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "handoff",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "implement",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "implement-spec",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "improve-codebase-architecture",
+      "file_count": 3,
+      "changed_files": []
+    },
+    {
+      "skill": "pr",
+      "file_count": 3,
+      "changed_files": []
+    },
+    {
+      "skill": "prototype",
+      "file_count": 4,
+      "changed_files": []
+    },
+    {
+      "skill": "research",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "retro",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "setup-matt-pocock-skills",
+      "file_count": 7,
+      "changed_files": []
+    },
+    {
+      "skill": "tdd",
+      "file_count": 4,
+      "changed_files": []
+    },
+    {
+      "skill": "teach",
+      "file_count": 6,
+      "changed_files": []
+    },
+    {
+      "skill": "to-questionnaire",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "to-spec",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "to-tickets",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "triage",
+      "file_count": 4,
+      "changed_files": []
+    },
+    {
+      "skill": "upc-physics",
+      "file_count": 53,
+      "changed_files": []
+    },
+    {
+      "skill": "wait-what",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "wayfinder",
+      "file_count": 2,
+      "changed_files": []
+    },
+    {
+      "skill": "wizard",
+      "file_count": 3,
+      "changed_files": []
+    },
+    {
+      "skill": "writing-for-agents",
+      "file_count": 3,
+      "changed_files": []
+    }
+  ]
+}

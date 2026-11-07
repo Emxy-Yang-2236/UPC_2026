@@ -1,0 +1,27 @@
+# Generated packages and local Python state
+/dist/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+
+# Personal editor and operating system files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Keep research and original source documents outside this release repository
+/example/
+/training/
+/research/
+/private/
+*.pdf
+*.mat
+*.log
+.env
+.env.*
+*.pem
+*.key

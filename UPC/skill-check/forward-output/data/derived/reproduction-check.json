@@ -1,0 +1,19 @@
+{
+  "scope": "Author self-check; not independent review",
+  "calculation_rerun_exit_code": 0,
+  "same_environment_derived_outputs_byte_identical": true,
+  "rerun_evidence": "The earlier combined checker reran solve.py successfully and passed its before/after hash equality assertion before later failing a display-comparison assertion. Its exact solver stdout is retained in run-output.txt. No solver rerun was needed for the corrected display check.",
+  "output_sha256": {
+    "results.csv": "663e7919feffc5bc508b95f64e455936e5a682d5f66acb7e5af0e3938ba1f2ec",
+    "results.md": "3410222b43272c6fe2b6343b090af52c79012ad1bc4e272af49e77b3ed24a5ec",
+    "numerical_check.csv": "812cd7e43fc24f8b509458d9b3aaddd594694d04cc033d835febf263e729cec7",
+    "summary.json": "c17bf22b897539c68e87c3a85b2e7596f7d2290901d2fb0557fb9cd6ea4a203a"
+  },
+  "manuscript_table_matches_all_six_saved_result_rows_at_display_precision": true,
+  "markdown_math_delimiters": "All inline math uses dollars; six display blocks use double dollars; no naked TeX commands outside math",
+  "ordinary_prose_parentheses_preserved": true,
+  "abstract_whitespace_word_count": 120,
+  "pdf_created_or_rendered": false,
+  "manuscript_sha256": "7d35d507cbc5eed1f6a6e3d7918a0c5f8e4dfb530b2fd34549236b18053077c0",
+  "check_history": "First display-check attempt compared rounded display conductance with unrounded binary float by exact equality and failed at 13.2 vs 13.200000000000001. Corrected the checker to compare required display precision; no physics result changed."
+}

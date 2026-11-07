@@ -1,0 +1,27 @@
+{
+  "python_version": "3.12.14",
+  "data_kind": "Deterministic calculations for an invented, stipulated model; no measurements",
+  "theta_star": 0.16666666666666666,
+  "dimensionless_threshold_time": 1.791759469228055,
+  "heat_removed_J_all_scenarios": 60000.0,
+  "time_sensitivity_elasticity_to_G": -1.0,
+  "design_12_slowest_time_s": 199.08438546978385,
+  "design_8_fastest_time_s": 244.33083671291655,
+  "robust_ordering_gap_s": 45.2464512431327,
+  "numerical_check": {
+    "method": "RK4 on T and integrated heat; bisection on final partial step",
+    "steps_per_time_constant": [
+      10,
+      20,
+      40
+    ],
+    "event_bisection_bracket_tolerance_s": 1e-11,
+    "finest_maximum_absolute_time_error_s": 9.851380013969901e-07,
+    "finest_time_tolerance_s": 0.0001,
+    "finest_maximum_absolute_heat_error_J": 1.6007106751203537e-10,
+    "heat_tolerance_J": 1e-05,
+    "all_time_error_sequences_decrease": true,
+    "pass": true,
+    "scope": "Implementation and arithmetic self-check only; not empirical validation of the physical model"
+  }
+}

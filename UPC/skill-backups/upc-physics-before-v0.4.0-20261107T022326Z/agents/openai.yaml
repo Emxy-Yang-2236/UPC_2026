@@ -1,0 +1,4 @@
+interface:
+  display_name: "UPC Physics"
+  short_description: "从审题、物理建模与仿真实验，到证据核验及完整英文参赛论文"
+  default_prompt: "使用 $upc-physics，根据当前题目和已有材料推进研究、验证并完成参赛论文。"

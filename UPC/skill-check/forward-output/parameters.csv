@@ -1,0 +1,9 @@
+symbol,value,unit,role,source_ids
+C,1200,J/K,given,S0
+T0,80,degC,given,S0
+Ta,20,degC,given,S0
+Tstar,30,degC,given,S0
+G8,8,W/K,given,S0
+G12,12,W/K,given,S0
+delta,-0.1 to +0.1,1,given,S0
+theta_star,1/6,1,derived,S0;S1

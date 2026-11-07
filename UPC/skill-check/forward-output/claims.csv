@@ -1,0 +1,9 @@
+id,requirement_ids,statement,source_ids,artifact_paths,status
+C1,R1,The stipulated G=8 W/K design reaches 30 C at 268.76 s,S0;S1,model.md;data/derived/results.csv,supported
+C2,R2,The stipulated G=12 W/K design reaches 30 C at 179.18 s,S0;S1,model.md;data/derived/results.csv,supported
+C3,R3,Both designs remove 60000 J by the prescribed threshold independent of G,S0;S1,model.md;data/derived/results.csv,supported
+C4,R4,At fixed initial and ambient and target temperatures time is proportional to 1/G so the 12 W/K design is faster,S0;S1,model.md;data/derived/summary.json,supported
+C5,R5,Normalized excess temperature is exp(-Gt/C) and the threshold satisfies Gtstar/C=ln(6),S0;S1,model.md,supported
+C6,R6,The prescribed conductance scenarios change threshold time by +11.11 or -9.09 percent and preserve the design ordering,S0;S1,model.md;data/derived/results.csv;data/derived/summary.json,supported
+C7,R7,The uniform-temperature assumption can fail if internal heat redistribution is slow and cannot be quantified with the supplied inputs,S0;S1,model.md;paper/manuscript.md,supported
+C8,R8,The complete English manuscript covers all specified practice questions and labels model results and limitations,S0;S1,paper/manuscript.md;review.md,supported

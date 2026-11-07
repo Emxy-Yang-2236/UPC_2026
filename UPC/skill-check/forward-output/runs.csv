@@ -1,0 +1,2 @@
+id,kind,command,input_paths,output_paths,status
+RUN1,analysis,python src/solve.py,problem.md;data/inputs.json;src/solve.py,data/derived/results.csv;data/derived/numerical_check.csv;data/derived/summary.json;data/derived/results.md,completed

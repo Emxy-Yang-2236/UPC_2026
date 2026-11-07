@@ -1,0 +1,18 @@
+{
+  "ready": true,
+  "integrity_ok": true,
+  "integrity_errors": [],
+  "status_findings": [],
+  "errors": [],
+  "warnings": [
+    "Structural audit only: independently check physics, citations, manuscript content and contest rules."
+  ],
+  "counts": {
+    "requirements": 8,
+    "sources": 2,
+    "parameters": 8,
+    "claims": 8,
+    "validation": 6,
+    "runs": 1
+  }
+}

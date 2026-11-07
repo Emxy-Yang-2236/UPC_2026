@@ -1,0 +1,1160 @@
+From b84c2744595e32d6a198f937ffcc5562ef0cb1ba Mon Sep 17 00:00:00 2001
+From: zhaohaoyang20070613
+ <309985152+zhaohaoyang20070613@users.noreply.github.com>
+Date: Sat, 7 Nov 2026 10:31:49 +0800
+Subject: [PATCH] Complete UPC research and manuscript workflow for v0.4.0
+
+---
+ CHANGELOG.md                       |   8 ++
+ MAINTAINING.md                     |  64 +++++----------
+ README.md                          |  18 ++++-
+ SKILL.md                           |  14 +++-
+ VERSION                            |   2 +-
+ agents/openai.yaml                 |   4 +-
+ assets/paper-outline.md            |   6 ++
+ assets/paper.tex                   |  64 +++++++++++----
+ assets/review.md                   |  21 +++++
+ assets/submission-checklist.md     |  46 +++++++++++
+ modules/analyze/SKILL.md           |   2 +
+ modules/compute/SKILL.md           |   2 +-
+ modules/model/SKILL.md             |   2 +
+ modules/validate/SKILL.md          |   2 +
+ modules/write/SKILL.md             |  11 ++-
+ references/competition-workflow.md |  30 +++++++
+ references/contest-rules.md        |  30 +++++++
+ references/paper-quality.md        |  38 +++++++++
+ references/project-contract.md     |   4 +-
+ references/research-execution.md   |   2 +-
+ references/third-party.md          |   4 +-
+ release-files.txt                  |   6 ++
+ scripts/ai_report.py               | 123 +++++++++++++++++++++++++++++
+ scripts/init_project.py            |  12 ++-
+ tests/_platform_support.py         |  10 +++
+ tests/test_ai_report.py            |  79 ++++++++++++++++++
+ tests/test_project_tools.py        |  23 +++---
+ tests/test_release.py              |  16 +++-
+ tests/test_team_handoff.py         |   4 +-
+ 29 files changed, 560 insertions(+), 87 deletions(-)
+ create mode 100644 assets/review.md
+ create mode 100644 assets/submission-checklist.md
+ create mode 100644 references/competition-workflow.md
+ create mode 100644 references/contest-rules.md
+ create mode 100644 references/paper-quality.md
+ create mode 100644 scripts/ai_report.py
+ create mode 100644 tests/_platform_support.py
+ create mode 100644 tests/test_ai_report.py
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 2b4b27b..9e90827 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,5 +1,13 @@
+ # 版本记录
+ 
++## 0.4.0 — 2026-11-07（本地定制版）
++
++- 以当届官方规则为依据，修正禁止 AI 使用披露的冲突；增加真实交互收录和完整报告生成工具，检测记录内容变化并拒绝覆盖。
++- 增加比赛时间与计算取舍、核心物理洞见、独立稿件审阅和修订闭环，按实际证据区分研究、版式、规则和披露状态。
++- 更新 UPC LaTeX 模板，提供独立摘要首页、每页队号、匿名元数据和文末 AI 报告位置，新增审阅及提交核对模板。
++- 更新模块路由、使用说明和发布清单；效果须通过实际题目检验，本版本不代表任何获奖能力认证。
++- 合成冷却练习的试用发现行内公式定界符不一致，增加源稿数学格式检查；该练习不是未见赛题或获奖能力测试。
++
+ ## 0.3.0 — 2026-11-05
+ 
+ - 团队研究仓库按设计、实验、整体报告、论文分区。新增两次冷启动交接的分册模板、Git 同步约定和接手人验收步骤。
+diff --git a/MAINTAINING.md b/MAINTAINING.md
+index fb51006..c63a665 100644
+--- a/MAINTAINING.md
++++ b/MAINTAINING.md
+@@ -1,60 +1,38 @@
+ # 维护与发布
+ 
+-本仓库保存可分发 skill 的完整源码。研究题目、原始论文、求解结果与个人配置请保存在仓库之外。`README.md` 是面向使用者的唯一安装与使用说明。
++本仓库保存可分发 skill 的完整源码。此本地 v0.4.0 基于 [上游 UPC-skills](https://github.com/Emxy-Yang-2236/UPC-skills) 的 main 源码归档修改，未发布到上游；归档下载不包含 Git 历史。研究题目、求解结果、原始论文和个人配置保存在源码仓库之外。
+ 
+-## 首次上传已准备的版本
++## 修改与验证
+ 
+-本地目录已初始化为 Git 仓库。首次上传前可运行 `git status`、`git log -1 --oneline` 和 `git tag --list` 查看提交与版本标签。在 GitHub 创建一个空的公开仓库，名称建议 `upc-physics`；不用额外生成 README、LICENSE 或 `.gitignore`，这些文件已在本地提供。
++1. 按实际使用反馈修改模块、参考文件或工具。新增资源必须有可到达的入口；保留规则来源与核实日期。
++2. 更新 VERSION、CHANGELOG、README 和 release-files.txt，保持元数据一致。
++3. 用支持 UTF-8 的 Python 运行：
+ 
+-在本目录打开终端，将 `REPOSITORY_URL` 换成你新建仓库的 HTTPS 地址，执行：
++~~~text
++python -m unittest discover -s tests -p 'test_*.py'
++python tools/build_release.py --output dist/candidate
++~~~
+ 
+-```text
+-git remote add origin REPOSITORY_URL
+-git push -u origin main
+-git push origin v0.2.0
+-```
++Windows 下可启用 PYTHONUTF8=1。部分受限执行环境不允许临时目录重命名，应在正常本地权限下运行相关检查。账户没有符号链接创建特权时，相应测试明确跳过；不要把跳过写成通过。其他失败仍需处理。
+ 
+-如果已有 `origin`，先用 `git remote -v` 核对地址再操作。认证使用你自己的 GitHub 登录方式。
++构建只读取明确清单，拒绝缺失、越界、符号链接及断开的包内文档链接。ZIP 固定顺序、时间戳和权限，相同输入产生相同字节；.skill 是同一 ZIP 的另一个扩展名。manifest.json 与 SHA256SUMS 提供完整性核对。输出目录已有不同内容时使用新的目录，不覆盖已发布包。
+ 
+-在 GitHub 的 Releases 页面创建 `v0.2.0` Release，选择刚上传的同名标签，标题填写 `UPC Physics v0.2.0`。正文可使用本地 `.github/release-notes-v0.2.0.md`，附件从 `dist/v0.2.0/` 选择以下四个文件：
++自动测试只验证工具行为和打包，不判断物理正确、规则覆盖或获奖能力。按 [独立效果检验](references/paper-quality.md) 在隔离目录保留真实练习产物。源模板需在具备 TeX 的环境实际编译并渲染检查；本机没有编译器时记录未验证，不能称已通过 PDF 检查。
+ 
+-- `upc-physics-v0.2.0.zip`
+-- `upc-physics-v0.2.0.skill`
+-- `manifest.json`
+-- `SHA256SUMS`
++## 同步本地定制技能
+ 
+-`dist/` 已被 Git 忽略，因此通过 Release 附件上传，无需提交生成包。若上传前修改了 skill 或说明文件，请先重新测试、打包并提交，再确保版本标签指向该提交；上面步骤假设使用已准备的版本。
++以本地源码为准，在更新已安装的 upc-physics 前，将旧目录备份到技能发现目录之外。按 release-files.txt 同步使用文件，核对内容摘要；源码维护工具和测试可单独保留。不要同时安装同名副本造成发现歧义。
+ 
+-## 修改
++上游网络安装命令不会取得本地修改；使用前核对版本。将来合并上游变更时保留本地改动，再运行测试与打包。
+ 
+-1. 在本仓库修改需要维护的模块、参考文件或工具；核对来源和结论适用范围。
+-2. 更新 `VERSION`、`CHANGELOG.md` 和 README 中的版本及下载文件名。新增随包文件时同步修改 `release-files.txt`。
+-3. 运行现有工具回归与发布检查：
++## Git 与发布
+ 
+-```text
+-python3 -m unittest discover -s tests -p 'test_*.py'
+-python3 tools/build_release.py --output dist/candidate
+-```
++如需 Git 历史，网络恢复后可在另一个目录正常克隆上游，再将已审查的本地改动迁入。若只需在本地跟踪，也可自行初始化 Git 并设置上游地址，清楚区分源码基线与本地提交。
+ 
+-构建只读取清单中的普通文件，拒绝符号链接、越界路径、缺失文件及断开的包内文档链接。ZIP 固定顺序、时间戳、权限并使用无压缩存储，因此相同输入在不同主机上生成相同字节。`.skill` 是同一 ZIP 的另一个文件扩展名。`manifest.json` 记录文件及包的 SHA-256，`SHA256SUMS` 还覆盖清单本身。
++推送、创建 Release 或代提交比赛论文须有相应授权。准备发布时先审查差异、测试和包内容；标签指向相应源码提交，附件使用同一构建的 ZIP、.skill、manifest.json 和 SHA256SUMS。已经发布的版本不替换内容。
+ 
+-若输出目录中已有内容不同的发布文件，构建会停止；改用新的输出目录，核对后保留需要的版本。发布后的版本及附件应保持稳定，更改内容时增加版本号。
++## 贡献与许可
+ 
+-## GitHub 发布
++欢迎提交具体错误复现、建模检查、写作流程和可移植性改进。案例反馈应提炼通用方法；具体赛题解答、未授权原始材料和真实 AI 交互记录不进入公开 skill。
+ 
+-在完整源码仓库中使用 Git 与已登录的 GitHub CLI。先核对 `git diff`、测试结果和 `git status`，仅提交预期文件。下面的命令以 `v0.2.0` 为例；后续发布需替换版本、路径和发布说明文件。
+-
+-```text
+-git push origin main
+-git tag -a v0.2.0 -m "UPC Physics v0.2.0"
+-git push origin v0.2.0
+-gh release create v0.2.0 dist/candidate/upc-physics-v0.2.0.zip dist/candidate/upc-physics-v0.2.0.skill dist/candidate/manifest.json dist/candidate/SHA256SUMS --verify-tag --title "UPC Physics v0.2.0" --notes-file .github/release-notes-v0.2.0.md
+-```
+-
+-发布前应已有包含当前版本的提交；标签必须指向通过检查的提交。首次准备的本地 `v0.2.0` 标签已存在时直接推送即可，不重复创建。仓库 CI 会运行 Python 工具测试和构建；基础 MATLAB 检查需在具备软件与许可的机器另行运行。CI 不替代物理建模审查。
+-
+-## 贡献
+-
+-欢迎提交具体的错误复现、模型检查改进、可移植性修复或写作流程改进。案例反馈应提炼可迁移的方法，保留事实、假设和推断的边界；不要在改进 skill 时混入某个练习的完整解答或无权分发的原始材料。
+-
+-贡献者须有权提交所提供的内容，并接受本仓库原创部分采用的 [MIT 许可](LICENSE)。采用第三方代码或文字时，应单独核对兼容性、保留所需许可与署名，并更新 [来源说明](NOTICE.md)。
++原创内容适用 [MIT 许可](LICENSE)。采用第三方内容时核对许可、保留署名并更新 [来源说明](NOTICE.md)。
+diff --git a/README.md b/README.md
+index f85695e..5ad1127 100644
+--- a/README.md
++++ b/README.md
+@@ -1,12 +1,16 @@
+ # UPC Physics
+ 
+-**v0.3.0 · MIT · Python 3.9+ · MATLAB 可选**
++**v0.4.0 · MIT · Python 3.9+ · MATLAB 可选**
+ 
+ 面向 University Physics Competition（UPC）的物理研究 skill：从题目、假设与模型，到可复现计算、证据核验和完整参赛论文。默认中文讨论、英文写作。这是独立的备赛工具，与赛事主办方无隶属或背书关系。
+ 
+ 
+ 内含六个按需加载的功能模块：审题、资料研究、物理建模、计算与实验、验证、论文写作。机制细节与开放设计两条路线按问题特点选择，可以组合。核心方法由 2021、2022、2023、2025 年题目与 16 篇论文的比较提炼，发布内容为方法摘要、原创流程、脚本及模板。
+ 
++本地定制版补齐了当届规则与 AI 披露、限时研究取舍、物理洞见提炼、完整稿独立审阅和提交核对。目标是提高研究与论文质量；尚无独立证据证明能稳定达到某一奖级，也不承诺获奖。
++
++参赛前先核对 [官方规则与披露说明](references/contest-rules.md)。AI 辅助论文写作须及时保留真实原始输入和完整输出，并按当届要求附报告。本包提供 [记录与报告工具](scripts/ai_report.py)、[UPC 论文模板](assets/paper.tex)、[审阅记录](assets/review.md) 和 [提交核对表](assets/submission-checklist.md)。
++
+ ## 1. 如何安装
+ 
+ ### 准备 Node.js
+@@ -43,6 +47,8 @@ npx skills add Emxy-Yang-2236/UPC-skills --skill upc-physics --agent codex -g
+ 
+ ### 更新
+ 
++本工作区的 v0.4.0 是在上游仓库源码上修改的本地版本，尚未发布到上游。下列网络安装/更新命令获取的是上游版本，可能覆盖本地改动。维护此定制版时以本地源码为准，先备份已安装目录，再按 `release-files.txt` 同步或重新打包安装。
++
+ 首次改用 `npx` 时先执行上面的安装命令，之后按名称更新这个 skill。
+ 
+ ```bash
+@@ -82,9 +88,9 @@ npx skills update upc-physics -g
+ 
+ **配合自备的 grill 技能讨论建模：**
+ 
+-最初构思时，可以用自备的 grill 技能分轮讨论模型选择。下例使用 `$mattpocock-skills:grilling`，请按本机安装的名称调用。
++最初构思时，可以用自备的 grill 技能分轮讨论模型选择。下例使用 `$grilling`，请按本机安装的名称调用。
+ 
+-> 使用 $upc-physics，并结合 $mattpocock-skills:grilling。题面在 problem.pdf，先和我讨论方案。按“题目目标与评价指标 → 系统边界、主导机制和假设 → 状态变量、方程框架、初始/边界条件 → 参数来源与验证方法”的顺序推进。每轮只问当前可决定的关键问题，编号并给出推荐方案、理由和取舍，等我回答后再进入依赖这些答案的问题。可查证的事实请先读文件或检索。最后整理出假设表和大体建模方案，包含最简基线、可选改进及待验证问题；我确认开始执行后再进入仿真或实验。
++> 使用 $upc-physics，并结合 $grilling。题面在 problem.pdf，先和我讨论方案。按“题目目标与评价指标 → 系统边界、主导机制和假设 → 状态变量、方程框架、初始/边界条件 → 参数来源与验证方法”的顺序推进。每轮只问当前可决定的关键问题，编号并给出推荐方案、理由和取舍，等我回答后再进入依赖这些答案的问题。可查证的事实请先读文件或检索。最后整理出假设表和大体建模方案，包含最简基线、可选改进及待验证问题；我确认开始执行后再进入仿真或实验。
+ 
+ 你可以逐题修改，也可以回复“本轮都按推荐”。讨论确认的是研究计划，假设的适用性仍需后续检验。
+ 
+@@ -112,6 +118,12 @@ npx skills update upc-physics -g
+ 
+ 想使用 MATLAB 时追加：“优先使用 MATLAB，先检测可执行程序、版本与工具箱；如果当前不能运行，明确区分已写代码与已验证结果。”把示例中的路径换成自己的实际文件位置，也可以直接用自然语言指定任务。
+ 
++**完整论文任务：**
++
++> 使用 $upc-physics。读取题面和已有成果，先核实本届规则及 AI 记录覆盖，列出原题要求与证据缺口。完成必要的建模、计算和验证，提炼主导机制与核心结论，撰写完整英文论文和可编辑源文件，再做独立审阅、修正、导出及提交核对。研究与写作同步推进；缺证据时如实标明，不补造结果。提交材料准备好后交给我检查。
++
++限时研究读 [时间安排](references/competition-workflow.md)，改稿和定稿读 [竞争力与独立审阅](references/paper-quality.md)。这两个流程不要求额外安装其他技能；已安装 `grilling` 时可按需用于前期方案讨论。
++
+ 有时间或算力限制时一并说明，例如：“先完成足以回答原题的基线，在少数代表工况检查关键近似，再决定是否扩展昂贵仿真。”需要反复讨论构思时说明这一偏好；关键方案已经确认后，助手应继续完成获授权的工作。
+ 
+ 流程按需要在“审题 → 资料 → 建模 → 计算/实验 → 验证 → 写作”之间迭代，已有成果可以从中途进入。机制细节与开放设计两条路线可以组合，不固定对应 A/B 题。
+diff --git a/SKILL.md b/SKILL.md
+index 5d0a8fe..84d849e 100644
+--- a/SKILL.md
++++ b/SKILL.md
+@@ -1,6 +1,6 @@
+ ---
+ name: upc-physics
+-description: Guide UPC / UCP physics competition work from problem interpretation and modeling through simulation, validation and an evidence-based English paper. Use for contest research, Git-based team handoffs, executable experiment designs and standalone reports for writers.
++description: Complete UPC physics competition research and English papers from a problem or existing results, including defensible models, reproducible computation, critical review, current contest requirements and submission preparation. Use for UPC modeling, team handoffs, manuscript drafting and revision.
+ license: MIT
+ ---
+ 
+@@ -8,12 +8,16 @@ license: MIT
+ 
+ 帮助参赛者完成可解释、可运行、可核查的物理研究，并根据真实结果写出完整论文。默认用中文讨论研究，用英文写参赛论文；尊重用户指定的语言、计算工具和格式。
+ 
++以充分回答题目、物理洞见和可信证据提高论文竞争力。获奖由评审和同届作品决定，完成流程、增加模型复杂度或审计通过均不代表达到某一奖级。
++
+ 首次安装、队内分享与调用示例见 [README.md](README.md)。
+ 
+ ## 开始与路由
+ 
+ 先识别用户当前材料和所需交付：仅有题面、已有模型/代码、已有实验数据，或已有研究成果需要写作。直接进入相应阶段，不要求从头重做。首次应用时简短说明正在使用本技能。
+ 
++开始参赛项目、采用 AI 辅助写作或准备提交时，先读 [当届规则与 AI 披露](references/contest-rules.md)，及时保存真实输入输出。比赛执行或时间有限时读 [时间与研究取舍](references/competition-workflow.md)。改进已有论文、确定核心贡献或定稿时读 [论文竞争力与独立审阅](references/paper-quality.md)。这些参考也适用于只拿到报告的写作者。
++
+ | 当前任务 | 按需读取的功能子技能 | 完成后交接 |
+ | --- | --- | --- |
+ | 理解题目、比较路线、安排工作 | [审题](modules/analyze/SKILL.md) | 资料或建模 |
+@@ -35,7 +39,7 @@ license: MIT
+ 
+ 1. 区分题目给定、来源事实、假设、推导、模拟与实测。程序未运行就没有仿真结果；实验未实施就没有测量数据。文献中的数值只能称作者报告值。
+ 2. 同题不同答案先对齐成功判据、参考系、初始条件和适用域。获奖论文提供方法经验，不能替代物理检查，也不是官方评分标准。
+-3. 保留研究所需的代码、输入、参数来源、数据、图表和验证结论；不创建 AI 使用记录、提示词/回答档案、对话导出或 AI 使用报告。
++3. 保留研究所需的代码、输入、参数来源、数据、图表和验证结论。AI 辅助参赛写作按当届规则保存真实工具信息、原始提问与完整可见输出，生成披露报告；无法获得完整记录时明确缺口，处理方法见 [规则与披露](references/contest-rules.md)。
+ 4. 用户已授权的研究工作持续推进。只有会实质改变结果且不能合理推定的信息才询问；先完成不受缺失信息影响的工作。缺数据时可以做清楚标注的条件分析，不把假设值写成实测。
+ 5. 初始开发材料为 2021、2022、2023、2025 年题目与 16 篇论文。保留题仅在用户明确授权后启用，不自动扫描整个 `example/`。解答、数据和论文保存在独立研究项目。允许从已授权复盘提炼通用方法，但已用于迭代的题目此后只算回归材料，不能继续充当未见题的泛化证据。
+ 6. 赛事格式、时限和提交规则以本次用户提供或核实的规则为准，不把往年论文版式、其他竞赛惯例或第三方模板当现行规定。
+@@ -46,7 +50,9 @@ license: MIT
+ 
+ 新项目可用 `python3 <skill>/scripts/init_project.py <project-dir> --title "研究题目" --problem <题面文件>` 初始化。目标目录必须不存在；已有项目直接适配其结构。初始化不读取其他年份或复制金奖论文。
+ 
+-读 [研究项目约定](references/project-contract.md) 了解输入表、科学证据和状态交接。正式交付前运行 `python3 <skill>/scripts/audit_project.py <project-dir>`；脚本仅检查结构、来源关联和材料完整性，物理正确性仍由验证模块判断。
++按任务规模保存材料：单点检查、短篇练习或局部改稿可以只保留必要推导、脚本、结果与稿件，不强制建立六张登记表和团队目录。完整参赛研究、长期接续或跨人交接时使用下面的项目约定。
++
++读 [研究项目约定](references/project-contract.md) 了解输入表、科学证据和状态交接。采用该约定的研究在正式交付前运行 `python3 <skill>/scripts/audit_project.py <project-dir>`；脚本仅检查结构、来源关联和材料完整性，物理正确性仍由验证模块判断。轻量任务报告实际完成的检查，不宣称通过未执行的审计。
+ 
+ 按需使用 `scripts/numerical_checks.py` 做二阶滤波器极点检查或均匀加密序列的收敛诊断。它不是通用物理求解器。实际模型按题目实现，先用最简单的可检验版本建立基线。
+ 
+@@ -63,3 +69,5 @@ license: MIT
+ 完整求解的交付包括：对每项题目要求的回答；假设、模型与来源；实际运行的代码/实验与数据；适用的验证及局限；完整论文与可编辑源文件；需要导出时的可读导出稿。若用户只要求其中一部分，就以该部分为完成范围。
+ 
+ 遇到证据不足，写出有依据的部分并标明缺口，反馈给对应模块。论文草稿可以完整成篇，但未解决关键缺口时不标为可提交终稿。不要为了凑模板添加不存在的实验、显著性、参考文献或结果。
++
++定稿按 [独立审阅](references/paper-quality.md) 消除重大问题，依据 [提交核对表](assets/submission-checklist.md) 检查实际导出文件。研究完整性、物理验证、论文审阅、规则核验和 AI 记录完整性分别报告。准备好提交材料不包含代发邮件或上传的授权。
+diff --git a/VERSION b/VERSION
+index 0d91a54..1d0ba9e 100644
+--- a/VERSION
++++ b/VERSION
+@@ -1 +1 @@
+-0.3.0
++0.4.0
+diff --git a/agents/openai.yaml b/agents/openai.yaml
+index c4a33ec..6388500 100644
+--- a/agents/openai.yaml
++++ b/agents/openai.yaml
+@@ -1,4 +1,4 @@
+ interface:
+   display_name: "UPC Physics"
+-  short_description: "从审题、物理建模与仿真实验，到证据核验及完整英文参赛论文"
+-  default_prompt: "使用 $upc-physics，根据当前题目和已有材料推进研究、验证并完成参赛论文。"
++  short_description: "从物理研究与验证到完整英文论文，含独立审阅、当届规则和提交核对"
++  default_prompt: "使用 $upc-physics，核实当届规则，依据题面和真实成果完成研究、英文论文、审阅修订及提交材料。"
+diff --git a/assets/paper-outline.md b/assets/paper-outline.md
+index e65fae0..9013a89 100644
+--- a/assets/paper-outline.md
++++ b/assets/paper-outline.md
+@@ -18,3 +18,9 @@ Status: working outline. Replace the entries with actual research before treatin
+ 6. Conclusion: answer the problem directly within the established limits.
+ 
+ Write the abstract last. Adapt this organization to the problem; a numerical-methods study and an open design comparison need not have identical sections. No section authorizes inventing missing research.
++
++## Central insight and review
++
++State the dominant mechanism, the supported difference from the baseline, and the conditions under which the answer or preferred design changes. Select the figures that establish these claims, rather than filling a predetermined figure count.
++
++For a contest submission, verify the current first-page, anonymity and AI-disclosure requirements. Include the actual required AI-use report at the end, review the complete exported file, and record unresolved findings separately from research completeness.
+diff --git a/assets/paper.tex b/assets/paper.tex
+index 8e622ee..1677b8b 100644
+--- a/assets/paper.tex
++++ b/assets/paper.tex
+@@ -1,28 +1,60 @@
++% UPC starter; recheck the current contest rules before submission.
++% Replace all bracketed fields and inspect the rendered PDF and metadata.
+ \documentclass[11pt,a4paper]{article}
+ \usepackage[margin=25mm]{geometry}
+ \usepackage{amsmath,amssymb,graphicx,booktabs}
++\usepackage{fancyhdr}
+ \usepackage[hidelinks]{hyperref}
+-\title{Research Title}
+-\author{Team identifier, if required by current contest rules}
+-\date{}
++\newcommand{\TeamNumber}{[TEAM NUMBER]}
++\newcommand{\ProblemLetter}{[A OR B]}
++\newcommand{\PaperTitle}{[RESEARCH TITLE]}
++\pagestyle{fancy}
++\fancyhf{}
++\fancyhead[L]{Team \TeamNumber}
++\fancyfoot[C]{\thepage}
++\setlength{\headheight}{14pt}
++\fancypagestyle{summary}{\fancyhf{}\fancyhead[L]{Team \TeamNumber}}
++\hypersetup{pdfauthor={},pdfsubject={},pdfkeywords={}}
+ \begin{document}
+-\maketitle
++\begin{titlepage}
++\thispagestyle{summary}
++\begin{center}
++Problem \ProblemLetter
++
++\vspace{1em}
++{\Large\bfseries \PaperTitle\par}
++\end{center}
+ \begin{abstract}
+-\textbf{Working template.} Replace this text with the problem, actual methods, supported principal results and their conditions. This file contains no research results.
++[Replace with a self-contained summary of at most the current word limit
++(300 words in the rules verified on 2026-11-07). State the problem,
++method and key assumptions, direct answers, principal numerical results
++with units, and material conditions. Count the final abstract separately.]
+ \end{abstract}
++\end{titlepage}
++\setcounter{page}{2}
+ \section{Problem and scope}
+-State the questions, definitions and required outputs.
+-\section{Assumptions and model}
+-Define variables and units; justify assumptions and derive the model used.
++[Restate the questions, outputs and definitions that affect the answers.]
++\section{Assumptions and physical model}
++[Define variables, units, parameter sources, validity and governing relations.]
+ \section{Methods}
+-Describe the computations or measurements actually performed, their inputs, and reproducibility details.
++[Explain the actual algorithms, inputs, boundary conditions and tolerances
++in the main text; an appendix of code does not replace this explanation.]
+ \section{Results and validation}
+-Insert actual results with conditions, figures, checks and uncertainties.
+-\section{Discussion}
+-Explain mechanisms, tradeoffs, limitations and applicability.
++[Give actual answers, baseline comparisons, physical explanations,
++appropriate independent checks, and uncertainty with its meaning.]
++\section{Discussion and limitations}
++[Explain dominant mechanisms, robustness, applicability and failure cases.]
+ \section{Conclusion}
+-Answer the problem using the supported results.
+-% Add verified references in the citation format required for the actual task.
+-% Use a self-contained thebibliography environment when compiling in an editor
+-% that accepts one standalone source; do not invent references for this template.
++[Answer each problem requirement within the established limits.]
++\begin{thebibliography}{99}
++\bibitem{replace} [Insert verified sources and cite them at relevant claims.]
++\end{thebibliography}
++% Add long derivations/code appendices here, before the AI report.
++\clearpage
++\section*{Report on the Use of AI}
++[When required by the current rules, include the actual system and use,
++verbatim prompts and complete visible outputs for relevant interactions.
++Convert the report generated by ai_report.py to the manuscript format and
++check the rendered result. This marker is not a disclosure report.
++Only if no generative AI was actually used, state that truthfully.]
+ \end{document}
+diff --git a/assets/review.md b/assets/review.md
+new file mode 100644
+index 0000000..c28dc70
+--- /dev/null
++++ b/assets/review.md
+@@ -0,0 +1,21 @@
++# Manuscript review
++
++- Original problem / manuscript version:
++- Reviewer and scope: independent context or author self-check:
++- Evidence and representative reproduction inspected:
++
++| ID | Location | Finding and supporting evidence | Impact | Required correction | Status / verification |
++| --- | --- | --- | --- | --- | --- |
++| | | | Blocking / Important / Editorial | | Open / Resolved / Claim narrowed |
++
++## Read without the authors
++
++- Can each problem question be answered directly from the paper?
++- What is the main physical insight, and which evidence supports it?
++- Which assumption or counterexample could change the answer?
++- Can one central result be reproduced from the stated method?
++- Are uncertainty, validity and unresolved limitations explicit?
++
++## Revisions checked
++
++State what was actually re-derived, rerun or rendered after corrections. List unresolved blockers; a complete checklist is not a medal prediction.
+diff --git a/assets/submission-checklist.md b/assets/submission-checklist.md
+new file mode 100644
+index 0000000..170aee8
+--- /dev/null
++++ b/assets/submission-checklist.md
+@@ -0,0 +1,46 @@
++# UPC submission review
++
++Copy into the research project. Mark each item PASS / FAIL / PENDING with evidence, reviewer and date. Recheck current rules; this is not an automatic compliance certificate.
++
++## Contest facts
++
++- Official rules URL and verification date:
++- Team number / selected problem:
++- Deadline with time zone / planned submission time:
++- Final file path, version and SHA-256:
++
++## Research and manuscript
++
++| Check | Status | Evidence / unresolved action |
++| --- | --- | --- |
++| Every problem requirement has a supported or explicitly conditional answer | PENDING | |
++| Assumptions, parameter provenance, model validity and governing physics are justified | PENDING | |
++| Main numerical results pass relevant independent checks; uncertainty is correctly described | PENDING | |
++| Main-text methods and algorithms explain the results without relying on code appendices | PENDING | |
++| Abstract, figures, tables and conclusion agree with accepted data | PENDING | |
++| Important reviewer findings are resolved or claims are narrowed | PENDING | |
++
++## Actual exported file
++
++| Check | Status | Evidence / unresolved action |
++| --- | --- | --- |
++| English manuscript; no student, institution or other identifying information, including PDF metadata | PENDING | |
++| Team number at the top of every page | PENDING | |
++| First page contains only team number, A/B, title and abstract of at most the current word limit | PENDING | |
++| Body starts on the next page | PENDING | |
++| Units, significant figures, symbols, captions and citations are consistent | PENDING | |
++| Every page rendered and inspected; equations, labels, references and links readable at final size | PENDING | |
++| AI usage checked against actual use; required original inputs and full outputs included at the end | PENDING | |
++| Correct file type and team-number/problem-letter filename | PENDING | |
++| Attachment opens and is the exact reviewed final version | PENDING | |
++| Submission prepared with correct destination and team number in subject and message | PENDING | |
++
++## Release decision
++
++- Research completeness / physical validation:
++- Manuscript and visual review:
++- Current-rule verification:
++- AI record coverage and any gaps:
++- Remaining blockers / final status:
++
++Preparing this packet does not authorize sending it. Record a delivery confirmation only after an actual authorized submission.
+diff --git a/modules/analyze/SKILL.md b/modules/analyze/SKILL.md
+index 840da30..2d05ae7 100644
+--- a/modules/analyze/SKILL.md
++++ b/modules/analyze/SKILL.md
+@@ -7,6 +7,8 @@ description: Interpret a UPC problem, identify outputs and constraints, compare
+ 
+ 输入：原始题面、已有研究状态、用户的时间/资源约束。输出：逐项可检查的题目要求、关键定义、候选路线及最小可检验模型。
+ 
++参赛任务先核实 [当届规则](../../references/contest-rules.md)，限时任务按 [比赛执行方案](../../references/competition-workflow.md) 确定基线、模型冻结和写作时间；记录真实剩余时间，不把建议阶段当作硬性比赛规则。
++
+ ## 执行
+ 
+ 1. 读完整题面，保留原文；检查截断、遗漏公式/图示。把“解释、比较、求阈值、给方案、写操作说明”转换为具体交付，编号 R1、R2…；把补充研究目标与原题要求分开。
+diff --git a/modules/compute/SKILL.md b/modules/compute/SKILL.md
+index e345bb6..8e44fab 100644
+--- a/modules/compute/SKILL.md
++++ b/modules/compute/SKILL.md
+@@ -21,7 +21,7 @@ Python、MATLAB 和专业软件使用同一模型定义与证据标准。工具
+ - 求根/优化记录可行域、根的分支和残差。未观察到符号翻转不能排除切触根；“优化成功”不能代替可行性检查。
+ - 数据保留输入、脚本、依赖版本及必要随机种子。图从保存的数据生成，注明参数/坐标/单位；理论曲线、实际数值输出和实测分别标记。
+ 
+-完整运行可复现命令和必要设置写进方法说明，不保存终端对话或 AI 活动记录。工具缺失时先使用已有等效工具；未运行的方法仅为拟议方法。
++完整运行可复现命令和必要设置写进方法说明。AI 辅助论文写作的真实交互按 [当届规则](../../references/contest-rules.md) 保存；运行日志与 AI 披露分别管理。工具缺失时先使用已有等效工具；未运行的方法仅为拟议方法。
+ 
+ 昂贵专业求解器先做代表算例及关键数值检查，再扩展矩阵；依照明确的新假设重试，保留资源上限与失败结果。实际生效的物性/闭合、完整稳态窗口和伪时间解释见 [执行判断 §1、§3](../../references/research-execution.md)。把局部解传给系统模型前，按该文 §4 核查支持域、独立点和最终目标误差；数值导数试探越界与物理轨迹越界不能混同。
+ 
+diff --git a/modules/model/SKILL.md b/modules/model/SKILL.md
+index 0b4221f..5c17124 100644
+--- a/modules/model/SKILL.md
++++ b/modules/model/SKILL.md
+@@ -16,6 +16,8 @@ description: Build and compare physics models with explicit assumptions, conserv
+ 5. 耦合子模型通过共同状态和通量推进。若两个损失机制共同消耗同一储量，不能独立积分后直接叠加两条剩余量曲线；若并联物理机制被实现为串联，说明转换依据并比较传递函数。
+ 6. 用增加机制前后的可观察差异决定复杂化。保留基线及其适用域，不把高阶模型视为天然更准确。
+ 
++为论文提炼可检验的核心解释：主导机制、控制参数、阈值或可行边界，以及模型相对基线的实际增益。按 [论文竞争力](../../references/paper-quality.md) 将它们对应到计划的比较与主图；研究还未完成时称待检验假说。
++
+ 压力、温度、浓度等不同变量的近似分别论证；初始状态不自动构成持续边界。涉及多控制体或参数缩放时，按 [执行判断 §2](../../references/research-execution.md#2-把近似和耦合条件拆开检验) 检查通量是否重复计入，以及比较时固定的是有量纲条件还是无量纲相似条件。
+ 
+ 用 SymPy 辅助推导时显式设置实数/正值等假设，避免过早浮点化；核对分支、奇异点和单位后再数值化。符号求解器给出表达式不等于物理分支选择正确。
+diff --git a/modules/validate/SKILL.md b/modules/validate/SKILL.md
+index 336d53f..944498d 100644
+--- a/modules/validate/SKILL.md
++++ b/modules/validate/SKILL.md
+@@ -39,6 +39,8 @@ description: Check physics competition research against units, limiting cases, e
+ 
+ 交给写作模块的每个主要定量结论应带条件、单位、有效位数、不确定性来源和实际证据。若研究只支持条件预测，论文就写条件预测；不能升格为经实验验证的普遍结论。
+ 
++完整稿按 [独立审阅](../../references/paper-quality.md) 从原题、主张和可复现材料检查一次。重点寻找能改变核心答案的反例，核对参数/模型变化是否改变方案排序；可用独立上下文时使用，否则标明作者自查。将重大问题修复后重跑受影响部分，提交前另查 [规则与披露](../../references/contest-rules.md)。
++
+ 复杂数值项目按 [执行判断 §3–§5](../../references/research-execution.md) 分别报告迭代收敛、离散/边界依赖、闭合适用性和外部验证。说明失败尝试、后续修正及未解决限制；不要删除历史失败来获得绿色审计状态，也不要将审计不通过一概解释为文件丢失。
+ 
+ 依据：[跨案例方法](../../references/methods.md)；2021–2025 案例中的作者结果均须区别于我们独立运行的验证。
+diff --git a/modules/write/SKILL.md b/modules/write/SKILL.md
+index ae6d20e..5d55921 100644
+--- a/modules/write/SKILL.md
++++ b/modules/write/SKILL.md
+@@ -7,6 +7,8 @@ description: Turn physics research notes, derivations, executed simulations and
+ 
+ 输入可以只有题面、研究笔记、代码、数据和图表，无需用户已有论文。输出应包括完整成篇正文和可编辑源文件；用户需要时完成导出及视觉检查。仅给提纲或建议不算完成写作请求。
+ 
++首先读 [当届规则与 AI 披露](../../references/contest-rules.md)，从本轮起保留真实写作交互；已有 AI 使用一并核对记录覆盖。只有报告时先检查它是否足以独立支撑论文，缺口明确反馈，继续撰写有证据的部分。
++
+ ## 1. 从证据搭建论证
+ 
+ 只收到整体实验报告时，直接从包内 `README.md` 进入，按要求 ID、主张、证据和已核实来源建立论文结构。用同包材料独立还原方法、主表、图注、适用条件与局限。若一个核心数字或引用无法追溯，给出具体缺口并完成证据已支持的章节。见 [独立报告的写作交接](../../references/team-handoff.md)。
+@@ -15,6 +17,8 @@ description: Turn physics research notes, derivations, executed simulations and
+ 
+ 选最能回答题目的主线，而非按工作日志逐日叙述。给每章一个明确职责：需要解释什么、用哪些模型/结果支持、与下一章如何衔接。可借用 [论证提纲模板](../../assets/paper-outline.md)，按题目合并或删减章节。
+ 
++按 [论文竞争力](../../references/paper-quality.md) 提炼主导机制、基线对照和结论适用边界。摘要用最少篇幅呈现方法、关键假设、直接答案、主要数值与条件。贡献来自真实发现和解释，不靠声称创新或增加复杂度。
++
+ ## 2. 完整撰写
+ 
+ 先写可核实的方法和结果，再写讨论/结论，最后形成标题、摘要与引言。最终论文应覆盖实际需要的内容：问题与目标、假设/符号、模型与求解、仿真或实验方法、结果与验证、讨论/局限和直接回答题目的结论。
+@@ -29,13 +33,16 @@ description: Turn physics research notes, derivations, executed simulations and
+ 
+ - 每幅主图对应一个论点；图注说明对象、条件、单位、数据类型和误差含义。凡称“仿真输出”的图，应实际从求解输出生成，而非仅画理论公式。
+ - 使用统一符号、单位、有效位数和编号。发布后的舍入系数仍需满足稳定性/容差；正文与附录、摘要与结论的数值一致。
++- Markdown 源稿统一使用目标导出器支持的行内和独立公式定界符，检查反斜杠、上下标及单位命令是否处于数学环境；普通括号不能代替数学定界符。交付可编辑源稿前也做一次此项检查。
+ - 在使用外部事实/参数的位置引用已核实来源。来源尚未核实时保留明显草稿标记，不伪造 DOI、作者、页码或支持内容。获奖论文仅作为方法对照时，不冒充原始物理证据。
+-- 不添加 AI 使用记录、AI 使用报告、提示词或回答附录。
++- 按当届要求在文末纳入真实 AI 使用报告，逐条核对工具、原始输入与完整输出；记录不足时标明具体缺口，不能补造。
+ 
+ ## 4. 审校与交付
+ 
+ 做三轮有明确目的的修订：①要求覆盖与证据/方程/代码一致性；②论证顺序、结果解释和局限；③语言、符号、版式和引用。按实际规则调整篇幅与模板，不预设往年页数就是要求。
+ 
++完整稿再按 [独立审阅协议](../../references/paper-quality.md) 检查，问题登记到 [审阅记录](../../assets/review.md)，修正后验证受影响的数字与图表。审阅者看不到研究过程时仍应能理解方法和核查关键结果。无法安排独立审阅时明确说明实际自查范围。
++
+ 默认可用 Markdown 组织正文，需要数学排版时用 [LaTeX 起始模板](../../assets/paper.tex) 生成可编辑稿，也可按用户需求输出 Word。模板不是完成论文，须用研究内容填充并删除草稿占位。LaTeX 可用宿主自带编译器或已存在的 TeX；Word 使用可用文档技能。不因某个工具缺失而丢弃已完成正文。
+ 
+ 主要表格、摘要数字和结论数字尽量从同一份已接受数据生成；最终核对其条件与来源，避免手工抄写造成漂移。未知中心参数、指定敏感性幅度及模型间范围不能改写成最可能值、置信区间或已知误差上界。
+@@ -44,6 +51,8 @@ description: Turn physics research notes, derivations, executed simulations and
+ 
+ 交付时说明论文状态：可审阅草稿 / 待补关键证据 / 已完成内容与版式检查。未核实当前提交规则或未解决证据缺口时，不标成“保证符合赛事要求”。
+ 
++按 [提交核对表](../../assets/submission-checklist.md) 检查实际最终文件的首页、每页队号、匿名信息、摘要字数、AI 报告及文件命名，记录版本和 SHA-256。分别报告物理证据、版式、规则和披露状态；发送或上传按用户授权执行。
++
+ ## 辅助写作技能
+ 
+ 本模块已吸收 research-writing-skill 的“论证先于措辞”和 scientific-writing 的证据驱动章节组织。若已安装且当前工作需要，可以读取对应技能做进一步语言/引用/版式处理；按 [第三方适配](../../references/third-party.md) 保留 UPC 任务主线，避免套用临床报告、期刊投稿或其他赛事的专属要求。
+diff --git a/references/competition-workflow.md b/references/competition-workflow.md
+new file mode 100644
+index 0000000..f769fd6
+--- /dev/null
++++ b/references/competition-workflow.md
+@@ -0,0 +1,30 @@
++# 时间与研究取舍
++
++适用于正式比赛、限时备赛及计算预算紧张的项目。先读取真实题面、已有材料、队员分工、剩余时间和可用软件；截止时间包含时区并核对一次。用户只要求改稿时从现有成果进入，不自动重做研究。没有截止时间时用阶段交付，不虚构倒计时。
++
++## 根据剩余时间计划
++
++以下为 48 小时比赛的可调起点，不是官方阶段要求，也不要求已有项目从头执行：
++
++| 经过时间 | 主要产物 | 进入下一步的依据 |
++| --- | --- | --- |
++| 0–4 h | 原题要求表、定义、路线选择、首版论证提纲 | 每项必答问题都有解题途径 |
++| 4–16 h | 低成本基线、主要参数来源、首个核心结果 | 数量级、极限和基本守恒可解释 |
++| 16–30 h | 关键机制改进、最有信息量的比较与验证 | 能说明主要结论为何成立及何时改变 |
++| 30–38 h | 完整英文初稿、正式主图与表格 | 每个核心问题有结论、证据和边界 |
++| 38–44 h | 独立审阅和修正 | 重大缺口修复或明确收缩结论 |
++| 44–48 h | 导出、规则和 AI 披露检查、提交缓冲 | 实际最终文件核查完成 |
++
++论文提纲、方法和已确定的结果随研究同步写，后半程完成整合。根据题目难度与剩余时间提前冻结模型；新的关键错误仍须修复，冻结不意味着保留错误。提前准备可提交文件，最后时段用于校验及发送缓冲，不把截止时刻当作开始导出的时间。
++
++## 选下一项工作
++
++对待做事项写一句“它可能改变哪个答案或可信度判断”。优先顺序为原题未回答项、可能推翻主结果的检查、核心机制解释、其他补充。高成本计算先在代表工况判断是否有意义；需要专业求解器时读 [复杂计算执行判断](research-execution.md)。
++
++模型扩展应带有可观察的预期差异。资源不足时交付最简可信模型、合理条件范围及未完成事项；不要靠追加大批参数扫描掩盖参数来源不明或边界条件错误。稳健性检查围绕最终目标量：阈值、方案排序、峰值或可行性，而不只观察曲线是否相似。
++
++## 讨论与执行
++
++用户要求先讨论时，可调用已安装的 `grilling`，按目标与指标、系统边界、方程与参数、验证与执行四类依赖推进；可查事实先查，决策只问影响下一步的部分。使用环境实际支持的提问方式，分轮等待答案。确认后持续完成已授权研究，避免每个常规步骤都再确认。
++
++队员或代理的并行工作通过明确输入输出协调：一人检查推导与参数、一人计算验证、一人组织写作可作为起点，按能力调整。共用符号、参数和最终数据，模型改动及时同步，使用 [团队交接](team-handoff.md)。没有多人或代理能力时顺序执行相同检查；计划拆分不代表已经发生并行验证。
+diff --git a/references/contest-rules.md b/references/contest-rules.md
+new file mode 100644
+index 0000000..51a40e2
+--- /dev/null
++++ b/references/contest-rules.md
+@@ -0,0 +1,30 @@
++# 当届规则、提交要求与 AI 披露
++
++开始参赛工作及最终提交前，从 [UPC 官方规则](https://university-physics-competition.com/contest-rules) 与当届赛事页面核实要求；[原官网规则](https://www.uphysicsc.com/contestrules.html)可交叉核对。将来源、核实日期、当届补充说明、队号、题号和含时区的截止时间写入研究项目的 `contest-rules.md`。网络不可用时使用用户提供的原文并注明待核实项。规则冲突优先查当届官方说明，无法解决则报告具体歧义。
++
++## 2026-11-07 核实的规则基线
++
++以下是维护参考，未来使用时重新核实：
++
++- 英文论文，全文匿名，每页顶部显示队号。
++- 首页仅含队号、A/B 题号、标题和不超过 300 词的摘要；正文另起页。
++- 解释题意、假设、近似、方法依据及优缺点；算法、方法和结果在正文说明。
++- 数值有单位及适当有效位数，图轴和符号清楚，文内引用对应参考文献。
++- AI 辅助论文写作须在文末附 `Report on the Use of AI`，说明系统、原始提问和完整输出。
++- 48 小时内收到文件附件；文件名为队号加题号。具体时间以当届为准。
++
++## AI 记录的操作方法
++
++一旦开始用 AI 辅助论文写作，就安排保存真实交互。优先使用宿主导出，或将确实可获取的原始输入及完整用户可见输出保存为 UTF-8 文件；工具名、模型/版本（实际可知时）、用途和时间一并保留。系统内部推理不是用户可见输出，无需也无法据此生成记录。
++
++可用 `scripts/ai_report.py add --records <记录目录> --system <实际系统> --purpose <用途> --prompt-file <原始输入文件> --response-file <完整输出文件>` 收录一条真实交互；`render --records <记录目录> --output <报告.md>` 生成可纳入论文末尾的报告。该工具保留文本、验证摘要值并拒绝覆盖；它不会自动捕获聊天，也不证明记录涵盖全部使用。
++
++所有已用于写作的交互都需按规则核对覆盖范围。记录缺失时明示缺失的阶段和内容，请用户从宿主补充真实导出；继续不依赖该记录的研究和写作。总结、改写的提示词、补造回答或自称未用 AI 都不能代替缺失原文。报告应如实披露实际使用，即使某次输出后来被修改。
++
++记录属于研究项目，不放入可分发 skill。采用文件导入或自动导出前确认保存范围，避免混入不相关对话或凭据。复核工具导出的可见文本与最终报告一致；长代码、公式、表格和图像输出仍需可读，单有一个外部链接不等于已纳入报告。
++
++## 定稿检查
++
++从 [UPC 模板](../assets/paper.tex) 复制到研究项目后替换所有标记，按当届规则调整。AI 报告在末尾纳入最终文件；Markdown 报告需要实际转换到目标排版，转换后检查全文完整性。不要为了缩短报告截断原始输出。
++
++用 [提交核对表](../assets/submission-checklist.md) 记录实际检查结果。`audit_project.py` 检查研究材料结构，不能检测 PDF 匿名信息、摘要字数、AI 覆盖范围或判定规则合规。未核实事项保持待办，不用一个总分代替缺口。
+diff --git a/references/paper-quality.md b/references/paper-quality.md
+new file mode 100644
+index 0000000..aaf5e7c
+--- /dev/null
++++ b/references/paper-quality.md
+@@ -0,0 +1,38 @@
++# 论文竞争力、审阅与修订
++
++用于确定论文主线、改进草稿和最终审阅。这是研究与写作建议，不是官方评分权重或获奖预测。质量取决于实际研究；缺少证据的环节应安排计算、查证或收缩主张，不能靠润色补齐。
++
++## 找到值得读的核心结论
++
++先形成一页研究摘要：原题要什么、带条件的主要答案、主导机制、最重要的支持图表、最可能失效之处。对每项核心答案追问：
++
++- 哪个守恒关系、时间尺度或无量纲比决定结果？能否用数量级或极限解释数值？
++- 与最简基线在相同条件下相比，新增机制改变多少，为什么？若几乎不变，简化为何成立本身就可以是发现。
++- 改变有依据的关键参数、假设或可实施误差，答案、阈值或方案排序是否改变？在何处发生转变？
++- 结论适用于哪些条件？哪些未测参数会改变结论？将参数情景、数值误差和模型结构差异分开表述。
++
++从实际结果中选出最能回答题目的洞见；清晰的主导机制、可行边界、稳健策略或简化条件都可能有价值。无需为了显得创新堆叠模型、使用高阶算法或声称“首次”。比较方法须统一输入、目标与约束；验证不要求真实实验，但要选择与风险相对应的独立依据。
++
++## 组织读者能核查的论文
++
++摘要独立说明问题、主方法与关键假设、直接答案及主要数值和条件，字数依当届规则。引言快速界定问题与本文贡献。正文给出足以理解和复现关键方法的方程、参数及算法；附录承接长推导与代码，不承担主论证。
++
++主图优先选择系统/机制图、基线与改进对照、决定答案的结果图和关键稳健性图；按实际需要取舍。每幅图回答一个明确问题，图注给出条件、单位、数据性质和误差含义。主结论能从图表读出，避免只有大量曲线而缺乏解释。
++
++## 独立审阅
++
++取得可阅读的完整稿后，让未参与当前推导的审阅者仅根据原题、稿件与最小复现材料检查；如宿主支持，可使用独立上下文的代理。无法安排独立审阅时，明确标为作者自查，不能声称获得独立验证。
++
++审阅围绕三类问题：
++
++1. **物理与答题**：每项原题要求是否有答案；参考系、守恒、假设、参数适用域及极限是否一致；能否找到反例推翻主结论；验证是否只是重复同一假设。
++2. **论证与可复现性**：每个核心数字能否追溯；正文是否解释方法；基线比较是否公平；独立复算一个代表结果；摘要、主图和结论是否一致。
++3. **表达与提交**：公式与符号、图表可读性、英文逻辑、引用支持力、匿名与首页、实际导出质量及 AI 披露覆盖。
++
++用 [审阅记录模板](../assets/review.md) 记录位置、问题、影响、证据及具体修复动作。按“阻断主结论/提交、重要但局部、表达改进”排序；不凭感觉打获奖概率分。
++
++修正后重跑受影响的结果和图表，再检查稿件相应主张。主张缺证据可降为条件结论或删除；重大物理错误和提交要求未解决时不能标为可提交。真实失败试算照常保留；旧 `audit_project.py` 会严格标出历史失败，因此单独解释哪些被取代、哪些仍影响最终主张，禁止为通过审计删除历史。
++
++## 技能自身的效果验证
++
++维护技能时，选择未参与开发的往届题或自包含练习，在隔离目录保存题面、初始材料、时间预算和真实产物。只提供当时可用的信息，按上述标准检查结果；使用后该题成为回归题。先验证简单解析题、含参数缺口的建模题及只有实验报告的写作任务，再在真实题目上限时试跑。记录实际完成和失败，不把合成练习或单次审阅称为获奖能力证明。
+diff --git a/references/project-contract.md b/references/project-contract.md
+index d4764fc..52a3304 100644
+--- a/references/project-contract.md
++++ b/references/project-contract.md
+@@ -12,7 +12,7 @@
+ python3 <skill>/scripts/init_project.py <new-project> --title "题目" --problem <problem.md>
+ ```
+ 
+-生成 `project.json`、`problem.md`、`research-state.md`、六份 CSV，以及 `src/`、`data/raw/`、`data/derived/`、`figures/`、`paper/`。不覆盖已有目录、文件或符号链接。`--problem` 可省略，此时题面文件明确标为待提供。题面及随技能分发的论文提纲会在创建目录前读取；输入不可读或提纲缺失时不会留下新项目。初始化返回 `ready=false`，复制题面不表示研究已经完成。
++生成 `project.json`、`problem.md`、`research-state.md`、六份 CSV，以及 `src/`、`data/raw/`、`data/derived/`、`figures/`、`paper/`。两种布局都提供待核实的 `contest-rules.md` 与论文目录内的模板、审阅记录和提交核对表；团队目录另带 AI 记录工具。它们都是待填写的工作材料。不覆盖已有目录、文件或符号链接。`--problem` 可省略，此时题面文件明确标为待提供。题面及随技能分发的模板会在创建目录前读取；输入不可读或模板缺失时不会留下新项目。初始化返回 `ready=false`，复制题面不表示研究已经完成。
+ 
+ CSV 用 UTF-8 与标准转义；引号必须闭合，数据列数必须与表头一致。单元格中多个 ID/路径用分号分隔。保留表头，空表不是完成。使用稳定 ID（如 R1、S1、C1、V1）便于交接，不给每一句普通叙述都建登记行。参数的显式数值不得为 NaN／Infinity；允许有说明的区间或符号文本，其语义需人工检查。
+ 
+@@ -51,4 +51,4 @@ python3 <skill>/scripts/audit_project.py <project>
+ 
+ 题面 → 要求 → 主张 → 推导/数据/图表；来源 → 参数/事实；运行 → 数据 → 验证 → 主张；论文只引用已建立的研究事实。
+ 
+-保留科研所需的真实输入/输出与方法，不保存提示词、AI 回答、对话文本、AI 使用报告或模型耗用统计。审阅用的研究报告/论文是任务成果，不是聊天归档。
++保留科研所需的真实输入/输出与方法。AI 辅助论文写作按 [当届规则](contest-rules.md) 在研究项目内保存原始交互并纳入披露报告；这些记录不进入可分发 skill。研究审计不证明披露覆盖完整，也不证明符合当届提交要求。
+diff --git a/references/research-execution.md b/references/research-execution.md
+index 72cce67..ad343be 100644
+--- a/references/research-execution.md
++++ b/references/research-execution.md
+@@ -54,4 +54,4 @@ CFD、有限元或类似迭代求解应围绕目标量设计收敛检查。除
+ 
+ 复现包保存最终模型、输入、实际环境、关键控制变化和数据。说明复现命令是从保存初场运行最终设置，还是逐次重放原始求解历史；不要声称未测试平台已验证。重计算表和论文数字尽量从同一份已接受数据生成，论文图另按最终印刷大小检查可读性。
+ 
+-结构审计的字段解释见 [研究项目约定](project-contract.md)。保留研究产物和软件测试结果，不创建对话、提示词或 AI 使用记录。
++结构审计的字段解释见 [研究项目约定](project-contract.md)。保留研究产物和软件测试结果；参赛 AI 辅助写作的原始交互与披露按 [当届规则](contest-rules.md) 单独保存和核对。
+diff --git a/references/third-party.md b/references/third-party.md
+index e13e42e..1b531b7 100644
+--- a/references/third-party.md
++++ b/references/third-party.md
+@@ -4,11 +4,11 @@
+ 
+ | 来源 | 第一轮采用的部分 | 本项目适配 |
+ | --- | --- | --- |
+-| [anticipate218/math-modeling-skill](https://github.com/anticipate218/math-modeling-skill) | 基线→改进→验证、任务覆盖与结果表达 | 不继承国赛/MCM等特定规则；不恢复AI使用报告；模型选择以物理案例为主 |
++| [anticipate218/math-modeling-skill](https://github.com/anticipate218/math-modeling-skill) | 基线→改进→验证、任务覆盖与结果表达 | 不继承国赛/MCM等特定规则；披露遵守当届 UPC 要求；模型选择以物理案例为主 |
+ | [K-Dense SymPy](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/sympy/SKILL.md) | 假设明确的符号推导、精确量与数值化 | 仅作数学支持，物理机制和分支仍独立判断 |
+ | [K-Dense literature-review](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/literature-review/SKILL.md) | 缺口导向检索、来源定位与证据核实 | 普通竞赛查参不自动变成系统综述 |
+ | 已安装 `research-writing-skill` | 从论点和证据组织章节，再成篇与润色 | 讨论中文、论文默认英文；支持从零写完整稿 |
+-| [K-Dense scientific-writing](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scientific-writing/SKILL.md)，本地2.3 | 证据驱动、方法/结果/讨论一致性、引用与图表核对 | 保留科研准确性，不套用临床申报、期刊投稿或逐条人为审批流程；不增加AI使用记录 |
++| [K-Dense scientific-writing](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scientific-writing/SKILL.md)，本地2.3 | 证据驱动、方法/结果/讨论一致性、引用与图表核对 | 保留科研准确性，不套用临床申报、期刊投稿或逐条人为审批流程；AI 披露按当届 UPC 要求 |
+ | 已安装 `mattpocock-skills`，本地插件1.3.1：writing-for-agents、diagnosing-bugs | 按需读取、明确完成条件；先复现信号再修正 | 前者用于技能架构，后者用于科研计算故障，不要求所有探索都先写测试 |
+ | [K-Dense MATLAB](https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/matlab/SKILL.md)，本地1.4 | 函数化、单位/数组语义、版本/产品边界与复现 | 用户已授权按需使用专业软件；不导入重复确认步骤；具体命令另核对MathWorks文档 |
+ | Codex `skill-creator` 与已安装 `skill-creator` | 精简入口、功能资源、可执行检查、独立前向试运行 | 不保存原始提示词/回答、对话或耗用统计；保存科研测试输入/产物和判断结果。第一轮结束不强制等待人工反馈 |
+diff --git a/release-files.txt b/release-files.txt
+index d9b2de8..fe38797 100644
+--- a/release-files.txt
++++ b/release-files.txt
+@@ -9,6 +9,8 @@ agents/openai.yaml
+ assets/matlab_smoke.m
+ assets/paper-outline.md
+ assets/paper.tex
++assets/review.md
++assets/submission-checklist.md
+ assets/team/README.md
+ assets/team/design/README.md
+ assets/team/design/model.md
+@@ -30,6 +32,9 @@ modules/validate/SKILL.md
+ modules/write/SKILL.md
+ references/branches/design.md
+ references/branches/mechanism.md
++references/competition-workflow.md
++references/contest-rules.md
++references/paper-quality.md
+ references/cases/2021.md
+ references/cases/2022.md
+ references/cases/2023.md
+@@ -42,6 +47,7 @@ references/team-handoff.md
+ references/third-party.md
+ scripts/_project_schema.py
+ scripts/audit_project.py
++scripts/ai_report.py
+ scripts/handoff.py
+ scripts/init_project.py
+ scripts/numerical_checks.py
+diff --git a/scripts/ai_report.py b/scripts/ai_report.py
+new file mode 100644
+index 0000000..a897850
+--- /dev/null
++++ b/scripts/ai_report.py
+@@ -0,0 +1,123 @@
++#!/usr/bin/env python3
++"""Preserve supplied AI interactions and render a verbatim disclosure (stdlib)."""
++
++import argparse
++from datetime import datetime, timezone
++import hashlib
++import json
++from pathlib import Path
++import re
++import sys
++import uuid
++
++
++def digest(text):
++    return hashlib.sha256(text.encode("utf-8")).hexdigest()
++
++
++def read_exact(path):
++    text = Path(path).read_bytes().decode("utf-8")
++    if not text.strip():
++        raise ValueError("Prompt and response must contain actual, nonempty text")
++    return text
++
++
++def add(records, system, purpose, prompt_file, response_file):
++    if not system.strip() or not purpose.strip():
++        raise ValueError("Actual system and purpose are required")
++    prompt, response = read_exact(prompt_file), read_exact(response_file)
++    record = {
++        "schema_version": 1,
++        "recorded_at": datetime.now(timezone.utc).isoformat(),
++        "system": system.strip(), "purpose": purpose.strip(),
++        "prompt": prompt, "response": response,
++        "sha256": {"prompt": digest(prompt), "response": digest(response)},
++    }
++    records = Path(records)
++    records.mkdir(parents=True, exist_ok=True)
++    destination = records / (uuid.uuid4().hex + ".json")
++    with destination.open("x", encoding="utf-8", newline="\n") as handle:
++        json.dump(record, handle, ensure_ascii=False, indent=2)
++        handle.write("\n")
++    return destination
++
++
++def load_records(records):
++    folder = Path(records)
++    if not folder.is_dir():
++        raise ValueError("Records directory does not exist")
++    loaded = []
++    for path in sorted(folder.glob("*.json")):
++        record = json.loads(path.read_text(encoding="utf-8"))
++        if not isinstance(record, dict) or record.get("schema_version") != 1:
++            raise ValueError(f"Unsupported record: {path.name}")
++        for field in ("system", "purpose", "recorded_at", "prompt", "response"):
++            if not isinstance(record.get(field), str) or not record[field].strip():
++                raise ValueError(f"Invalid {field}: {path.name}")
++        if not isinstance(record.get("sha256"), dict):
++            raise ValueError(f"Missing integrity values: {path.name}")
++        for field in ("prompt", "response"):
++            if record["sha256"].get(field) != digest(record[field]):
++                raise ValueError(f"Changed {field} content: {path.name}")
++        loaded.append((record["recorded_at"], path.name, record))
++    if not loaded:
++        raise ValueError("No interaction records; cannot generate a disclosure")
++    return [record for _, _, record in sorted(loaded)]
++
++
++def fenced(text):
++    # A response containing Markdown fences must remain inside its own block.
++    longest = max((len(m) for m in re.findall(r"`+", text)), default=0)
++    fence = "`" * max(3, longest + 1)
++    return fence + "text\n" + text + ("" if text.endswith("\n") else "\n") + fence
++
++
++def render(records, output):
++    entries = load_records(records)
++    parts = ["# Report on the Use of AI", "",
++             "The following supplied records are reproduced in full. Record coverage "
++             "must be checked against actual use; this file does not certify completeness.", ""]
++    for index, record in enumerate(entries, 1):
++        parts.extend([f"## Interaction {index}", "", "System:", fenced(record["system"]),
++                      "", "Purpose:", fenced(record["purpose"]), "",
++                      "Recorded at: " + record["recorded_at"], "",
++                      "### Exact input", "", fenced(record["prompt"]), "",
++                      "### Complete supplied output", "", fenced(record["response"]), ""])
++    output = Path(output)
++    if output.exists() or output.is_symlink():
++        raise ValueError("Report output already exists; use a new versioned path")
++    if output.suffix.lower() != ".md":
++        raise ValueError("Report output must be a Markdown .md file")
++    output.parent.mkdir(parents=True, exist_ok=True)
++    with output.open("x", encoding="utf-8", newline="\n") as handle:
++        handle.write("\n".join(parts))
++    return {"records": len(entries), "output": str(output), "coverage_verified": False}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    commands = parser.add_subparsers(dest="action", required=True)
++    collect = commands.add_parser("add", help="Store one actual supplied interaction")
++    collect.add_argument("--records", required=True, type=Path)
++    collect.add_argument("--system", required=True)
++    collect.add_argument("--purpose", required=True)
++    collect.add_argument("--prompt-file", required=True, type=Path)
++    collect.add_argument("--response-file", required=True, type=Path)
++    export = commands.add_parser("render", help="Render supplied records, without a coverage claim")
++    export.add_argument("--records", required=True, type=Path)
++    export.add_argument("--output", required=True, type=Path)
++    args = parser.parse_args()
++    if args.action == "add":
++        result = {"record": str(add(args.records, args.system, args.purpose,
++                                    args.prompt_file, args.response_file))}
++    else:
++        result = render(args.records, args.output)
++    print(json.dumps(result, ensure_ascii=False))
++
++
++if __name__ == "__main__":
++    try:
++        main()
++    except (OSError, ValueError) as exc:
++        print(f"AI disclosure error: {exc}", file=sys.stderr)
++        sys.exit(1)
+diff --git a/scripts/init_project.py b/scripts/init_project.py
+index 58b3ccf..e7fae98 100644
+--- a/scripts/init_project.py
++++ b/scripts/init_project.py
+@@ -31,7 +31,7 @@ def team_files(source, problem_bytes):
+              ".gitignore": (templates / "gitignore").read_bytes(),
+              ".gitattributes": (templates / "gitattributes").read_bytes(),
+              "tools/LICENSE": (SKILL / "LICENSE").read_bytes()}
+-    for script in ("audit_project.py", "_project_schema.py", "handoff.py"):
++    for script in ("audit_project.py", "_project_schema.py", "handoff.py", "ai_report.py"):
+         files[f"tools/{script}"] = (SKILL / "scripts" / script).read_bytes()
+     for kind, documents in DOCUMENTS.items():
+         for document in documents:
+@@ -90,6 +90,16 @@ def main():
+         "stage": "analyze", "paper_path": "paper/manuscript.md",
+     }, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+     files["paper/outline.md"] = (SKILL / "assets/paper-outline.md").read_bytes()
++    for source_name, target_name in (("paper.tex", "template.tex"),
++                                     ("review.md", "review.md"),
++                                     ("submission-checklist.md", "submission-checklist.md")):
++        files["paper/" + target_name] = (SKILL / "assets" / source_name).read_bytes()
++    files["contest-rules.md"] = (
++        "# Contest requirements\n\nStatus: pending current-rule verification.\n\n"
++        "Official source / checked date:\nTeam number / problem:\n"
++        "Deadline with time zone:\nCurrent paper and AI-disclosure requirements:\n"
++        "Actual AI record coverage / gaps:\n"
++    ).encode("utf-8")
+     for name, fields in TABLES.items():
+         rows = []
+         if name == "sources" and source:
+diff --git a/tests/_platform_support.py b/tests/_platform_support.py
+new file mode 100644
+index 0000000..faf401c
+--- /dev/null
++++ b/tests/_platform_support.py
+@@ -0,0 +1,10 @@
++"""Keep real symlink checks on capable hosts; report missing OS privilege as a skip."""
++
++
++def make_symlink(test_case, link, target, **kwargs):
++    try:
++        link.symlink_to(target, **kwargs)
++    except OSError as exc:
++        if getattr(exc, "winerror", None) == 1314:
++            test_case.skipTest("Windows account lacks symbolic-link creation privilege")
++        raise
+diff --git a/tests/test_ai_report.py b/tests/test_ai_report.py
+new file mode 100644
+index 0000000..59629b5
+--- /dev/null
++++ b/tests/test_ai_report.py
+@@ -0,0 +1,79 @@
++"""Synthetic interaction fixtures; verify exact preservation and failure behavior."""
++
++import importlib.util
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++
++ROOT = Path(__file__).resolve().parents[1]
++SPEC = importlib.util.spec_from_file_location("ai_report", ROOT / "scripts/ai_report.py")
++report = importlib.util.module_from_spec(SPEC)
++SPEC.loader.exec_module(report)
++
++
++class DisclosureTests(unittest.TestCase):
++    def setUp(self):
++        temporary = tempfile.TemporaryDirectory()
++        self.addCleanup(temporary.cleanup)
++        self.root = Path(temporary.name)
++        self.records = self.root / "records"
++        self.prompt = self.root / "prompt.txt"
++        self.response = self.root / "response.txt"
++        self.prompt.write_bytes("合成测试输入\r\nKeep exact spacing.  \r\n".encode())
++        self.response.write_bytes(b"Synthetic output\r\n```python\nprint(1)\n```\n````\n")
++
++    def add(self):
++        return report.add(self.records, "Synthetic system", "Unit test fixture",
++                          self.prompt, self.response)
++
++    def test_exact_round_trip_and_nested_markdown_fences(self):
++        self.add()
++        record = report.load_records(self.records)[0]
++        self.assertEqual(record["prompt"].encode(), self.prompt.read_bytes())
++        self.assertEqual(record["response"].encode(), self.response.read_bytes())
++        output = self.root / "report.md"
++        result = report.render(self.records, output)
++        text = output.read_bytes().decode()
++        self.assertIn(record["prompt"], text)
++        self.assertIn(record["response"], text)
++        self.assertIn("`````text", text)
++        self.assertFalse(result["coverage_verified"])
++
++    def test_tampering_is_detected(self):
++        path = self.add()
++        record = json.loads(path.read_text(encoding="utf-8"))
++        record["response"] += " changed"
++        path.write_text(json.dumps(record), encoding="utf-8")
++        with self.assertRaisesRegex(ValueError, "Changed response"):
++            report.render(self.records, self.root / "out.md")
++        self.assertFalse((self.root / "out.md").exists())
++
++    def test_empty_input_or_record_set_cannot_look_complete(self):
++        self.records.mkdir()
++        with self.assertRaisesRegex(ValueError, "No interaction"):
++            report.render(self.records, self.root / "out.md")
++        self.response.write_text(" ", encoding="utf-8")
++        with self.assertRaisesRegex(ValueError, "nonempty"):
++            self.add()
++        self.assertEqual(list(self.records.iterdir()), [])
++
++    def test_reports_are_not_overwritten_and_inputs_are_not_replaced(self):
++        self.add()
++        output = self.root / "report.md"
++        report.render(self.records, output)
++        original = output.read_bytes()
++        with self.assertRaisesRegex(ValueError, "already exists"):
++            report.render(self.records, output)
++        self.assertEqual(output.read_bytes(), original)
++
++    def test_multiple_records_are_retained(self):
++        first = self.add()
++        second = self.add()
++        self.assertNotEqual(first, second)
++        self.assertEqual(len(report.load_records(self.records)), 2)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_project_tools.py b/tests/test_project_tools.py
+index 66b5c62..6594ba8 100644
+--- a/tests/test_project_tools.py
++++ b/tests/test_project_tools.py
+@@ -16,6 +16,8 @@ import sys
+ import tempfile
+ import unittest
+ 
++from _platform_support import make_symlink
++
+ 
+ SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+ sys.path.insert(0, str(SCRIPTS))
+@@ -149,7 +151,7 @@ class InitializationTests(ProjectToolTestCase):
+         self.assertNotEqual(result.returncode, 0)
+         self.assertEqual(self.project.read_text(), "Keep this file")
+         self.project.unlink()
+-        self.project.symlink_to(self.directory / "nonexistent")
++        make_symlink(self, self.project, self.directory / "nonexistent")
+         result = self.cli("init_project.py", self.project, "--title", "Replacement")
+         self.assertNotEqual(result.returncode, 0)
+         self.assertTrue(self.project.is_symlink())
+@@ -164,7 +166,7 @@ class InitializationTests(ProjectToolTestCase):
+ 
+     def test_source_symlink_cycle_fails_without_traceback_or_partial_project(self):
+         source = self.directory / "cycle.md"
+-        source.symlink_to(source.name)
++        make_symlink(self, source, source.name)
+         result = self.cli("init_project.py", self.project, "--title", "Study", "--problem", source)
+         self.assertNotEqual(result.returncode, 0)
+         self.assertNotIn("Traceback", result.stderr)
+@@ -332,28 +334,31 @@ class BoundaryTests(ProjectToolTestCase):
+ 
+     def test_symlink_to_outside_is_rejected(self):
+         link = self.project / "data/derived/external.txt"
+-        link.symlink_to(self.outside)
++        make_symlink(self, link, self.outside)
+         self.set_cell("claims", "artifact_paths", "data/derived/external.txt")
+         self.assert_not_ready("path must stay inside")
+ 
+     def test_symlink_to_internal_artifact_is_allowed(self):
+         link = self.project / "data/derived/internal.txt"
+-        link.symlink_to("derivation.md")
++        make_symlink(self, link, "derivation.md")
+         self.set_cell("claims", "artifact_paths", "data/derived/internal.txt")
+         result = audit_module.audit(self.project)
+         self.assertTrue(result["ready"], result)
+ 
+     def test_cyclic_and_dangling_symlinks_are_clear_diagnostics(self):
+         link = self.project / "data/derived/loop.txt"
+-        link.symlink_to("loop.txt")
++        make_symlink(self, link, "loop.txt")
+         self.set_cell("claims", "artifact_paths", "data/derived/loop.txt")
+         self.assert_not_ready()
+         link.unlink()
+-        link.symlink_to("missing.txt")
++        make_symlink(self, link, "missing.txt")
+         self.assert_not_ready("missing or empty")
+ 
+     def test_nul_in_a_path_does_not_crash(self):
+-        self.set_cell("claims", "artifact_paths", "data/derived/invalid\x00.txt")
++        # Older Python CSV writers reject NUL before the audit can inspect it.
++        self.set_cell("claims", "artifact_paths", "data/derived/invalid_NUL_.txt")
++        path = self.project / "claims.csv"
++        path.write_bytes(path.read_bytes().replace(b"_NUL_", b"\x00"))
+         self.assert_not_ready()
+ 
+     def test_metadata_symlinks_cannot_escape_the_project(self):
+@@ -364,7 +369,7 @@ class BoundaryTests(ProjectToolTestCase):
+                 outside = self.directory / ("external-" + name)
+                 outside.write_bytes(original)
+                 path.unlink()
+-                path.symlink_to(outside)
++                make_symlink(self, path, outside)
+                 self.assert_not_ready("path must stay inside")
+                 path.unlink()
+                 path.write_bytes(original)
+@@ -375,7 +380,7 @@ class BoundaryTests(ProjectToolTestCase):
+                 result = audit_module.audit(root)
+                 self.assertFalse(result["ready"])
+         cycle = self.directory / "root-cycle"
+-        cycle.symlink_to(cycle.name)
++        make_symlink(self, cycle, cycle.name)
+         result = audit_module.audit(cycle)
+         self.assertFalse(result["ready"])
+ 
+diff --git a/tests/test_release.py b/tests/test_release.py
+index 6e0ddc8..383c9c1 100644
+--- a/tests/test_release.py
++++ b/tests/test_release.py
+@@ -9,6 +9,8 @@ import subprocess
+ import sys
+ import tempfile
+ import unittest
++
++from _platform_support import make_symlink
+ import zipfile
+ 
+ 
+@@ -72,6 +74,18 @@ class ReleaseTests(unittest.TestCase):
+         diagnostic = run("numerical_checks.py", "biquad", "--a1", "-1.9", "--a2", "0.88")
+         self.assertEqual(diagnostic.returncode, 0, diagnostic.stderr)
+         self.assertFalse(json.loads(diagnostic.stdout)["stable"])
++        prompt, response = self.folder / "prompt.txt", self.folder / "response.txt"
++        prompt.write_text("Synthetic exact input", encoding="utf-8")
++        response.write_text("Synthetic complete output", encoding="utf-8")
++        records = self.folder / "interactions"
++        collected = run("ai_report.py", "add", "--records", records,
++                        "--system", "Test fixture", "--purpose", "Portability check",
++                        "--prompt-file", prompt, "--response-file", response)
++        self.assertEqual(collected.returncode, 0, collected.stderr)
++        disclosed = run("ai_report.py", "render", "--records", records,
++                        "--output", self.folder / "ai-report.md")
++        self.assertEqual(disclosed.returncode, 0, disclosed.stderr)
++        self.assertFalse(json.loads(disclosed.stdout)["coverage_verified"])
+ 
+     def test_manifest_cannot_escape_root_or_reuse_a_path(self):
+         source = self.copy_payload()
+@@ -87,7 +101,7 @@ class ReleaseTests(unittest.TestCase):
+         source = self.copy_payload()
+         link = source / "README.md"
+         link.unlink()
+-        link.symlink_to(ROOT / "README.md")
++        make_symlink(self, link, ROOT / "README.md")
+         with self.assertRaisesRegex(ValueError, "Symlink"):
+             builder.load_payload(source)
+ 
+diff --git a/tests/test_team_handoff.py b/tests/test_team_handoff.py
+index d214bef..ca32a85 100644
+--- a/tests/test_team_handoff.py
++++ b/tests/test_team_handoff.py
+@@ -8,6 +8,8 @@ import subprocess
+ import sys
+ import tempfile
+ import unittest
++
++from _platform_support import make_symlink
+ import zipfile
+ 
+ from test_project_tools import ProjectToolTestCase, audit_module
+@@ -158,7 +160,7 @@ class HandoffTests(unittest.TestCase):
+     def test_symlinked_material_directory_and_traversal_fail(self):
+         self.fill_design()
+         folder = self.project / "design"
+-        (folder / "external").symlink_to(self.base, target_is_directory=True)
++        make_symlink(self, folder / "external", self.base, target_is_directory=True)
+         with (folder / "materials.csv").open("a", newline="") as handle:
+             writer = csv.writer(handle)
+             writer.writerow(["external/original.txt", "input", "External directory"])
+-- 
+2.53.0.windows.3
+

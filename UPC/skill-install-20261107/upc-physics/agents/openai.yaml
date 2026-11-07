@@ -1,0 +1,4 @@
+interface:
+  display_name: "UPC Physics"
+  short_description: "从物理研究与验证到完整英文论文，含独立审阅、当届规则和提交核对"
+  default_prompt: "使用 $upc-physics，核实当届规则，依据题面和真实成果完成研究、英文论文、审阅修订及提交材料。"

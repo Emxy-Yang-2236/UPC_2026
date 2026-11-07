@@ -1,0 +1,4 @@
+match_id,event_id,contact_interval_start_s,contact_interval_end_s,camera_clock_verified,height_zero_verified,first_event_verified,release_error_le_10ms,split,status
+DFL-MAT-J03WMX,18226500001426,,,unknown,unknown,unknown,unknown,development,needs_independent_contact_annotation
+DFL-MAT-J03WOH,18232100000995,,,unknown,unknown,unknown,unknown,development,needs_independent_contact_annotation
+DFL-MAT-J03WR9,18242100001386,,,unknown,unknown,unknown,unknown,development,needs_independent_contact_annotation

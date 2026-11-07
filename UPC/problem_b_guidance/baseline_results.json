@@ -1,0 +1,331 @@
+{
+  "assumptions": {
+    "r0_exact": true,
+    "times_exact": true,
+    "noise": "independent Gaussian per observed coordinate, only where stated",
+    "seed": 20261107
+  },
+  "ballistic": {
+    "v0_m_s": [
+      29.679999999999993,
+      8.68,
+      6.80145
+    ],
+    "t_goal_s": 0.3706199460916443,
+    "goal_yz_m": [
+      3.2169811320754724,
+      1.9570064288620395
+    ],
+    "residual_observed_minus_predicted_m": [
+      [
+        0.016000000000000236,
+        0.016000000000000014,
+        0.0021900000000000253
+      ],
+      [
+        -0.007999999999999563,
+        -0.008000000000000007,
+        -0.0010949999999999571
+      ]
+    ],
+    "sse_m2": 0.0006459951250000012
+  },
+  "quadratic": {
+    "v0_m_s": [
+      30.4,
+      9.4,
+      6.8999999999999995
+    ],
+    "a_m_s2": [
+      -16.00000000000001,
+      -16.00000000000001,
+      -12.000000000000004
+    ],
+    "t_goal_s": 0.40500836122739475,
+    "goal_yz_m": [
+      2.494824414224711,
+      1.920367056484424
+    ]
+  },
+  "conditional_uncertainty_examples": [
+    {
+      "model": "ballistic",
+      "assumed_sigma_m": 0.002,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.0,
+      "linear_std_yz_m": [
+        0.00690755615791287,
+        0.006667456257229815
+      ],
+      "linear_correlation": 0.0297701003745084,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.0068502939587510945,
+        0.0066328228382353345
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          3.2036536901311696,
+          1.9440263466450372
+        ],
+        [
+          3.2304132711077553,
+          1.9700988990544397
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.0
+    },
+    {
+      "model": "ballistic",
+      "assumed_sigma_m": 0.005,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.0,
+      "linear_std_yz_m": [
+        0.017268890394782178,
+        0.016668640643074537
+      ],
+      "linear_correlation": 0.0297701003745084,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.01725429394743958,
+        0.016676307437641775
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          3.183061929906685,
+          1.9244143526390625
+        ],
+        [
+          3.250897714700089,
+          1.990077940838299
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.0
+    },
+    {
+      "model": "ballistic",
+      "assumed_sigma_m": 0.01,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.0,
+      "linear_std_yz_m": [
+        0.034537780789564355,
+        0.03333728128614907
+      ],
+      "linear_correlation": 0.0297701003745084,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.03460576067749962,
+        0.033085312457163944
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          3.1494653376996573,
+          1.8922103238726176
+        ],
+        [
+          3.2848659955638984,
+          2.022547005771762
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.0
+    },
+    {
+      "model": "ballistic",
+      "assumed_sigma_m": 0.02,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.0,
+      "linear_std_yz_m": [
+        0.06907556157912871,
+        0.06667456257229815
+      ],
+      "linear_correlation": 0.0297701003745084,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.06902288635851189,
+        0.06691280994132148
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          3.082503050312763,
+          1.8239391275805008
+        ],
+        [
+          3.3545187045667926,
+          2.0885797092357974
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.0
+    },
+    {
+      "model": "quadratic",
+      "assumed_sigma_m": 0.002,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.0,
+      "linear_std_yz_m": [
+        0.11519043542961828,
+        0.11475673380739676
+      ],
+      "linear_correlation": 0.010296009417649582,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.11611243803134552,
+        0.11528760598363964
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          2.270686099673135,
+          1.6957777577210693
+        ],
+        [
+          2.724414272910921,
+          2.15005868156784
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.0
+    },
+    {
+      "model": "quadratic",
+      "assumed_sigma_m": 0.005,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.0,
+      "linear_std_yz_m": [
+        0.28797608857404566,
+        0.28689183451849193
+      ],
+      "linear_correlation": 0.010296009417649583,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.2925496695316032,
+        0.288967700486735
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          1.9237987638002598,
+          1.360418238538821
+        ],
+        [
+          3.073322025160719,
+          2.4918382719035472
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.03715
+    },
+    {
+      "model": "quadratic",
+      "assumed_sigma_m": 0.01,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.00039999999999995595,
+      "linear_std_yz_m": [
+        0.5759521771480913,
+        0.5737836690369839
+      ],
+      "linear_correlation": 0.010296009417649583,
+      "mc_std_yz_m_conditional_on_crossing": [
+        0.6004470176918123,
+        0.5972287769789739
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          1.3597078194445487,
+          0.7617934150502271
+        ],
+        [
+          3.7340799964802067,
+          3.116136385683999
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.20918367346938777
+    },
+    {
+      "model": "quadratic",
+      "assumed_sigma_m": 0.02,
+      "N": 20000,
+      "no_forward_crossing_fraction": 0.05095000000000005,
+      "linear_std_yz_m": [
+        1.1519043542961827,
+        1.1475673380739677
+      ],
+      "linear_correlation": 0.010296009417649583,
+      "mc_std_yz_m_conditional_on_crossing": [
+        1.2897401678246092,
+        1.2748954272039428
+      ],
+      "mc_marginal_2_5_97_5_percentiles_conditional_on_crossing": [
+        [
+          0.005157217387204316,
+          -0.6039079356878081
+        ],
+        [
+          5.18767032304366,
+          4.511976948517402
+        ]
+      ],
+      "plane_crossing_outside_point_goal_fraction_among_crossings": 0.4693641009430483
+    }
+  ],
+  "local_aerodynamic_initial_guess": {
+    "v_mid_m_s": [
+      29.599999999999998,
+      8.6,
+      6.3
+    ],
+    "k_per_m": 0.020070129604891306,
+    "beta_minimum_norm_per_s": [
+      0.08280983219001631,
+      -0.036346369505258574,
+      -0.33945908810781894
+    ],
+    "Cd_if_mass_0_43kg_radius_0_11m_density_1_2kg_m3": 0.37838345567459475
+  },
+  "aerodynamic_illustrative_restricted_fit": {
+    "status": "computed illustrative conditional model; not validated against an independent trajectory",
+    "assumptions": [
+      "constant k and beta",
+      "zero wind",
+      "beta_x=0",
+      "six free parameters for six measured coordinates"
+    ],
+    "parameter_order": [
+      "v0_x_m_s",
+      "v0_y_m_s",
+      "v0_z_m_s",
+      "k_per_m",
+      "beta_y_per_s",
+      "beta_z_per_s"
+    ],
+    "parameters": [
+      30.415459443446448,
+      9.41672446235389,
+      6.908012398513101,
+      0.020070841485787035,
+      -0.06043430454470497,
+      -0.3571339760152306
+    ],
+    "residual_l2_trace_m": [
+      0.0025640107681286026,
+      6.501578367585168e-07,
+      1.6453304829217652e-13
+    ],
+    "convergence": [
+      {
+        "dt_s": 0.001,
+        "t_goal_s": 0.400503418852482,
+        "goal_yz_m": [
+          2.5994368162505097,
+          1.9669906265262207
+        ]
+      },
+      {
+        "dt_s": 0.0005,
+        "t_goal_s": 0.4005033620414603,
+        "goal_yz_m": [
+          2.5994379445596554,
+          1.9669916739285327
+        ]
+      },
+      {
+        "dt_s": 0.00025,
+        "t_goal_s": 0.4005033618491786,
+        "goal_yz_m": [
+          2.5994379483780126,
+          1.9669916774735692
+        ]
+      }
+    ],
+    "maximum_energy_increment_per_step_m2_s2": -0.08158996131749063
+  }
+}
