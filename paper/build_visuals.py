@@ -82,8 +82,10 @@ def grid(ax, axis="y"):
 
 def draw_geometry(v, settings):
     source = "experiment/runs/B01/pair.json"
+    force_case = "experiment/src/reference.py"
+    v.read(force_case)
     fig, plotted = flight_figure(settings["official"], v.json(source))
-    v.save(fig, "problem-geometry", ["design/settings.json", source], plotted)
+    v.save(fig, "problem-geometry", ["design/settings.json", source, force_case], plotted)
 
 
 def draw_pipeline(v, settings):

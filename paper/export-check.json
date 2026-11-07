@@ -1,7 +1,7 @@
 {
   "pages": 29,
   "page_size": "US Letter",
-  "parent_manuscript": "421de77f1115cca8d9bcb33094b32c5d14cf7148",
+  "parent_manuscript": "af2c7cd494a01db1d757004a8f624110b52730f1",
   "frozen_design": "775b41e2b38126b0e9fcc4409b8fe9c65d3fa673",
   "frozen_predictions": "ecbb08da3f0e2a40801e04ebacddec92ab617f24",
   "frozen_thresholds": "7b91d575f0fe434fdf7e66b8b031d56bd3a5d100",
@@ -12,17 +12,17 @@
   "numbered_equations": 17,
   "bibliography_entries": 12,
   "unresolved_reference_pages": [],
-  "sha256": "eadb40855cdf1e686785b99150fa92a57a1e3fb9d1e8d08eac7dfda672d3867d",
-  "bytes": 461265,
+  "sha256": "b7fdfaa1dc77da2543f2eef78d119d71ebdc5a97fc93c428d7c24b2c1d973231",
+  "bytes": 466976,
   "metadata": {
     "/Creator": "LaTeX with hyperref",
     "/Title": "Predicting Penalty Trajectories: What Two Early Positions Can Resolve",
     "/Producer": "xdvipdfmx (0.1)",
-    "/CreationDate": "D:20261107153431-00'00'"
+    "/CreationDate": "D:20261107160007-00'00'"
   },
   "portable_page_text_equal": true,
-  "visual_ledger_sha256": "6dee58070622b994635d985c41e8c623a191668bf1ceeb369348ceafc8d44ff4",
-  "visual_source_files": 17,
+  "visual_ledger_sha256": "f6432294e73040abddeabe41c3c0fab07561db324a1854273656ced2080ee196",
+  "visual_source_files": 18,
   "frozen_experiment_report": "bff1160a77c73be688abd7de02a6e5ccf4179c3d",
   "rebuild_reproduces_figure_hashes": true,
   "z10_figure_page": 14,
@@ -41,18 +41,29 @@
   "bookmarks_checked": 56,
   "all_bookmarks_match_printed_heading_page": true,
   "portable_page_pixels_equal_at_scale_1_12": true,
-  "figures_unchanged_from_parent": 12,
-  "changed_figures": [],
+  "figures_unchanged_from_parent": 11,
+  "changed_figures": [
+    "problem-geometry.pdf"
+  ],
   "review_replay_files": 23,
   "review_evidence_fully_replayed_in_clean_directory": true,
   "text_color_check": {
-    "scope": "Native page text including headings, equations, captions, tables, running furniture and references. Embedded figures retain their original palette.",
-    "visible_text_objects": 4102,
-    "opaque_black_text_objects": 4102,
-    "objects_recolored_from_parent": 170,
-    "same_page_text_and_character_bounds_as_parent": true,
-    "embedded_figures_with_identical_render_and_stream": 12,
-    "changed_pixels_only_within_recolored_text_bounds": true,
-    "bookmarks_and_link_targets_equal_to_parent": true
+    "scope": "Native manuscript text on all pages and every typeset label in Figure 1. Other charts retain their own styles.",
+    "visible_text_objects": 4100,
+    "opaque_black_text_objects": 4100,
+    "figure_1_opaque_black_text_objects": 73,
+    "bookmarks_and_page_destinations_equal_to_parent": true
+  },
+  "pages_with_visible_changes": [
+    2
+  ],
+  "figure_1_checks": {
+    "page": 2,
+    "physics_case": "empirical E release in experiment/src/reference.py::numerical_checks",
+    "unchanged_model_S_path_and_recorded_positions": true,
+    "independent_render_and_ledger_match": true,
+    "figure_sha256": "cc8b3271912e69f9ef14e3bfd0ba63f53953e5a7f84c99468cb3a5a346a82d9a",
+    "embedded_and_standalone_text_all_black": true,
+    "other_28_pages_raster_and_text_equal_to_parent": true
   }
 }

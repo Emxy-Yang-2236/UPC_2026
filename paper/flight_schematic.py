@@ -1,4 +1,4 @@
-"""Draw the penalty geometry and the force directions of one archived flight."""
+"""Draw the recorded penalty geometry and a separate example of Magnus lift."""
 from itertools import combinations, product
 from math import cos, radians, sin
 
@@ -13,13 +13,16 @@ TEAL = "#076e79"
 RUST = "#a64b26"
 SLATE = "#516674"
 GUIDE = "#91aaa9"
+SPIN = "#71548e"
 
-# Orthographic camera. Each horizontal metre has the same world scale as a vertical metre.
-azimuth, elevation = map(radians, (37, 20))
-VIEW = np.array([
-    [cos(azimuth), -sin(azimuth), 0.0],
-    [sin(azimuth) * sin(elevation), cos(azimuth) * sin(elevation), cos(elevation)],
-])
+def camera(azimuth, elevation):
+    """Orthonormal screen-right and screen-up directions for an oblique view."""
+    azimuth, elevation = map(radians, (azimuth, elevation))
+    return np.array([[cos(azimuth), -sin(azimuth), 0.0],
+                     [sin(azimuth)*sin(elevation), cos(azimuth)*sin(elevation), cos(elevation)]])
+
+
+VIEW = camera(37, 20)
 
 
 def project(xyz):
@@ -90,14 +93,14 @@ def draw_field(ax, official, points, future):
     target = project(future[-1])
     ax.plot(*target, marker="D", ms=5.8, mfc=RUST, mec="white", mew=.9)
     ax.annotate("$Q_A$", target, xytext=(-23, 9), textcoords="offset points",
-                ha="right", color=RUST, fontsize=9,
+                ha="right", color="black", fontsize=9,
                 arrowprops=dict(arrowstyle="-", color=RUST, lw=.6, shrinkB=3.5))
 
     for point, label, offset in zip(points, ("0 ms", "50 ms", "100 ms"),
                                      ((-3, -11), (-12, 17), (-2, 21))):
         ax.annotate(label, project(point), xytext=offset, textcoords="offset points",
                     ha="right" if offset[0] < 0 else "left",
-                    va="top" if offset[1] < 0 else "bottom", color=INK, fontsize=7.8,
+                    va="top" if offset[1] < 0 else "bottom", color="black", fontsize=7.8,
                     arrowprops=dict(arrowstyle="-", color=SLATE, lw=.57, shrinkB=3.4))
 
     # Dimension parallel to x. Both endpoints use the same lateral position.
@@ -111,12 +114,12 @@ def draw_field(ax, official, points, future):
     text_angle = np.degrees(np.arctan2(*(b-a)[::-1]))
     ax.annotate(f"{gate-xa:.2f} m downfield", (a+b)/2,
                 xytext=(0,-6.5), textcoords="offset points", rotation=text_angle,
-                ha="center", va="top", fontsize=7.7, color=INK)
+                ha="center", va="top", fontsize=7.7, color="black")
 
     mid_bar = project((gate, 0, height))
     ax.annotate(f"Goal plane  $x={gate:g}$ m", mid_bar, xytext=(1, 16),
                 textcoords="offset points", ha="center", va="bottom", fontsize=8,
-                color=INK, fontweight="bold",
+                color="black", fontweight="bold",
                 arrowprops=dict(arrowstyle="-", color=SLATE, lw=.6, shrinkB=3))
     # A ground-aligned reference triad uses the same projection as the pitch.
     origin = np.array([-1.2, 2.8, .24])
@@ -127,7 +130,7 @@ def draw_field(ax, official, points, future):
         ax.annotate("", end, start, arrowprops=dict(arrowstyle="-|>", color=SLATE,
                     lw=.75, shrinkA=0, shrinkB=0, mutation_scale=6))
         ax.annotate(name, end, xytext=shift, textcoords="offset points", fontsize=7.3,
-                    ha="center", va="center", color=SLATE)
+                    ha="center", va="center", color="black")
     ax.set(xlim=(-4, 12.65), ylim=(-2.20, 6.0), aspect="equal")
     ax.axis("off")
 
@@ -176,23 +179,72 @@ def draw_ball(ax, radius):
     ax.add_patch(Circle((0,0), radius, fc="none", ec=INK, lw=.7, zorder=7))
 
 
-def draw_forces(ax, shot):
-    air = np.asarray(shot["velocity0_m_s"])
-    lift = np.cross(shot["beta_per_s"], air)
-    items = (("Air-relative velocity $\\mathbf{u}$", air, .98, SLATE, (19, 7), "right", "--"),
-             ("Drag", -air, .95, RUST, (-2, -2), "right", "-"),
-             ("Lift", lift, .94, TEAL, (1, 4), "center", "-"),
-             ("Weight", [0,0,-1], .87, INK, (0,-4), "center", "-"))
-    for label, vector, length, color, offset, align, style in items:
-        direction = project(vector)
-        end = length * direction / np.linalg.norm(direction)
-        ax.annotate("", end, (0,0), arrowprops=dict(arrowstyle="-|>", linestyle=style,
-                    color=color, lw=1.35, shrinkA=0, shrinkB=0, mutation_scale=8))
-        ax.annotate(label, end, xytext=offset, textcoords="offset points", ha=align,
-                    va="bottom" if offset[1]>0 else "top", color=color, fontsize=7.9)
-    draw_ball(ax, .28)
-    ax.set(xlim=(-1.38,1.53), ylim=(-1.28,1.28), aspect="equal")
-    ax.axis("off")
+def unit(vector):
+    return vector / np.linalg.norm(vector)
+
+
+def draw_forces(ax):
+    # Frozen "empirical" release from numerical_checks in experiment/src/reference.py.
+    velocity = np.array([30., 7., 7.])
+    wind = np.array([1., -1., 0.])
+    omega = np.array([20., -35., 12.])
+    air = velocity - wind
+    magnus = np.cross(omega, air)
+    view = camera(-70, 35)
+    facing = np.cross(*view)
+    spin_axis = unit(omega)
+    # With this basis, d(rim)/d(theta) = spin_axis x rim. The second
+    # basis vector points towards the reader, so 0 < theta < pi is visible.
+    side = unit(np.cross(facing, spin_axis))
+    front = np.cross(spin_axis, side)
+    theta = np.linspace(0, 2*np.pi, 161)
+    radius = 17.
+    ring_radius = 1.23 * radius
+    rim = ring_radius * ((np.outer(np.cos(theta), side) + np.outer(np.sin(theta), front)) @ view.T)
+    middle = len(theta) // 2
+    ax.plot(*rim[middle:].T, color=SPIN, lw=.9, ls=(0, (2.0, 2.2)), zorder=2)
+
+    end_spin = 48 * unit(view @ omega)
+    ax.plot(*np.stack([-.60*end_spin, (0, 0)]).T, color=SPIN, lw=.8,
+            ls=(0, (2, 2)), zorder=2)
+    vectors = [
+        (r'Spin axis $\omega$', end_spin, SPIN, '-', (-2, -4), 'center', 'top'),
+        ('Magnus lift\n' + r'$\parallel\,\omega\times\mathbf{u}$',
+         47*unit(view @ magnus), TEAL, '-', (5, 0), 'left', 'center'),
+        ('Drag', -50*unit(view @ air), RUST, '-', (-2, 2), 'center', 'bottom'),
+        ('Relative velocity\n' + r'$\mathbf{u}=\mathbf{v}-\mathbf{w}$',
+         52*unit(view @ air), SLATE, (0, (3, 2)), (-1, -3), 'center', 'top'),
+        (r'Weight $m\mathbf{g}$', 41*unit(view @ np.array([0, 0, -1])),
+         INK, '-', (-3, -2), 'center', 'top'),
+    ]
+    for label, tip, color, style, offset, align, valign in vectors:
+        ax.annotate('', tip, (0, 0), zorder=3,
+                    arrowprops=dict(arrowstyle='-|>', color=color, linestyle=style,
+                                    lw=1.45, mutation_scale=8.5, shrinkA=0, shrinkB=0))
+        ax.annotate(label, tip, xytext=offset, textcoords='offset points',
+                    ha=align, va=valign, fontsize=7.75, color='black', linespacing=1.10)
+    draw_ball(ax, radius)
+    for color, width in [('white', 3.15), (SPIN, 1.65)]:
+        ax.plot(*rim[:middle + 1].T, lw=width, color=color, solid_capstyle='round', zorder=8)
+    arrow_angle = radians(120)
+    tip = ring_radius * ((cos(arrow_angle)*side + sin(arrow_angle)*front) @ view.T)
+    tangent = unit((-sin(arrow_angle)*side + cos(arrow_angle)*front) @ view.T)
+    normal = np.array([-tangent[1], tangent[0]])
+    base = tip - 5.8*tangent
+    ax.add_patch(Polygon([tip, base + 2.8*normal, base - 2.8*normal],
+                         facecolor=SPIN, edgecolor=SPIN, linewidth=.4, zorder=9))
+    ax.set(xlim=(-78, 80), ylim=(-55, 55), aspect='equal')
+    ax.axis('off')
+    return {
+        'model': 'E', 'source_case': 'empirical in experiment/src/reference.py::numerical_checks',
+        'interpretation': 'Illustrative release, independent of the model-S witness in panel A.',
+        'velocity_m_s': velocity.tolist(), 'wind_m_s': wind.tolist(),
+        'air_relative_velocity_m_s': air.tolist(), 'spin_rad_s': omega.tolist(),
+        'magnus_direction_unit': unit(magnus).tolist(), 'drag_direction_unit': (-unit(air)).tolist(),
+        'weight_direction_unit': [0, 0, -1], 'rotation_sense': 'right-handed about omega',
+        'view_azimuth_elevation_deg': [-70, 35], 'arrow_lengths': 'schematic',
+        'parallel_spin_limit': 'omega parallel to u gives zero Magnus lift in model E',
+    }
 
 
 def flight_figure(official, pair):
@@ -200,24 +252,35 @@ def flight_figure(official, pair):
     shot = pair["shots"][0]
     future = np.array([*shot["third_frame_xyz_m"], [official["gate"], *shot["goal_yz_m"]]])
     fig = plt.figure(figsize=(6.60, 3.05), facecolor="white")
-    fig.text(.013,.93,"A   Flight to the goal plane", fontsize=9.7, color=INK, weight="bold")
-    fig.text(.722,.93,"B   Forces at release", fontsize=9.7, color=INK, weight="bold")
+    fig.text(.013,.93,"A   Flight to the goal plane", fontsize=9.7, color="black", weight="bold")
+    fig.text(.660,.93,"B   Spin and lift in model E", fontsize=9.7, color="black", weight="bold")
     field = fig.add_axes([.002,.251,.704,.626])
-    forces = fig.add_axes([.715,.217,.278,.664])
-    fig.add_artist(Line2D([.703,.703],[.25,.90],color="#dbe4e1", lw=.7))
+    forces = fig.add_axes([.650,.330,.343,.525])
+    fig.add_artist(Line2D([.645,.645],[.25,.90],color="#dbe4e1", lw=.7))
     draw_field(field, official, points, future)
-    draw_forces(forces, shot)
+    release_forces = draw_forces(forces)
+    # A second orientation isolates the spin component unobservable through lift.
+    aligned = fig.add_axes([.660,.225,.324,.091])
+    aligned.set(xlim=(0, 150), ylim=(0, 19))
+    aligned.axis("off")
+    for y, symbol, color, style in [(13.5, r"$\omega$", SPIN, "-"),
+                                    (4.2, r"$\mathbf{u}$", SLATE, (0, (3, 2)))]:
+        aligned.text(0, y, symbol, ha="left", va="center", fontsize=7.7, color="black")
+        aligned.annotate("", (33, y), (10, y), arrowprops=dict(arrowstyle="-|>",
+                         lw=1.25, color=color, linestyle=style, shrinkA=0, shrinkB=0, mutation_scale=7))
+    aligned.text(43, 13.5, "Parallel spin", va="center", fontsize=7.4, weight="bold", color="black")
+    aligned.text(43, 4.2, "No Magnus lift", va="center", fontsize=7.4, color="black")
     # Three brief coordinate records preserve the precision of the supplied inputs.
     fig.add_artist(Line2D([.014,.986],[.206,.206],color="#c7d6d2",lw=.7))
     times = [0, *np.rint(np.asarray(official["times"])*1000).astype(int)]
     for x, t, xyz in zip((.014,.247,.47), times, points):
         heading = "Release" if t == 0 else f"{t} ms"
-        fig.text(x,.132,heading,fontsize=7.7,color=TEAL,weight="bold")
+        fig.text(x,.132,heading,fontsize=7.7,color="black",weight="bold")
         fig.text(x,.053,"(" + ", ".join(f"{c:.2f}" for c in xyz) + ") m",
-                 fontsize=7.65,color=INK)
-    fig.text(.722,.132,"Goal opening",fontsize=7.7,color=INK,weight="bold")
-    fig.text(.722,.053,f"{2*official['half_width']:.2f} m wide × {official['height']:.2f} m high",
-             fontsize=7.65,color=INK)
+                 fontsize=7.65,color="black")
+    fig.text(.660,.132,"Goal opening",fontsize=7.7,color="black",weight="bold")
+    fig.text(.660,.053,f"{2*official['half_width']:.2f} m wide × {official['height']:.2f} m high",
+             fontsize=7.65,color="black")
     plotted = {
         "observations_xyz_m": points.tolist(), "time_ms": [int(t) for t in times],
         "gate_x_m": official["gate"], "half_width_m": official["half_width"],
@@ -225,9 +288,7 @@ def flight_figure(official, pair):
         "witness": "A, the first archived zero-wind S-model flight",
         "continuation_times_s": [r["t_s"] for r in pair["third_frames"]] + [shot["arrival_s"]],
         "continuation_xyz_m": future.tolist(), "path_display": "straight joins of archived samples",
-        "release_air_relative_velocity_m_s": shot["velocity0_m_s"],
-        "effective_lift_vector_per_s": shot["beta_per_s"],
-        "force_directions": {"weight": "vertically down", "drag": "-u", "lift": "beta cross u"},
-        "arrow_lengths": "schematic", "view_azimuth_elevation_deg": [37,20],
+        "panel_a_view_azimuth_elevation_deg": [37,20],
+        "panel_b_release": release_forces,
     }
     return fig, plotted

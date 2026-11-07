@@ -1,6 +1,7 @@
 {
   "sources_sha256": {
     "design/settings.json": "5fdd59e015d750183ab4856760f835b96a475f6e921f2c65fb7dd94befc7758d",
+    "experiment/src/reference.py": "2d39606aedb1e736e5ec9585fd2e52476064bfdb22e0b4f5b8683d7024683bff",
     "experiment/runs/B01/pair.json": "641c17e5807ce49539c08d47e920ede1ce2c638328e9dfd938202cb7fc2e3422",
     "experiment/src/coverage_benchmark.py": "fb097d65d08f8027babfb99df5db9d18f2aa68dd98b18ab855c9bc24c2ee3ff8",
     "experiment/src/predict.py": "304a117964f58f9a7c6571422593c9b0d8b9a6e451dba26ee780c05c230eee37",
@@ -20,10 +21,11 @@
   },
   "figures": {
     "problem-geometry.pdf": {
-      "sha256": "8af59de1c411a013002a536380359b7b9e3ffa53cba527984b8dba66aa9da2d3",
+      "sha256": "cc8b3271912e69f9ef14e3bfd0ba63f53953e5a7f84c99468cb3a5a346a82d9a",
       "sources": [
         "design/settings.json",
-        "experiment/runs/B01/pair.json"
+        "experiment/runs/B01/pair.json",
+        "experiment/src/reference.py"
       ],
       "plotted": {
         "observations_xyz_m": [
@@ -82,26 +84,57 @@
           ]
         ],
         "path_display": "straight joins of archived samples",
-        "release_air_relative_velocity_m_s": [
-          30.41551974416947,
-          9.413055352685879,
-          6.912833807648177
-        ],
-        "effective_lift_vector_per_s": [
-          -0.5,
-          -0.20564659070289734,
-          -0.46349110815968314
-        ],
-        "force_directions": {
-          "weight": "vertically down",
-          "drag": "-u",
-          "lift": "beta cross u"
-        },
-        "arrow_lengths": "schematic",
-        "view_azimuth_elevation_deg": [
+        "panel_a_view_azimuth_elevation_deg": [
           37,
           20
-        ]
+        ],
+        "panel_b_release": {
+          "model": "E",
+          "source_case": "empirical in experiment/src/reference.py::numerical_checks",
+          "interpretation": "Illustrative release, independent of the model-S witness in panel A.",
+          "velocity_m_s": [
+            30.0,
+            7.0,
+            7.0
+          ],
+          "wind_m_s": [
+            1.0,
+            -1.0,
+            0.0
+          ],
+          "air_relative_velocity_m_s": [
+            29.0,
+            8.0,
+            7.0
+          ],
+          "spin_rad_s": [
+            20.0,
+            -35.0,
+            12.0
+          ],
+          "magnus_direction_unit": [
+            -0.2747704652488684,
+            0.16760192601690507,
+            0.9467897262974204
+          ],
+          "drag_direction_unit": [
+            -0.9389096669453554,
+            -0.2590095632952704,
+            -0.22663336788336164
+          ],
+          "weight_direction_unit": [
+            0,
+            0,
+            -1
+          ],
+          "rotation_sense": "right-handed about omega",
+          "view_azimuth_elevation_deg": [
+            -70,
+            35
+          ],
+          "arrow_lengths": "schematic",
+          "parallel_spin_limit": "omega parallel to u gives zero Magnus lift in model E"
+        }
       }
     },
     "prediction-workflow.pdf": {
