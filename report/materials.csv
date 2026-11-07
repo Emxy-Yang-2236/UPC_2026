@@ -38,3 +38,4 @@ coverage-and-crossing.md,section,固定100毫秒留出验证及联合误差诊�
 evidence/z09-summary.json,result,校准覆盖面积与逐脚配对及分组汇总
 evidence/z09-replay.zip,result,校准和测试输入真值锁定预测及逐脚结果
 evidence/plane-sensitivity.json,result,恒加速度对照门线事件导数及角点输出
+visual-revision.md,section,新版图表证据映射与数据处理核验

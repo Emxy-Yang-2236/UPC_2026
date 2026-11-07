@@ -16,4 +16,4 @@
 
 摘要区分题面条件预测、合成留出验证与现场证据。新实验与当前人工依赖分别见 [实验报告](../report/coverage-and-crossing.md) 和 [当前待办](../report/next-steps.md)。
 
-[英文全文](manuscript.tex) · [数据来源与图表生成](asset-sources.json) · [导出检查](submission-checklist.md)
+[英文全文](manuscript.tex) · [图形与绘图数据](visual-data.json) · [导出检查](submission-checklist.md)

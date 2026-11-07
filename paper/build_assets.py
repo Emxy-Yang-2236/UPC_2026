@@ -1,17 +1,12 @@
-"""Build manuscript tables and figures directly from frozen research results.
+"""Build manuscript tables directly from frozen research results.
 
-Run from any directory with NumPy and Matplotlib installed. Does not rerun or
+Run from any directory using the standard library. Does not rerun or
 modify experiments. All repeated seeds remain repeated estimates of one shot.
 """
 import csv
 import hashlib
 import json
 from pathlib import Path
-
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / 'paper'
@@ -66,40 +61,9 @@ def main():
             str(results[key]['point_error_m']['n']), f"{results[key]['raw_hit']['hit']}/72",
             f"{results[key]['raw_area_m2']['mean']:.3f}", f"{results[key]['cal_hit']['hit']}/72",
             f"{results[key]['cal_area_m2']['mean']:.3f}"] for key,label in noisy])
-    plt.rcParams.update({'font.family':'DejaVu Sans', 'font.size':9, 'axes.spines.top':False,
-                         'axes.spines.right':False, 'pdf.fonttype':42, 'axes.labelcolor':'#183f4b'})
-    labels = ['10 mm coordinate bound', '+1 ms observation times', 'No wind', 'Half S lift-axis range',
-              'Half E spin range', '410 g ball', '450 g ball', '6 + 8 mm tracking noise']
-    keys = [key for key,_ in factor_names[1:]]
-    fig, ax = plt.subplots(figsize=(6.5,3.45), layout='constrained')
-    vals = [float(factors[k]['shift_from_reference_m'])*100 for k in keys]
-    ax.barh(labels, vals, color=['#247481']*7+['#aa642c'], height=.6)
-    ax.invert_yaxis(); ax.set_xlim(0,28); ax.set_xlabel('Displacement of conditional mean from nominal (cm)')
-    for i,v in enumerate(vals): ax.text(v+.35,i,f'{v:.2f}',va='center',fontsize=8)
-    ax.grid(axis='x',alpha=.18); ax.set_axisbelow(True)
-    fig.savefig(FIGURES/'sensitivity.pdf',metadata={'CreationDate':None,'ModDate':None}); plt.close(fig)
-    fig, axes = plt.subplots(1,2,figsize=(6.5,2.7),layout='constrained')
-    short = ['50 + 100','100 + 150','50 + 100 + 150']
-    colors = ['#247481','#aa642c','#6c6f89']
-    for i,(key,_) in enumerate(names):
-        m=results[key]
-        axes[0].scatter(m['time_to_goal_s']['mean']*1000,m['point_error_m']['mean']*100,s=65,c=colors[i])
-        axes[0].annotate(short[i],(m['time_to_goal_s']['mean']*1000,m['point_error_m']['mean']*100),
-                         xytext=(5,8 if i!=1 else -14),textcoords='offset points',fontsize=8)
-    axes[0].set(xlim=(255,350),ylim=(10,21),xlabel='Remaining flight time (ms)',ylabel='Mean point error (cm)')
-    axes[0].set_title('(a) Waiting costs 50 ms',loc='left',fontsize=10)
-    x=np.arange(3)
-    axes[1].bar(x,[results[k]['raw_area_m2']['mean'] for k,_ in names],color=colors,width=.6)
-    axes[1].set_xticks(x,short,rotation=12,fontsize=8)
-    axes[1].set(ylabel='Mean nominal region area (m²)',ylim=(0,.46))
-    axes[1].set_title('(b) Area and coverage',loc='left',fontsize=10)
-    for i,(key,_) in enumerate(names):
-        m=results[key]; axes[1].text(i,m['raw_area_m2']['mean']+.015,f"{m['raw_hit']['hit']}/72 hits",ha='center',fontsize=8)
-    for ax in axes: ax.grid(axis='y',alpha=.18); ax.set_axisbelow(True)
-    fig.savefig(FIGURES/'waiting-tradeoff.pdf',metadata={'CreationDate':None,'ModDate':None}); plt.close(fig)
     manifest = {s: hashlib.sha256((ROOT/s).read_bytes()).hexdigest() for s in SOURCES}
     (PAPER/'asset-sources.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8',newline='\n')
-    print(json.dumps({'tables':4,'new_figures':2,'source_files':len(manifest)}))
+    print(json.dumps({'tables':4,'source_files':len(manifest)}))
 
 
 if __name__ == '__main__':

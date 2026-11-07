@@ -53,6 +53,12 @@ Phase bound & Spatial bound & First-order \(Y\) & First-order \(Z\) & Sampled sh
 
 The quadratic can lose its plane crossing at a 3 ms timing bound. At 1 ms and 5 mm, all 192 combinations cross and the largest sampled displacement is 0.930 m. The corresponding coordinatewise linear bounds are 0.562 and 0.517 m. Larger perturbations change the root substantially, making the local derivative a poor global description. The different failure counts across spatial bounds reflect the changing discrete corners, not a monotone probability of failure. This is a reason to carry event uncertainty through the solver when propagating input uncertainty. A fixed-time error band alone cannot represent event loss.
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{event-sensitivity.pdf}
+\caption{\textbf{Input perturbations can move or remove the forward crossing.} A measures the maximum displacement among sampled corners with a root in the quadratic control. B reports the fraction of enumerated combinations without a root. These are deterministic trial fractions for the stated timing endpoints and position corners. The diagnostic considers the plane alone.}
+\label{fig:event-shift}
+\end{figure}
+
 \subsection{Covariance propagation for correlated measurements}
 Under independent coordinate noise with covariance \(\Sigma_e\) in each frame, a shared bias covariance \(\Sigma_b\), and an independent phase variance \(\sigma_\tau^2\), write \(w=\lambda_1\vv v(h)+\lambda_2\vv v(2h)\). The first-order covariance is
 \begin{equation}

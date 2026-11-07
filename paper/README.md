@@ -9,11 +9,12 @@
 ```sh
 python paper/build_assets.py
 python paper/build_revision_assets.py
+python paper/build_visuals.py
 cd paper
 tectonic manuscript.tex
 ```
 
-图表生成需要 NumPy 和 Matplotlib。已生成的图表与正文分册随仓库交付，直接编译无需 Python。旧版图表输入见 asset-sources.json，新版基准与过线扰动的输入、锁和代码哈希见复现档案。原两幅图由 paper/figures/draw.py 从冻结门面及见证轨迹数据生成。
+表格脚本只使用 Python 标准库。统一的图形入口需要 NumPy 和 Matplotlib，本轮使用 2.2.6 和 3.10.9。它重建 11 幅矢量图，并把每幅图的绘图数值、输入路径及 SHA-256 写入 [绘图数据清单](visual-data.json)。已生成的图表与正文分册随仓库交付，直接编译无需 Python。图形与证据的对应关系见 [视觉修订说明](../report/visual-revision.md)。
 
 关键结果复核：
 

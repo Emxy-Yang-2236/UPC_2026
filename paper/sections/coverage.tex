@@ -32,7 +32,7 @@ Profile & Forecast & Hits & Area (m\(^2\)) & Mean error (m) & Brier\\\midrule
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{coverage-frontier.pdf}
-\caption{Coverage and mean area of nested goal regions on the 71 test direct entries. Each marker uses a threshold fitted on a separate calibration split. Open markers denote the 90\% calibration target. Both panels show the same synthetic trajectories with different coordinate errors. The full opening is \(17.86\ \mathrm{m^2}\). Lines connect operating points for readability.}
+\caption{\textbf{Region size at equal realized coverage depends on measurement error.} A and B show held-out hits and mean area (log scale) for each independently calibrated target. Open markers indicate the 90\% target. C and D give selected operating points with the same number of hits within each profile. The late-frame curve has no sampled point at 67/71. All panels use the same 71 synthetic direct entries. The whole goal opening is \(17.86\ \mathrm{m^2}\).}
 \label{fig:frontier}
 \end{figure}
 
@@ -44,6 +44,12 @@ The two-frame point error is lower than the late-frame error by 3.80 cm on avera
 With tracking noise, the 90\% target gives 60/71 hits for two frames, 62/71 for the late frame and 69/71 for gravity. The two-frame area is smaller at this target, with lower observed coverage. At equal observed coverage of 67/71, the two-frame procedure at its 95\% target uses \(1.385\ \mathrm{m^2}\). The gravity radius at its 80\% target uses \(0.933\ \mathrm{m^2}\). These different calibration targets identify two operating points of equal test coverage. They do not imply that the two methods achieve the same coverage on future data. The two-frame mean point error exceeds the gravity error by 5.57 cm, with a paired 95\% interval of 1.17--10.25 cm. The intervals for the noisy two-frame versus late-frame point and event differences include zero.
 
 The area ordering of the two-frame model and gravity differs between these observed operating points. At \(h=50\) ms the curvature estimator magnifies millimetre-scale errors by \(h^{-2}\). A shared spatial bias persists in the second difference because the release coordinate is fixed separately. Even with its assumed likelihood supplied, the two-frame procedure must infer flight parameters from a noisier curvature signal. The gravity model keeps a fixed acceleration and avoids estimating transverse acceleration from those differences. Its relative advantage on the noisy test is consistent with that reduction in estimation variance. These tests use prescribed tracking errors.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{paired-error.pdf}
+\caption{\textbf{The point-error comparison changes when tracking error is added.} A counts the direct-entry kicks on which two-frame aerodynamics gives a smaller, equal or larger Euclidean point error than the indicated reference. B gives two-frame error minus reference error and its paired 95\% shot-bootstrap interval. Negative differences favour the two-frame aerodynamic estimate. Each row contains the same 71 kicks.}
+\label{fig:paired-error}
+\end{figure}
 
 \subsection{Availability and computational cost}
 All 71 direct entries have a defined point under all three procedures in both profiles. All 120 event probabilities per method are defined. One noisy late-frame forecast falls below the diagnostic threshold of 25 effective samples. Region thresholds near one can still make a result too broad to guide action even when the sampler returns a valid point. For example, the noisy two-frame set reaches full-goal area at the 97.5\% calibration target. The tested distribution includes shots near the goal boundary. Appendix~\ref{app:operating} reports their small denominators separately.

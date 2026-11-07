@@ -43,6 +43,7 @@
 \newcommand{\vv}[1]{\boldsymbol{#1}}
 \newcommand{\norm}[1]{\lVert #1\rVert}
 \newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+\newcommand{\reserveheadroom}{\par\ifdim\dimexpr\pagegoal-\pagetotal\relax<5\baselineskip\newpage\fi}
 
 \begin{document}
 \thispagestyle{cover}
@@ -79,7 +80,7 @@ The output is a point and a joint region on the goal plane, with a separate prob
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{problem-geometry.pdf}
-\caption{Geometry of Problem B. Left, the two prescribed positions and launch anchor in plan view. Lines between the markers are guides. The shaded interval is downfield of the last observation. Right, the \(7.32 \times 2.44\) m opening with the nominal modal cell centre and joint region. The two panels use different scales.}
+\caption{\textbf{The data end 8.04 m before the goal plane.} Plan view of the launch anchor and the two prescribed positions, with height printed beside each marker. The straight segments join the inputs as guides. Downfield and lateral axes have different visual scales.}
 \label{fig:geometry}
 \end{figure}
 
@@ -172,6 +173,12 @@ Nuisance parameters drawn from their priors cancel in the ratio; the velocity pr
 We integrate by fourth-order Runge--Kutta with steps of 25 ms through the official observations and at most 12.5 ms thereafter. Linear interpolation locates and orders plane and ground events. Across four numerical checks, including independent DOP853 integrations in SciPy~\cite{scipy}, discrepancies stayed below 0.171 mm in position and 0.038 ms in time. After summing weights by first event, we distribute the direct-entry mass across a \(30\times10\) equal-area grid. The centre of the highest-mass cell is the point forecast. Cells ranked by decreasing mass form the raw joint region once their cumulative mass reaches 90\%. Zero total weight leaves the forecast undefined. Zero direct-entry weight leaves its conditional map undefined. We monitor \(\mathrm{ESS}=1/\sum_j\bar w_j^2\) using normalized weights (and model/phase mixture contributions), flagging values below 25 for test kicks. ESS is a sampling diagnostic, not evidence of physical validity. A finite run with no accepted proposals is not a proof that the allowed parameter set is empty.
 
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{prediction-workflow.pdf}
+\caption{\textbf{From positions to a scored region.} A shows the single-kick prediction. First-event probabilities describe outcomes including ground contact, while the location map is conditional on direct entry. B shows the separate calibration and test operations in Sec.~\ref{sec:coverage}. Held-out reference positions enter only during scoring.}
+\label{fig:workflow}
+\end{figure}
+
 \section{Goal-line forecast for the prescribed hypothetical kick}
 
 \subsection{Modal cell and joint prediction region}
@@ -185,7 +192,7 @@ Together they cover \(0.3572\ \mathrm{m^2}\) and contain 90.52\% of the conditio
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{goal-forecast.pdf}
-\caption{Goal-plane location at \(x=11\) m for the prescribed hypothetical kick. The left panel locates the enlarged area within the goal. The right panel gives the conditional probability in each outlined square cell (side length 0.244 m) of the raw 90\% region. Darker shading indicates greater mass throughout.}
+\caption{\textbf{The prescribed kick concentrates in six upper-right cells.} A locates the dashed enlargement in the full opening. B shows the conditional direct-entry probability per \(0.244\) m square cell on the same colour scale as A. The outlined cells form the raw 90\% joint region. The diamond marks the modal centre. C shows the 5th, 50th and 95th percentiles of direct-entry crossing time. These are conditional predictions for the hypothetical kick.}
 \label{fig:goal}
 \end{figure}
 
@@ -215,7 +222,7 @@ This lower bound applies whenever both flights are admissible. It requires no as
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{witness-path.pdf}
-\caption{Two admissible model-S flights reconstructed from the verified launch parameters. Both pass through the same early observations to numerical precision. Right, the coordinates where they cross \(x=11\) m, enlarged at equal aspect ratio. The separation proves the lower bound through Eq.~\eqref{eq:witness}.}
+\caption{\textbf{Identical early inputs can lead to different goal-plane crossings.} A shows two admissible model-S endpoints at equal spatial scales. Their separation enters Eq.~\eqref{eq:witness}. B gives the largest coordinate gap at three candidate observation times. Under the assumed 5 mm bound per coordinate, the two possible reading boxes are disjoint when the gap exceeds 10 mm.}
 \label{fig:witnesspath}
 \end{figure}
 
@@ -247,7 +254,7 @@ The observation scale can rival the aerodynamic signal. If the release coordinat
 At \(h=50\) ms, a common 1 ms timing shift contributes \(-v\tau/h^2\) for the linear motion term, or 12 m/s\(^2\) in magnitude at 30 m/s. A translation shared by all three coordinates, including release, cancels in the second difference; a bias shared only by the two measured frames does not. This distinction prevents apparent curvature from being attributed automatically to lift.
 
 \subsection{Which assumptions move the prescribed prediction?}
-Fifteen one-factor scenarios repeat the prescribed inputs with the same two seeds and 131,072 proposals per model per seed. Table~\ref{tab:sensitivity} and Fig.~\ref{fig:sensitivity} compare the continuous conditional means to avoid confusing a grid-cell jump with a physical displacement. These are scenario changes after reconditioning on the same readings, not total-effect sensitivity indices or calibrated confidence limits.
+The nominal case and fourteen one-factor scenarios use the same two seeds and 131,072 proposals per model per seed. Table~\ref{tab:sensitivity} and Fig.~\ref{fig:sensitivity} compare continuous conditional means and nominal region areas after reconditioning on the same readings. Using the mean separates a displacement of the distribution from a grid-cell jump.
 
 \begin{table}[htbp]
 \centering\small
@@ -260,8 +267,8 @@ Changed assumption & Mean shift (cm) & Area (m\(^2\))\\\midrule
 \end{table}
 
 \begin{figure}[htbp]\centering
-\includegraphics[width=.94\linewidth]{sensitivity.pdf}
-\caption{Conditional sensitivity for the prescribed hypothetical inputs, computed from the same frozen scenario table as Table~\ref{tab:sensitivity}. Bar length is a change from nominal, not an uncertainty interval or a universal ranking of factors.}
+\includegraphics[width=\linewidth]{sensitivity.pdf}
+\caption{\textbf{Observation assumptions move the forecast and change its size.} A measures displacement from the nominal conditional mean. B shows the area of the nominal 90\% region, with the baseline area dashed. Shading groups observation scenarios. Open triangles flag runs below the prescribed-case ESS threshold of 200. Rows with no positive weight have no plotted estimate.}
 \label{fig:sensitivity}\end{figure}
 
 Doubling the coordinate bound to 10 mm moves the mean by 14.1 cm and increases the region to 0.893 m\(^2\). Adding 6 mm independent tracking error and 8 mm shared bias before rounding moves it by 23.7 cm. Within these reconditioned scenarios, removing wind shifts the mean by only 0.83 cm, while halving E's spin range shifts it by 9.08 cm. The 410--450 g endpoints are consistent with the specified match-ball mass range~\cite{ifab}; radius is held fixed, and this is not a coupled ball-size study.
@@ -269,6 +276,7 @@ Doubling the coordinate bound to 10 mm moves the mean by 14.1 cm and increases t
 Tightening the bound to 2.5 mm produces ESS 68, below the prescribed-case threshold of 200. Shifting both observation times earlier by 1 ms leaves ESS 1; either sign of a 5 ms shift yields no positive-weight samples. These cases diagnose inadequate support or sampling, not precise endpoints. Interactions among timing, noise, wind and spin remain unresolved by one-factor tests. In particular, the small wind effect is local to this conditioned example and cannot be generalized to all penalties.
 
 
+\reserveheadroom
 \input{sections/coverage.tex}
 
 \section{Applicability to an early forecast}
@@ -350,7 +358,7 @@ Frames (ms) & Mean error & $n_Q$ & Hits & Area & No event & ESS $<25$\\
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{waiting-tradeoff.pdf}
-\caption{Information--time tradeoff on the new synthetic kicks. Point errors use defined goal forecasts; remaining times use all 36 true entries. The three-frame mean uses 65/72 available points. Regions count undefined maps as empty, as in Table~\ref{tab:waiting}. Labels identify observation times in ms. No goalkeeper motion or computation latency is included.}
+\caption{\textbf{Waiting trades 50 ms for a more accurate pair of readings.} In A, point errors use defined goal forecasts and remaining time averages all 36 true entries. The three-frame mean uses 65/72 available estimates. B displays raw region area and coverage together. Undefined maps count as empty, as in Table~\ref{tab:waiting}. The simulated time window excludes computation and goalkeeper motion.}
 \label{fig:waiting}\end{figure}
 
 Waiting for the later pair lowers mean error by 5.65 cm (36 complete paired kicks; 95\% shot-bootstrap interval 2.79--8.98 cm), while mean remaining flight time falls from 321 to 271 ms. Calibrated hits increase from 61/72 to 64/72, with mean area decreasing from 0.350 to 0.177 m\(^2\). This is evidence for a conditional forecast improvement at a known 50 ms time cost, not evidence for an increased save probability.
@@ -358,24 +366,24 @@ Waiting for the later pair lowers mean error by 5.65 cm (36 complete paired kick
 At the same 150 ms cutoff, retaining the earliest frame produces six unavailable event estimates and low ESS in 46/96 attempts. Only 31 kicks have defined paired points for both seeds. On those complete pairs, three frames minus the late pair changes mean error by +0.27 cm, with interval \([-1.71,2.28]\) cm. The small three-frame region accompanies reduced raw coverage (52/72), so it is not an improvement by itself. More observations do not guarantee lower realized prediction error, even with exact inference. Here, low ESS and missing estimates identify finite-proposal concentration as a contributor; model mismatch and finite-test variation may also matter. This does not establish that the third observation is intrinsically harmful. An adaptive proposal or sequential sampler is a computational extension requiring fresh validation, not a result established here.
 
 \subsection{Distinguishing the flights with a third observation}
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=\linewidth]{trajectory-pair.pdf}
-\caption{Separation of two trajectories that reproduce both prescribed readings. Left, the largest difference along any measured axis at each candidate third observation. The dashed line marks twice the 5 mm coordinate-error bound. Right, the two goal-plane crossings on equal spatial scales.}
-\label{fig:ambig}
-\end{figure}
-
-At 150, 200 and 250 ms the largest coordinate differences are 1.35, 5.30 and 12.96 mm, respectively (Fig.~\ref{fig:ambig}). With deterministic centimetre rounding, the heights already display as 1.26 and 1.25 m at 200 ms. Under a general \(\pm5\) mm error bound, either flight can still yield the same reading at that time. Of the three times examined, only 250 ms separates this pair for every admissible error.
+At 150, 200 and 250 ms the largest coordinate differences are 1.35, 5.30 and 12.96 mm, respectively (Fig.~\ref{fig:witnesspath}B). With deterministic centimetre rounding, the heights already display as 1.26 and 1.25 m at 200 ms. Under a general \(\pm5\) mm error bound, either flight can still yield the same reading at that time. Of the three times examined, only 250 ms separates this pair for every admissible error.
 
 
 \subsection{Frames must arrive before the decision}
 A separate set of 48 synthetic kicks (16 per force family, 33 direct entries) tests acquisition under 13 camera/noise profiles. For each deadline, 50 and 100 ms, we choose the latest distinct native frame already received and no more than 10 ms old, and use its native camera timestamp relative to estimated release in inference. With 2 ms frame availability delay, 25, 60, 120 and 240 Hz supply both frames for 0, 22, 47 and 48 kicks, respectively. These counts depend on simulated camera phase and the stated age criterion; they are not general hardware specifications. At 240 Hz, increasing delay to 6 ms lowers readiness to 46/48. Predictor execution time is additional.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{capture-readiness.pdf}
+\caption{\textbf{Frame availability and timing treatment affect different stages.} A counts the 48 synthetic kicks with distinct timely frames at both deadlines. B compares a fixed release time with marginalization under the same simulated \(\pm3\) ms release offset. ESS uses all 96 attempts (48 kicks and two seeds). Raw region hits use the 66 direct-entry attempts.}
+\label{fig:capture}
+\end{figure}
 
 For regular frames without drops, the worst-case age is bounded by \(\ell+1/f\), where \(\ell\) is availability delay and \(f\) is frame rate. The 10 ms target with 2 ms delay therefore requires at least 125 Hz in this ideal periodic model. A 240 Hz pilot provides margin, but its frame interval alone brackets release only to a half-width of about 2.08 ms. A proposed 1 ms timing target needs a finer independent timing reference.
 
 For the same simulated \(\pm3\) ms release error, marginalizing that offset increases ESS-qualified estimates from 45/96 to 92/96 and raw hits from 56/66 to 61/66. Mean point error rises from 0.196 to 0.218 m and mean area from 0.377 to 0.543 m\(^2\). Wider, better-supported uncertainty can be appropriate even when the point estimate does not improve. These capture simulations specify trial targets; they do not replace an actual calibration or field measurement.
 
 
+\reserveheadroom
 \section{Compatibility with 25 Hz match tracking}
 
 \subsection{Match timing and reference crossings}
@@ -413,6 +421,12 @@ The vertical condition uses the launch prior \(v_{z,\min}=1.5\) m/s. Regensburg'
 \subsection{Forecast from the 80 ms position alone}
 With only the \(+80\) ms frame, neither seed produced positive weight for Cologne or Kaiserslautern. Both yielded a forecast for Regensburg. Its modal cell centre, \((2.074,1.098)\) m, missed the reference by 0.849 m. The raw region covered \(4.941\ \mathrm{m^2}\) and contained the reference. A second seed selected the same centre with area \(4.584\ \mathrm{m^2}\). With the same late frame, gravity and straight-line fits gave errors of 0.809 and 1.219 m. With both frames gravity gave 0.853 m for Regensburg and reached the ground first in the other two cases.
 
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{field-diagnostics.pdf}
+\caption{\textbf{Tracked crossings are available for all three cases, while the two-frame launch test fails.} A compares the minimum required acceleration with the common cap under the assumed launch conditions. B enlarges the goal face near the positive-\(Y\) post. Its numbered references are interpolated from later match frames, and the cross marks the only late-frame aerodynamic point estimate. Release synchronization and the direct first event remain unverified.}
+\label{fig:field}
+\end{figure}
+
 
 \section{Measurement limits and field validation}
 
@@ -448,10 +462,11 @@ Conditional factor sensitivity & \texttt{report/evidence/z05-factors.csv}\\
 Timing and noisy-input tests & \texttt{report/evidence/z06-summary.json}\\
 Match timing and anchor checks & \texttt{report/field.md}, \texttt{experiment/runs/Z07/}\\
 Causal acquisition simulations & \texttt{report/evidence/z08-feedback.csv}\\
-Generated tables and figures & \texttt{paper/build\_assets.py}, \texttt{build\_revision\_assets.py}\\\bottomrule
+Generated tables & \texttt{paper/build\_assets.py}, \texttt{build\_revision\_assets.py}\\
+Vector figures and plotted data & \texttt{paper/build\_visuals.py}, \texttt{visual-data.json}\\\bottomrule
 \end{tabular}\end{center}
 
-From the repository root, \texttt{python report/recheck.py}, \texttt{python report/recheck\_field.py} and \texttt{python report/recheck\_extensions.py} reconstruct the headline checks. Regenerate tables and figures with \texttt{python paper/build\_assets.py} and \texttt{python paper/build\_revision\_assets.py}, then compile \texttt{paper/manuscript.tex}. The 100 ms benchmark is replayed with \texttt{coverage\_benchmark.py}; \texttt{event\_sensitivity.py} reconstructs the crossing derivative and corner trials. The reproduction guide lists the archived inputs, source hashes, thresholds and output checks. Numerical agreement verifies the recorded computations; it does not remove the model and data limitations above.
+From the repository root, \texttt{python report/recheck.py}, \texttt{python report/recheck\_field.py} and \texttt{python report/recheck\_extensions.py} reconstruct the headline checks. Run the two table builders and \texttt{python paper/build\_visuals.py} before compiling \texttt{paper/manuscript.tex}. The visual builder exports the plotted values and SHA-256 hashes. It verifies the goal-cell mass, recomputes coverage and area from frozen test rows and joins prediction errors by kick. The 100 ms benchmark is replayed with \texttt{coverage\_benchmark.py}; \texttt{event\_sensitivity.py} reconstructs the crossing derivative and corner trials. The reproduction guide lists the archived inputs, thresholds and output checks.
 
 
 \clearpage
@@ -502,7 +517,7 @@ M. Guti\'errez-P\'erez and A. Agudo, SoccerNet-v3D: Leveraging sports broadcast 
 
 \section*{Report on the Use of AI}
 \addcontentsline{toc}{section}{Report on the Use of AI}
-OpenAI Codex assisted with the physical analysis, numerical implementation, evidence checks, and drafting and review of the English manuscript.
+OpenAI Codex assisted with the physical analysis, numerical implementation, evidence checks, figure generation and revision of the English manuscript.
 \IfFileExists{ai-verbatim.tex}
   {\input{ai-verbatim.tex}}
   {This public draft contains the disclosure only. The complete original prompts and outputs are to be appended to the submission copy from the team's interaction records.}
