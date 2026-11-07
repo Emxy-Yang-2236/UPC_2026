@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "native_anchors": 3,
+  "later_crossings": 3,
+  "certificates_checked": 3,
+  "scored_method_mask_cases": 18,
+  "conditional_model_locations_both_and_late": 1,
+  "max_absolute_tolerance": 1e-09,
+  "truncated_windows_with_identical_inputs": 3,
+  "altered_hidden_frames_with_identical_late_forecast": 3
+}

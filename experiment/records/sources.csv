@@ -6,3 +6,5 @@ S4,literature,https://pubmed.ncbi.nlm.nih.gov/23695000/,verified
 S5,data,experiment/data/raw/ball3d-status.md,pending
 S6,assumption,design/settings.json,assumed
 S7,data,experiment/data/raw/idsse-penalties/README.md,verified
+S8,data,experiment/runs/D03/README.md#ISSIA-3D,verified
+S9,data,experiment/runs/D03/README.md#StatsBomb,verified

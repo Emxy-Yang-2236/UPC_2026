@@ -3,3 +3,5 @@ C1,B2;B3,两条同观测有效力轨迹给出约 0.0438 m 的条件最坏误差�
 C2,B1;B3,"在 B-1.0 取整、风界、先验和基础网格下，名义两帧格心为 (2.562,2.074) m；90% 区面积 0.3572 m²；热点随网格改变。",S1;S2;S3;S6,experiment/runs/B03/official.json;experiment/runs/B03/official_grid.csv;experiment/runs/B03/official.png,conditional
 C3,B2,33 脚盲测门内球中覆盖 30 脚；两帧点误差中位数 0.133 m，仅限合成情景,S6,experiment/runs/B03/blind_scores.csv;experiment/runs/B03/blind_summary.json,conditional
 C4,B1;B3,固定起点与时刻且各水平坐标误差允许 ±5 mm 时，官方读数要求恒风纯阻力至少 4.3532 m/s,S1;S6,design/start.py;report/evidence/measurements.json,conditional
+C5,B1;B2,三脚 IDSSE 点球在首活球帧精确、40/80 ms 观测及冻结发球先验下均无双帧支持；锚点加 80 ms 只有一脚可报条件位置，误差 0.849 m。,S6;S7,experiment/runs/D02/support.csv;experiment/runs/D02/scores.csv;experiment/runs/D02/reference.csv,conditional
+C6,B2,ISSIA 同一录像的 47 个可评分段，120 ms 外推三维误差中位数为匀速 0.162 m、保持原位 0.996 m。StatsBomb 决赛 11 次点球中 1 次被扑终点在门线前。两项作辅助检验。,S8;S9,experiment/runs/D03/summary.json;experiment/runs/D03/README.md,conditional

@@ -1,0 +1,17 @@
+{
+  "settings_sha256": "5fdd59e015d750183ab4856760f835b96a475f6e921f2c65fb7dd94befc7758d",
+  "native_step_s": 0.04,
+  "source_sha256": {
+    "empirical_penalties.py": "f808a3bf4c15d8cead9b4ce306ade8b99c8cacb526e03bc0173df5a9c3584db9",
+    "predict.py": "cf0ab8fb059edfd1a9b5202dda7130b3e862f1702b89f10611f99b1fd1fd36ad",
+    "flight.py": "9e3324be29fe536301bf9facdf6d7bc945b1326c93d9ff4179fdf17829e8e8d0"
+  },
+  "early_artifact_sha256": {
+    "inputs.json": "7994da0f07d96e698bd77c195a7ad9f6f32e9a31b5e57e92c8030c627b9ff9e6",
+    "predictions.json": "aabc61854fc7b114b93e32657340290199f14fe17f1b50a5caf3d690b5e41d31",
+    "support.csv": "44ef2ce735e2892a65a38379f4c332d9a0ea1e137c6119ccc8f59c9a4c9a8c13"
+  },
+  "python": "3.13.9",
+  "numpy": "2.5.4",
+  "backend": "CPU float64"
+}

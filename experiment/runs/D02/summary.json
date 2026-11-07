@@ -1,0 +1,26 @@
+{
+  "source_matches": 7,
+  "penalty_windows": 3,
+  "prepared": 3,
+  "with_measured_crossing": 3,
+  "verified_release_within_10ms": 0,
+  "with_verified_direct_first_event": 0,
+  "strict_V6_eligible": 0,
+  "source_sha256": {
+    "frames.csv": "e0814ba4a0f9984bcf317a229f2897ab691cb16e474bd3857a98f024f77849b6",
+    "shots.csv": "de84b3ca51dc12b21a5ee85658996d7480b1b49567ce47e9d7ad30ab4990f80a"
+  },
+  "predicted_direct_or_conditional_points": {
+    "both": {
+      "aero": 0,
+      "line": 2,
+      "gravity": 1
+    },
+    "late": {
+      "aero": 1,
+      "line": 2,
+      "gravity": 1
+    }
+  },
+  "certified_incompatible_both": 3
+}
