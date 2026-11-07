@@ -1,0 +1,100 @@
+{
+  "source_doi": "10.6084/m9.figshare.28196177.v1",
+  "mirror": "https://huggingface.co/datasets/pysport/idsse-data/resolve/a715a38dfbaf5f58e431727c2b78d174101a703c/",
+  "matches": {
+    "J03WMX": {
+      "matchinfo": {
+        "name": "DFL_02_01_matchinformation_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+        "md5": "bc5d5b21dbcf36aa30f4cd0428309f6b",
+        "bytes": 11930
+      },
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+        "md5": "2d88e180a1f63c7e4157feb980fc7255",
+        "bytes": 776578
+      },
+      "position": {
+        "name": "DFL_04_03_positions_raw_observed_DFL-COM-000001_DFL-MAT-J03WMX.xml",
+        "md5": "e4273a2adf5dbd9d4ec42def2f01905c",
+        "bytes": 418524833,
+        "range_inclusive": [
+          414980518,
+          415140517
+        ],
+        "range_sha256": "0690e2d5658da7a75720bac3ac54cd2ec3dc049adc5c82f3c48b84721142943d"
+      }
+    },
+    "J03WN1": {
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000001_DFL-MAT-J03WN1.xml",
+        "md5": "83e8ed7ea8e8ebbbdc61f61ac3534008",
+        "bytes": 612114
+      }
+    },
+    "J03WOH": {
+      "matchinfo": {
+        "name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+        "md5": "b9710781d400dd812f62b0a6e3d7bce8",
+        "bytes": 11745
+      },
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+        "md5": "ab66e51512f39d06f49f27dd3b4c2f40",
+        "bytes": 635747
+      },
+      "position": {
+        "name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WOH.xml",
+        "md5": "3efff25a86a61768e7d253b4bba137a3",
+        "bytes": 348945715,
+        "range_inclusive": [
+          342959256,
+          343119255
+        ],
+        "range_sha256": "80fb131955eeb79421076cd67fa77792365326b20ea65e84df041fcc29fc744c"
+      }
+    },
+    "J03WOY": {
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WOY.xml",
+        "md5": "64b1be01d6ff6848168efebd56f344b9",
+        "bytes": 683018
+      }
+    },
+    "J03WPY": {
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WPY.xml",
+        "md5": "f68482441d38723d69f244f896482803",
+        "bytes": 698898
+      }
+    },
+    "J03WQQ": {
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WQQ.xml",
+        "md5": "b7e9d82af4034539d802319be6c57776",
+        "bytes": 732186
+      }
+    },
+    "J03WR9": {
+      "matchinfo": {
+        "name": "DFL_02_01_matchinformation_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+        "md5": "5e2d580d3d8ed97e32959de90d04992b",
+        "bytes": 11823
+      },
+      "events": {
+        "name": "DFL_03_02_events_raw_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+        "md5": "c13bc5efa5eca4a022cc678210b87d5f",
+        "bytes": 681050
+      },
+      "position": {
+        "name": "DFL_04_03_positions_raw_observed_DFL-COM-000002_DFL-MAT-J03WR9.xml",
+        "md5": "e060bb7d7a5a3bfbd15bbf9bc631024d",
+        "bytes": 372934140,
+        "range_inclusive": [
+          372519782,
+          372679781
+        ],
+        "range_sha256": "c62e355373d7c6a28bdd5349e879dee1085d1ddd90c3489c2e679d70cbca8e91"
+      }
+    }
+  }
+}

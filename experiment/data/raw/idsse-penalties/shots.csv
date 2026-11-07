@@ -1,0 +1,4 @@
+match_id,event_id,home,away,event_time,result,gate_x_m,first_active_frame,first_active_offset_ms,first_active_x_m,first_active_z_m,left_frame,right_frame,gate_offset_ms,gate_y_m,gate_z_m
+DFL-MAT-J03WMX,18226500001426,1. FC Köln,FC Bayern München,2023-05-27T17:10:47.960+02:00,SuccessfulShot,52.5,152600,-600,42.21,0.16,152609,152610,-200.0,2.75,0.16
+DFL-MAT-J03WOH,18232100000995,Fortuna Düsseldorf,SSV Jahn Regensburg,2022-08-26T19:54:15.640+02:00,SuccessfulShot,52.5,128954,880,41.56,0.11,128964,128965,1284.31,2.9188,1.1789
+DFL-MAT-J03WR9,18242100001386,Fortuna Düsseldorf,1. FC Kaiserslautern,2022-11-11T20:24:13.360+01:00,SuccessfulShot,52.5,176243,40,42.97,0.23,176253,176254,449.55,3.0697,0.4657
