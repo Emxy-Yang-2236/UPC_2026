@@ -1,6 +1,6 @@
 {
   "format_version": 2,
-  "title": "UPC 2026 队伍研究",
-  "stage": "analyze",
+  "title": "UPC 2026 B — 两帧预测点球",
+  "stage": "model",
   "paper_path": "paper/manuscript.md"
 }
