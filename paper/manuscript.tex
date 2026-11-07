@@ -65,7 +65,7 @@
 \leftskip=0pt \rightskip=0pt \parfillskip=0pt plus 1fil
 We use the ball's positions 50 and 100 ms after release to estimate the probability of direct entry and the most likely point of entry on the goal plane. For the prescribed kick, assuming exact release timing, centimetre rounding and horizontal wind speeds up to 3 m/s, the most probable cell is centred at \((Y,Z)=(2.56,2.07)\) m. Six cells covering \(0.3572\ \mathrm{m^2}\) contain 90.52\% of the model probability conditional on direct entry. The median crossing time is 0.399 s. Two admissible flights reproduce the same readings and cross 8.76 cm apart. For this pair the worst-case error of any point forecast is at least about 4.38 cm.
 
-We calibrated prediction regions on 90 synthetic kicks and tested them on 120 others, of which 71 entered directly. With rounding alone, the two-frame and late-frame aerodynamic forecasts both covered 70 of 71 entries at their 95\% calibration targets. Their regions averaged 0.585 and 3.482 \(\mathrm{m^2}\), respectively. A two-frame gravity model covered the same number in 1.222 \(\mathrm{m^2}\). Adding the 50 ms reading reduced mean point error by 3.80 cm relative to the late frame alone. With 6 mm independent and 8 mm shared tracking errors, both gravity and two-frame aerodynamics covered 67 of 71, at calibration targets of 80\% and 95\%, respectively. Gravity used 0.933 \(\mathrm{m^2}\); aerodynamics used 1.385 \(\mathrm{m^2}\). The three available match records lacked an independent release time, so accuracy on real penalties remains open.
+We calibrated prediction regions on 90 synthetic kicks and tested them on 120 others, of which 71 entered directly. With rounding alone, the two-frame and late-frame aerodynamic forecasts both covered 70 of 71 entries at their 95\% calibration targets. Their regions averaged 0.585 and 3.482 \(\mathrm{m^2}\), respectively. A two-frame gravity model covered the same number in 1.222 \(\mathrm{m^2}\). Adding the 50 ms reading reduced mean point error by 3.80 cm relative to the late frame alone. With 6 mm independent and 8 mm shared tracking errors, gravity and two-frame aerodynamics both covered 67 of 71, at calibration targets of 80\% and 95\%, using 0.933 and 1.385 \(\mathrm{m^2}\), respectively. In an independent test with tracking errors and a pooled 90\% target, the two-frame aerodynamic regions covered 343 of 368 direct entries overall, including 90 of 110 with stable spin. The three available match records lacked an independent release time, so accuracy on real penalties remains open.
 \end{abstract}
 \end{minipage}
 \end{center}
@@ -280,6 +280,7 @@ A tighter 2.5 mm coordinate bound leaves ESS 68, below the prescribed-case thres
 
 \reserveheadroom
 \input{sections/coverage.tex}
+\newpage
 
 \section{From a crossing forecast to a decision time}
 For the prescribed kick, the median arrival of 0.399 s leaves 299 ms after the last frame for both computation and movement. In a separate synthetic test, shifting the two observations from 50/100 to 100/150 ms reduced mean point error from 0.182 to 0.126 m and left 50 ms less time to act. Keeping all three frames at the later deadline gave more low-ESS forecasts (Appendix~\ref{sec:waiting}). To translate either forecast into a save probability, one would also need the goalkeeper's initial position, movement onset and reach.
@@ -292,9 +293,14 @@ The forecast describes an uninterrupted flight under specified aerodynamic prior
 \addcontentsline{toc}{section}{Conclusion}
 For the prescribed kick, the nominal modal cell lies at \((Y,Z)\approx(2.56,2.07)\) m. Conditional on direct entry, six cells spanning \(2.196\)--\(2.928\) m laterally and \(1.708\)--\(2.196\) m vertically contain 90.52\% of the model probability over \(0.3572\ \mathrm{m^2}\). Even flights that agree with both early readings can cross 8.76 cm apart.
 
-The 50 ms reading adds most to the forecast when the measurements resolve curvature. Under rounding alone, both aerodynamic forecasts covered 70 of 71 synthetic entries; the two-frame model used much less area. With the specified tracking errors, gravity used less area than two-frame aerodynamics at 67 of 71. Whether either result carries over to match play requires independent measurements of release timing, tracking accuracy and the crossing itself.
+With centimetre rounding, adding the 50 ms reading reduced the area needed to cover 70 of 71 entries. Under tracking noise, gravity used less area at 67 of 71. In the larger independent test, stable-spin coverage fell below the pooled 90\% target. Cleaner measurements improved point accuracy. A higher cutoff recovered missed entries by expanding the region. Match validation requires independently timed releases, calibrated early positions and reference crossings.
 
+\clearpage
 \appendix
+\makeatletter
+\def\section@appendixprefix{Appendix~}
+\renewcommand{\@seccntformat}[1]{\csname #1@appendixprefix\endcsname\csname the#1\endcsname\hspace{.55em}}
+\makeatother
 \input{sections/technical.tex}
 
 \section{Reference flights and earlier synthetic tests}
@@ -309,7 +315,7 @@ To test how the forecast responds to imperfect force laws, we generated referenc
 \]
 and a lift coefficient \(0.32\tanh(4R\norm{\vv\omega\times\vv u}/U^2)e^{-0.12t}\) acting along \(\vv\omega\times\vv u\). Launch-velocity components were independently uniform on \([20,36]\), \([-11,11]\), \([2,10]\) m/s. Wind was uniform on a horizontal disk of radius 2.5 m/s. We used equal numbers of kicks with zero spin, stable spin and a low-spin wake. Their spin-component bounds were 0, 55 and 6 rad/s. Wake flights also had a time-varying acceleration given by projecting \(A(0,\sin\phi(t),0.4\cos\phi(t))\) perpendicular to \(\vv u\). We chose \(A\in[2,5]\) m/s\(^2\), a period of 0.18--0.55 s and a uniform initial phase. Experiments motivate including unsteady low-spin forces~\cite{mizota}. The amplitudes, periods and family proportions here are synthetic.
 
-The original study used DOP853~\cite{scipy} and split whole kicks into 9 for development, 36 for calibration and 48 for blind testing. Later tests used new seeds with the same reference generator and a 1 ms RK4 step. On the original 48 DOP853 flights, RK4 reproduced every first event, with maximum differences of \(1.9\times10^{-6}\) m at the crossing and \(6.3\times10^{-7}\) s in event time. We gave each predictor only its designated early frames and saved and hashed its forecasts before scoring. These comparisons test numerical agreement and performance on the simulated kick population.
+The original study used DOP853~\cite{scipy} and split whole kicks into 9 for development, 36 for calibration and 48 for blind testing. Follow-up tests through Z09 used new seeds with the same reference force laws and a 1 ms RK4 step. Z10 used DOP853 for its new reference flights. On the original 48 DOP853 flights, RK4 reproduced every first event, with maximum differences of \(1.9\times10^{-6}\) m at the crossing and \(6.3\times10^{-7}\) s in event time. We gave each predictor only its designated early frames and saved and hashed its forecasts before scoring. These comparisons test numerical agreement and performance on the simulated kick population.
 
 On true direct entries we report Euclidean point error, region hits and mean region area. We score the probability of direct entry across first events with the Brier score \((P(G)-\mathbf1_G)^2\). We compare against a least-squares fit under gravity alone and a constant-acceleration fit through the three positions. We count missing event forecasts separately from missing conditional points.
 
@@ -445,6 +451,8 @@ Independently annotate contact in synchronized multi-view footage and record clo
 
 Use independent calibration sequences to estimate timing bias, per-axis error and cross-frame dependence in Eq.~\eqref{eq:observe}. The three existing cases can guide development. Freeze the model before testing on held-out matches. Report forecast availability among eligible kicks, point error, joint coverage and area on the same direct entries, and Brier scores on confirmed first events.
 
+A marked-ball field test can record spin and deflection together using multi-view tracking of surface markers~\cite{griffiths}. Independently time release and the crossing on the same kick to test coverage by spin.
+
 The nominal 0.399 s schedule leaves 299 ms after the 100 ms reading and only 149 ms after a 250 ms reading. A field test of additional information such as spin or wind should use the same kicks and count the time needed to obtain each measurement.
 
 \subsection{Scope of the evidence}
@@ -453,6 +461,8 @@ The wind inequality and the fitted pair establish limits under specified force a
 The ball-centre model omits deformation, finite-radius collisions with posts or crossbar, rebounds and goalkeeper contacts. Model weights depend on unmeasured priors and the empirical coefficients need not match the ball. Only the reference generator includes a low-spin wake. One-factor tests leave joint extremes unresolved. Repeated seeds change sampling variability without adding independent kicks. The sampler has been tested offline, and camera readiness alone does not measure end-to-end delivery time.
 
 A forecast should identify its decision time and input frames, report first-event probabilities, and state the point convention and joint region whenever direct-entry mass is positive. Coverage, area, sampling support and the frequency of unavailable forecasts show how much information those outputs carry.
+
+\input{sections/stable-spin.tex}
 
 \section{Reproducing the forecasts}
 The source archive records the prescribed-case inputs, seeds 8111/8117, the \(30\times10\) grid and solver tolerances. The equal-budget replay uses three seeds. The additional-frame and noise tests use truth seeds 77401/77407 and inference seeds 77501/77507. Tables and figures draw on frozen outputs, with checksums for the benchmark source and predictions. Reproducing the prescribed forecast requires no match data.
@@ -463,6 +473,7 @@ Claim or check & Package evidence\\\midrule
 Wind geometry and model assumptions & \texttt{design/}, \texttt{report/methods.md}\\
 Feasible pair and prescribed prediction & \texttt{experiment/runs/B01/}, \texttt{B03/}\\
 Equal-budget comparisons & \texttt{experiment/runs/Z04/}, \texttt{report/evidence/z09-replay.zip}\\
+Stable-spin test and calibration & \texttt{report/evidence/z10-replay.zip}\\
 Conditional factor sensitivity & \texttt{report/evidence/z05-factors.csv}\\
 Timing and noisy-input tests & \texttt{report/evidence/z06-summary.json}\\
 Match timing and anchor checks & \texttt{report/field.md}, \texttt{experiment/runs/Z07/}\\
@@ -472,6 +483,8 @@ Vector figures and plotted data & \texttt{paper/build\_visuals.py}, \texttt{visu
 \end{tabular}\end{center}
 
 From the repository root, run \texttt{python report/recheck.py}, \texttt{python report/recheck\_field.py} and \texttt{python report/recheck\_extensions.py} for the headline checks. The two table builders and \texttt{python paper/build\_visuals.py} regenerate the assets used by \texttt{paper/manuscript.tex}. The figure builder verifies the goal-cell mass, computes area and coverage from frozen scores, joins point errors by kick and records plotted values and SHA-256 hashes. The scripts \texttt{coverage\_benchmark.py} and \texttt{event\_sensitivity.py} replay the 100 ms test and the crossing-perturbation trials, respectively. The reproduction guide locates their inputs, thresholds and checks.
+
+For Z10, \nolinkurl{report/recheck_spin.py} reconstructs 12 calibration thresholds, 7,848 held-out score rows and 56 grouped summaries from the replay archive. The post hoc threshold exchange uses \nolinkurl{report/cross_spin_calibration.py} and the two replay archives.
 
 \begin{thebibliography}{99}\small
 \addcontentsline{toc}{section}{\refname}
@@ -516,6 +529,10 @@ DOI \doi{10.6084/m9.figshare.28196177.v1}.
 M. Guti\'errez-P\'erez and A. Agudo, SoccerNet-v3D: Leveraging sports broadcast replays for 3D scene understanding.
 \emph{IEEE/CVF CVPR Workshops} (2025). DOI \doi{10.1109/CVPRW67362.2025.00595}.
 \href{https://github.com/mguti97/SoccerNet-v3D/releases/tag/v1.0.0}{ISSIA-3D annotations, release 1.0.0}.
+\bibitem{griffiths}
+I. Griffiths, C. Evans and N. Griffiths, Tracking the flight of a spinning football in three dimensions.
+\emph{Measurement Science and Technology} \textbf{16}, 2056--2065 (2005).
+DOI \doi{10.1088/0957-0233/16/10/022}.
 \end{thebibliography}
 
 \section*{Report on the Use of AI}

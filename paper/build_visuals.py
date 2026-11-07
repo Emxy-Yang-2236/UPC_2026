@@ -562,6 +562,54 @@ def draw_field(v, support, references, scores):
             "late_forecast": {"event_id": late["event_id"], "yz_m": forecast, "error_m": error}})
 
 
+def draw_stable_spin(v, data):
+    """Compare family-specific coverage, then show the area cost on stable-spin kicks."""
+    groups = {(r["method"], r["calibration"], r["family"]): r for r in data["groups"]
+              if r["profile"] == "tracking"}
+    fig, (coverage, cost) = plt.subplots(1, 2, figsize=(WIDTH, 2.65))
+    fig.subplots_adjust(left=.155, right=.885, bottom=.23, top=.81, wspace=.93)
+    families = ("no_spin", "stable_spin", "wake")
+    labels = ("Zero spin", "Stable spin", "Low-spin wake")
+    plotted = {"family_coverage": [], "stable_spin_area": []}
+    for label, method, color, marker, offset in [
+        ("Two-frame aero", "nominal", TEAL, "o", -.10),
+        ("Gravity", "gravity", OCHRE, "^", .10),
+    ]:
+        for i, family in enumerate(families):
+            row = groups[method, "pooled", family]
+            hit, n = row["hits"], row["goals"]
+            rate = 100*hit/n
+            lo, hi = 100*np.asarray(row["wilson95"])
+            coverage.errorbar(rate, i+offset, xerr=[[max(0.,rate-lo)], [max(0.,hi-rate)]],
+                              marker=marker, color=color, ms=4, lw=1, capsize=2,
+                              label=label if i == 0 else None)
+            plotted["family_coverage"].append([method, family, hit, n, lo/100., hi/100.])
+    coverage.set(yticks=range(3), yticklabels=labels, ylim=(2.45,-.45),
+                 xlim=(min(50, int(min(r[-2] for r in plotted["family_coverage"])*10)*10),102),
+                 xlabel="Observed coverage (%)")
+    coverage.axvline(90, color=SLATE, ls=":", lw=.85, zorder=0)
+    coverage.legend(loc="upper left", bbox_to_anchor=(-.03,-.29), ncol=2, fontsize=7.6,
+                    handlelength=1.3, columnspacing=1.1, borderaxespad=0.)
+    panel(coverage, "A   Coverage by spin family")
+    rows = [("Pooled", "nominal", "pooled"), ("Signal strata", "nominal", "observable"),
+            ("Family maximum", "nominal", "worst_family"), ("Gravity", "gravity", "pooled")]
+    max_area = max(groups[m, rule, "stable_spin"]["mean_area_m2"] for _,m,rule in rows)
+    for i, (label, method, rule) in enumerate(rows):
+        r = groups[method, rule, "stable_spin"]
+        area = r["mean_area_m2"]
+        cost.barh(i, area, color=OCHRE if method == "gravity" else TEAL, height=.50)
+        cost.annotate(f"{r['hits']}/{r['goals']}", (area, i), xytext=(4, 0),
+                      textcoords="offset points", va="center", ha="left", fontsize=7.7, clip_on=False)
+        plotted["stable_spin_area"].append([method, rule, r["hits"], r["goals"], area])
+    cost.set(yticks=range(len(rows)), yticklabels=[r[0] for r in rows], ylim=(3.55,-.55),
+             xlim=(0, max_area*1.18), xlabel="Mean region area (m²)")
+    panel(cost, "B   Area for stable spin")
+    for ax in (coverage, cost):
+        ax.tick_params(axis="y",length=0)
+        grid(ax, "x")
+    v.save(fig, "stable-spin", [EVIDENCE+"z10-summary.json"], plotted)
+
+
 def main():
     FIGURES.mkdir(exist_ok=True)
     v = Visuals()
@@ -581,6 +629,7 @@ def main():
     draw_field(v, v.rows(EVIDENCE + "field/support.csv"), v.rows(EVIDENCE + "field/reference.csv"),
                v.rows(EVIDENCE + "field/scores.csv"))
     draw_event(v, v.json(EVIDENCE + "plane-sensitivity.json"))
+    draw_stable_spin(v, v.json(EVIDENCE + "z10-summary.json"))
     ledger = {"sources_sha256": v.sources, "figures": v.figures}
     (PAPER / "visual-data.json").write_text(json.dumps(ledger, ensure_ascii=True, indent=2) + "\n",
                                            encoding="utf-8", newline="\n")

@@ -1,29 +1,41 @@
 {
-  "pages": 24,
+  "pages": 27,
   "page_size": "US Letter",
-  "parent_revision": "46457886ed4d9a9a109e082e64ddf4a91e3850dc",
-  "requested_minimum_pages": 21,
-  "abstract_words_whitespace": 237,
-  "abstract_count_method": "PDFium, page 1 text after Abstract, whitespace tokens",
-  "numbered_vector_figures": 11,
-  "numbered_tables": 12,
+  "parent_manuscript": "bfd0c044e6d5724d649ffa8da706bce5f5eb7fd3",
+  "frozen_design": "775b41e2b38126b0e9fcc4409b8fe9c65d3fa673",
+  "frozen_predictions": "ecbb08da3f0e2a40801e04ebacddec92ab617f24",
+  "frozen_thresholds": "7b91d575f0fe434fdf7e66b8b031d56bd3a5d100",
+  "abstract_words_whitespace": 264,
+  "abstract_count_method": "PDFium, page 1 after Abstract, whitespace tokens",
+  "numbered_vector_figures": 12,
+  "numbered_tables": 13,
   "numbered_equations": 17,
-  "bibliography_entries": 10,
+  "bibliography_entries": 11,
   "all_pages_have_placeholder": true,
   "unresolved_reference_pages": [],
-  "sha256": "bdd6ba1e8c81d7abf9f8bace43372ca585af1951bc695adab31d70363435abac",
-  "bytes": 415491,
+  "sha256": "9af8eb635b9993977e1edc59d36efd469330b3b497def5a3c51df091f7978450",
+  "bytes": 449639,
   "metadata": {
     "/Creator": "LaTeX with hyperref",
     "/Title": "Predicting Penalty Trajectories: What Two Early Positions Can Resolve",
     "/Producer": "xdvipdfmx (0.1)",
-    "/CreationDate": "D:20261107140112-00'00'"
+    "/CreationDate": "D:20261107144308-00'00'"
   },
   "portable_page_text_equal": true,
-  "visual_ledger_sha256": "ef4551e5a24557d063b73a1363749b4a4033db8f4f27194b7d17da7d6129d40c",
-  "visual_source_files": 15,
+  "visual_ledger_sha256": "fdf5a82442a46ebbda712dfb082b8ae957719dce06ee5f39364ac9fdf3ecd616",
+  "visual_source_files": 16,
+  "frozen_experiment_report": "bff1160a77c73be688abd7de02a6e5ccf4179c3d",
   "rebuild_reproduces_figure_hashes": true,
-  "other_ten_figures_and_table_inputs_unchanged": true,
-  "experiments_rerun_for_this_revision": false,
+  "previous_eleven_figures_unchanged": true,
+  "z10_figure_page": 13,
+  "stable_spin_main_text_and_figure_pages": [
+    12,
+    13
+  ],
+  "stable_spin_appendix_pages": [
+    24,
+    25
+  ],
+  "z10_full_run_and_clean_directory_replay": true,
   "status": "review_draft_team_id_and_full_ai_appendix_pending"
 }

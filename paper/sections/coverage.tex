@@ -1,10 +1,10 @@
-\section{What the 50 ms reading adds at 100 ms}
+\section{Testing the two-frame forecast at 100 ms}
 \label{sec:coverage}
 
 \subsection{Paired forecasts at a common deadline}
 At 100 ms both aerodynamic predictors know the latest ball position. We give one of them the 50 ms reading as well. Both start computing at 100 ms with the same priors, force laws and solver. Each draws 8,192 proposals per force model, propagates up to 512 positive-weight samples per model and reports the centre of the most probable goal cell. A gravity-only control uses both readings, predicts a continuous ballistic crossing and assigns direct entry a probability of zero or one.
 
-We generated 90 calibration kicks and 120 test kicks with fresh random seeds. The reference solver used a 1 ms step and different force laws from the predictor, with balanced blocks of zero-spin, stable-spin and low-spin wake trajectories (Appendix~\ref{app:reference}). We calibrated the regions on 55 direct entries and scored locations on the 71 test entries. All 120 test kicks contributed to the event scores.
+In the first test (Z09) we generated 90 calibration kicks and 120 test kicks with fresh random seeds. The reference solver used a 1 ms step and different force laws from the predictor, with balanced blocks of zero-spin, stable-spin and low-spin wake trajectories (Appendix~\ref{app:reference}). We calibrated the regions on 55 direct entries and scored locations on the 71 test entries. All 120 test kicks contributed to the event scores.
 
 We rounded each kick's exact coordinates to the nearest centimetre. For a second set of readings, we first added independent Gaussian errors in each frame (6 mm standard deviation per coordinate) and a Gaussian bias shared by both frames (8 mm standard deviation per coordinate). Release position and frame times were exact in both sets. For noisy readings the predictor used the same error model as the generator. Appendix~\ref{app:event} treats timing errors separately.
 
@@ -18,7 +18,7 @@ For each method and measurement condition, calibration sets a threshold for incl
 \end{equation}
 An empty cell scores one. For gravity, a cell whose centre lies distance \(d_j\) from the ballistic crossing scores \(d_j/(L+d_j)\), where \(L\) is the goal diagonal. Thresholding this score amounts to choosing a radius about the crossing. If the map or ballistic crossing is unavailable, every cell receives a score of one.
 
-For a target coverage \(c\), sort the scores of the 55 true calibration cells and take the \(\lceil(55+1)c\rceil\)-th smallest as \(q_c\). Include all cells with \(S_D(j)\le q_c\). If the rank exceeds 55, set \(q_c=1\). Whenever \(q_c=1\), the region covers the whole goal. This split-calibration rule gives marginal coverage under exchangeability~\cite{lei}. Our test measures the hit rate on the specified, block-balanced synthetic population. Coverage on real kicks requires independent field data.
+For a target coverage \(c\) and \(n\) calibration entries, sort the scores of their true cells and take the \(\lceil(n+1)c\rceil\)-th smallest as \(q_c\). Include all cells with \(S_D(j)\le q_c\). If the rank exceeds \(n\), set \(q_c=1\). Whenever \(q_c=1\), the region covers the whole goal. This split-calibration rule gives marginal coverage under exchangeability~\cite{lei}. Our test measures the hit rate on the specified, block-balanced synthetic population. Coverage on real kicks requires independent field data.
 
 \begin{table}[htbp]
 \centering\small
@@ -58,3 +58,17 @@ Estimating acceleration from the readings divides the second position difference
 Each method produced a point for all 71 direct entries and an event probability for all 120 kicks under both measurement conditions. Only one run, a noisy late-frame forecast, fell below 25 effective samples. Even with a defined point, the noisy two-frame region filled the entire goal at its 97.5\% target. Appendix~\ref{app:operating} gives the counts near the goal edge.
 
 In the local Python run, two-frame inference and goal-map construction took 84 ms at the median and 94 ms at the 95th percentile with rounding alone. With tracking errors the times were 121 and 131 ms. At the test sampling budget, 131 ms is about 44\% of the nominal 299 ms remaining after the last reading. Capture, reconstruction, transfer and goalkeeper movement require additional time, and the crossing time varies by kick.
+
+\subsection{Stable spin in an independent test}
+\label{sec:stable-spin}
+The 12/23 aerodynamic hits on noisy stable-spin entries in Z09 prompted a second test (Z10). We drew 300 new calibration kicks and 600 new test kicks, balanced by the same three spin families, and used DOP853 to generate the reference positions and first events. Each predictor saw only the 50 and 100 ms readings. We locked the forecasts, fitted a 90\% threshold for each method on the 180 calibration entries pooled across families (rank 163), then scored the held-out crossings.
+
+With tracking errors, two-frame aerodynamics covered 343/368 direct entries overall (93.2\%) and 90/110 with stable spin (81.8\%). The stable-spin group accounted for 20 of the 25 misses (Fig.~\ref{fig:stable-spin}A). Gravity covered 77/110 stable-spin entries. Aerodynamics alone covered 31 and gravity alone covered 18, a paired difference of \(+11.8\) percentage points (95\% interval 0.0 to \(+23.6\)). The mean areas were \(1.019\) and \(0.845\ \mathrm{m^2}\), respectively. In a \emph{post hoc} check, we exchanged the previously fitted Z09 and Z10 thresholds. With both forecasts fixed for each of these 110 kicks, the Z09 thresholds gave 78 aerodynamic and 94 gravity hits. Changing only to the Z10 thresholds reversed the order to 90 and 77. On the original 23 entries gravity led under either pair of thresholds (Appendix~\ref{app:stable-spin}).
+
+Cleaner measurements improved the point forecast. On these 110 kicks, centimetre rounding alone, with a matching likelihood and calibration, reduced mean aerodynamic point error from 0.421 to 0.258 m and raised coverage to 100/110. Keeping the noisy observations and halving the prior ranges for S's transverse-force coefficient and E's spin vector gave a mean error of 0.379 m, with 94/110 hits in \(0.579\ \mathrm{m^2}\) after calibration. We could also expand the original noisy regions by applying the largest of the three family cutoffs to every kick. This rule needs spin labels only in calibration. It recovered 15 stable-spin entries (105/110) at a mean area of \(1.843\ \mathrm{m^2}\). Adjusting the cutoff changes which cells enter the region. The point prediction and event probability still come from the original forecast.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{stable-spin.pdf}
+\caption{\textbf{Two-frame regions under tracking noise in Z10.} A shows coverage and 95\% Wilson intervals for 127 zero-spin, 110 stable-spin and 131 low-spin wake entries. Each method uses its own pooled cutoff. The dotted line marks the 90\% calibration target. B gives mean areas and hit counts on the 110 stable-spin entries. The first three bars apply a pooled cutoff, cutoffs by measured curvature, or the largest family cutoff to the same aerodynamic maps. Gravity uses its own pooled radius.}
+\label{fig:stable-spin}
+\end{figure}

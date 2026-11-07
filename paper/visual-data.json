@@ -1,11 +1,11 @@
 {
   "sources_sha256": {
     "design/settings.json": "5fdd59e015d750183ab4856760f835b96a475f6e921f2c65fb7dd94befc7758d",
+    "experiment/runs/B01/pair.json": "641c17e5807ce49539c08d47e920ede1ce2c638328e9dfd938202cb7fc2e3422",
     "experiment/src/coverage_benchmark.py": "fb097d65d08f8027babfb99df5db9d18f2aa68dd98b18ab855c9bc24c2ee3ff8",
     "experiment/src/predict.py": "304a117964f58f9a7c6571422593c9b0d8b9a6e451dba26ee780c05c230eee37",
     "report/evidence/measurements.json": "374e2f6b4ea50cc82097de4ed2ea437c575475b547e53759948c6b4cc8943755",
     "report/evidence/grid.csv": "d096007181a91a87137ccc4323ac7e2abe3ffdb5ad336d10abb5954bdbbb9cfa",
-    "experiment/runs/B01/pair.json": "641c17e5807ce49539c08d47e920ede1ce2c638328e9dfd938202cb7fc2e3422",
     "report/evidence/z05-factors.csv": "851e3cae67432ddbed2823832e0272577254623c4913e27d15301624d9364d10",
     "report/evidence/z09-summary.json": "d6a852ac10d9b7ff82632419de00e358b3f778788ce5186d7ac19da7d6d4b05f",
     "report/evidence/z09-replay.zip": "25d19713589fb417608440b0892492767a21c5edbbe4944010a9ab4cb2c739c7",
@@ -14,7 +14,8 @@
     "report/evidence/field/support.csv": "44ef2ce735e2892a65a38379f4c332d9a0ea1e137c6119ccc8f59c9a4c9a8c13",
     "report/evidence/field/reference.csv": "afe5237ef64ca8df6609483de41c8f0e6e1bb33f292f7ff853f29abbc60555ff",
     "report/evidence/field/scores.csv": "a897dd84055dee3d2833f910f5c7b263534ba0992ac5e84bd241511f526a53b3",
-    "report/evidence/plane-sensitivity.json": "295a117bf9d1f2d9a0605487c928954449de78dae808b4bc6f449f72af798a66"
+    "report/evidence/plane-sensitivity.json": "295a117bf9d1f2d9a0605487c928954449de78dae808b4bc6f449f72af798a66",
+    "report/evidence/z10-summary.json": "47dbd9f72efd7a8b8fba1f8f70f921f91fdd6b14f521a8a9b19d53b18c1790b3"
   },
   "figures": {
     "problem-geometry.pdf": {
@@ -1984,6 +1985,94 @@
             ],
             "tested_max_distance_m": 4.486659880147803
           }
+        ]
+      }
+    },
+    "stable-spin.pdf": {
+      "sha256": "e4f9b7cab131535844e33e39251ebb9c9f1e53b7c5d07bc1d99d56d762875917",
+      "sources": [
+        "report/evidence/z10-summary.json"
+      ],
+      "plotted": {
+        "family_coverage": [
+          [
+            "nominal",
+            "no_spin",
+            126,
+            127,
+            0.9567459918704192,
+            0.9986086879585553
+          ],
+          [
+            "nominal",
+            "stable_spin",
+            90,
+            110,
+            0.7357859471105189,
+            0.8791042758815596
+          ],
+          [
+            "nominal",
+            "wake",
+            127,
+            131,
+            0.9241193283504472,
+            0.9880630306639255
+          ],
+          [
+            "gravity",
+            "no_spin",
+            127,
+            127,
+            0.9706403547062379,
+            0.9999999999999999
+          ],
+          [
+            "gravity",
+            "stable_spin",
+            77,
+            110,
+            0.6088013903272301,
+            0.7777010355535049
+          ],
+          [
+            "gravity",
+            "wake",
+            131,
+            131,
+            0.9715112929340068,
+            0.9999999999999997
+          ]
+        ],
+        "stable_spin_area": [
+          [
+            "nominal",
+            "pooled",
+            90,
+            110,
+            1.0186068363636365
+          ],
+          [
+            "nominal",
+            "observable",
+            80,
+            110,
+            1.0012872727272728
+          ],
+          [
+            "nominal",
+            "worst_family",
+            105,
+            110,
+            1.8429098181818189
+          ],
+          [
+            "gravity",
+            "pooled",
+            77,
+            110,
+            0.8454112
+          ]
         ]
       }
     }

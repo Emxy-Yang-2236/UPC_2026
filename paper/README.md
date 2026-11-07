@@ -1,10 +1,10 @@
 # B 题英文论文整合稿
 
-[阅读 PDF](manuscript.pdf) · [编辑 LaTeX](manuscript.tex) · [修订说明与人工依赖](../report/paper-revision.md)
+[阅读 PDF](manuscript.pdf) · [编辑 LaTeX](manuscript.tex) · [稳定旋转球实验报告与复现](../report/stable-spin.md)
 
-本分支从队友稿 `4645788` 接续。图 1 用题给三维坐标和已归档的样例 A 表示观测、未观测球路、门线交点与离脚受力。[独立矢量图](figures/problem-geometry.pdf) · [作图实现](flight_schematic.py)
+研究分支从三维修订稿 `bfd0c04` 接续。图 1 用题给三维坐标和已归档的样例 A 表示观测、未观测球路、门线交点与离脚受力。[独立矢量图](figures/problem-geometry.pdf) · [作图实现](flight_schematic.py)
 
-本稿按 [历届获奖稿对照](../report/upc-award-strategy.md) 重排正文。主文集中于题面算例、物理不可辨识性和 [Z09 固定 100 ms 验证](../report/coverage-and-crossing.md)。附录给过线事件误差传播、完整的覆盖与面积数据、早期验证及现场采集条件。
+本稿按 [历届获奖稿对照](../report/upc-award-strategy.md) 重排正文。主文集中于题面算例、物理不可辨识性和 [Z09 固定 100 ms 验证](../report/coverage-and-crossing.md)。Z10 用独立射门检验带噪稳定旋转球，并交叉使用 Z09 和 Z10 的校准阈值。附录给过线事件误差传播、完整的覆盖与面积数据、早期验证及现场采集条件。
 
 在仓库根目录生成新增图表，再编译：
 
@@ -16,7 +16,7 @@ cd paper
 tectonic manuscript.tex
 ```
 
-表格脚本只使用 Python 标准库。统一的图形入口需要 NumPy 和 Matplotlib，原有图形使用 NumPy 2.2.6 与 Matplotlib 3.10.9，本轮三维图使用 NumPy 2.3.5 与 Matplotlib 3.10.9。它重建 11 幅矢量图，并把每幅图的绘图数值、输入路径及 SHA-256 写入 [绘图数据清单](visual-data.json)。已生成的图表与正文分册随仓库交付，直接编译无需 Python。图形与证据的对应关系见 [视觉修订说明](../report/visual-revision.md)。
+表格脚本只使用 Python 标准库。本稿用 NumPy 2.3.5 与 Matplotlib 3.10.9 重绘全部 12 幅矢量图。绘图清单记录每幅图的数值、输入路径和 SHA-256。图表和各章 TeX 随仓库交付，直接编译论文只需 TeX。[绘图数据清单](visual-data.json) · [视觉修订说明](../report/visual-revision.md)
 
 关键结果复核：
 
@@ -24,6 +24,7 @@ tectonic manuscript.tex
 python report/recheck.py
 python report/recheck_field.py
 python report/recheck_extensions.py
+python report/recheck_spin.py --run report/evidence/z10-replay.zip
 python design/start.py
 ```
 
