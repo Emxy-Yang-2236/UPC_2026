@@ -1,3 +1,4 @@
 path,role,description
+outline.md,section,B 题最终研究提纲与整体论证顺序
 settings.json,input,B-1.0 官方样例和冻结的物理及统计设置
 start.py,code,无第三方依赖的几何判据与冷启动检查
