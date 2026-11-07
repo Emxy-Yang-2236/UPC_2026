@@ -1,1 +1,2 @@
 id,requirement_ids,statement,source_ids,artifact_paths,status
+C1,B2;B3,两条同观测有效力轨迹给出约 0.0438 m 的条件最坏误差下界,S1;S6,experiment/runs/B01/pair.json;experiment/runs/B01/matlab.json,validated

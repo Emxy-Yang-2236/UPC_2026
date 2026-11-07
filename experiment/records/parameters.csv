@@ -1,1 +1,8 @@
 symbol,value,unit,role,source_ids
+x_gate,11,m,forward gate,S1
+r0_z,0.11,m,initial ball centre,S1
+times,0.05;0.10,s,observation times,S1
+g,9.81,m/s^2,scenario constant,S6
+rounding_step,0.01,m,observation scenario,S6
+wind_cap,3,m/s,forecast prior support,S6
+model_prior,0.2;0.4;0.4,1,D S E scenario frequencies,S6

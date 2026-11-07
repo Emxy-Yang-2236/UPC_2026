@@ -1,1 +1,2 @@
 id,claim_ids,method,criterion,result,artifact_paths,status
+V01,C1,SciPy DOP853+RK45 与独立 MATLAB ode45,早期残差<1e-6 m 且门面差≤0.003 m 时间差≤0.0002 s,两条轨迹通过且 MATLAB 最大门面差 1.32e-13 m,experiment/runs/B01/pair.json;experiment/runs/B01/matlab.json,passed

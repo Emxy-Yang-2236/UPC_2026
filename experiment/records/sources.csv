@@ -1,1 +1,7 @@
 id,kind,locator,status
+S1,official,https://uphysicsc.com/2026contest.html,verified
+S2,experiment,https://doi.org/10.1088/0143-0807/31/4/007,verified
+S3,experiment,https://doi.org/10.1088/1361-6404/aa6fcd,verified
+S4,experiment,https://pubmed.ncbi.nlm.nih.gov/23695000/,verified
+S5,dataset,https://github.com/lukaszgrad/ball3d/blob/bba36a2cc8415701134b1f25a9c31602dde8d953/DATA.md,metadata_verified_access_pending
+S6,scenario,design/settings.json,frozen
