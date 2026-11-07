@@ -1,6 +1,6 @@
 # UPC 2026 B · 规则与写作交接
 
-核实日期 2026-11-07。题号 B，队号由队伍在私有定稿时填入。官方起赛为 11 月 6 日 18:00 MST（UTC−7），比赛时长 48 h，收件截止换算为 **11 月 9 日 09:00 北京时间（UTC+8）**。[当届安排与 B 题](https://uphysicsc.com/2026contest.html) · [正式规则第 5、6 节](https://www.uphysicsc.com/contestrules.html)
+核实日期 2026-11-07。题号 B，队号 720，正式附件名为 `720B.pdf`。官方起赛为 11 月 6 日 18:00 MST（UTC−7），比赛时长 48 h，收件截止换算为 **11 月 9 日 09:00 北京时间（UTC+8）**。[当届安排与 B 题](https://uphysicsc.com/2026contest.html) · [正式规则第 5、6 节](https://www.uphysicsc.com/contestrules.html)
 
 英文、全文匿名、每页顶部列队号；首页仅含队号、题号、标题和至多 300 词的摘要。正文从次页开始，解释假设、算法、方法、结果与局限。论文写作使用生成式 AI 时，在文末按规则列实际系统、原提问及完整可见输出。最终文件作为附件送达，队号出现在文件名（加 B）、邮件主题及正文。队员在赛内自行处理正式提交。[官方规则](https://university-physics-competition.com/contest-rules)
 
