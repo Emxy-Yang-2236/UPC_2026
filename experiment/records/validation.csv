@@ -1,7 +1,9 @@
 id,claim_ids,method,criterion,result,artifact_paths,status
 V01,C1,SciPy DOP853+RK45 与独立 MATLAB ode45,早期残差<1e-6 m 且门面差≤0.003 m 时间差≤0.0002 s,两条轨迹通过且 MATLAB 最大门面差 1.32e-13 m,experiment/runs/B01/pair.json;experiment/runs/B01/matlab.json,pass
-V02,C2;C3,独立 DOP853 和真空解析并检查首事件,位置差≤3 mm 时间差≤0.2 ms 事件相同,4/4 通过,experiment/runs/B02/solver_checks.json,pass
-V03,C2;C3,门柱边界、帧掩码、证据归一化等结构性对照,全部为 true,6/6 通过,experiment/runs/B02/structural_checks.json,pass
-V04,C3,保存预测后按独立生成器逐脚揭盲并评分,记录真实门内分母和所有预报失败,48 脚中 33 脚门内；两帧预报无缺失,experiment/runs/B02/blind_lock.json;experiment/runs/B02/blind_scores.csv,pass
-V05,C2,固定先验敏感性、两种子与格网移动,区分名义格与稳健热点,两个种子同格；移动半格后改变位置,experiment/runs/B02/official.json,pass
+V02,C2;C3,独立 DOP853 和真空解析并检查首事件,位置差≤3 mm 时间差≤0.2 ms 事件相同,4/4 通过,experiment/runs/B03/solver_checks.json,pass
+V03,C2;C3,门柱边界、帧掩码、证据归一化等结构性对照,全部为 true,6/6 通过,experiment/runs/B03/structural_checks.json,pass
+V04,C3,保存预测后按独立生成器逐脚揭盲并评分,记录真实门内分母和所有预报失败,48 脚中 33 脚门内；两帧预报无缺失,experiment/runs/B03/blind_lock.json;experiment/runs/B03/blind_scores.csv,pass
+V05,C2,固定先验敏感性、两种子与格网移动,区分名义格与稳健热点,两个种子同格；移动半格后改变位置,experiment/runs/B03/official.json,pass
 V06,C3,实测点球轨迹筛查与独立过线评分,先核实点球 origin、受控帧、直接过线真值和分组,仅核实数据文档；标注下载需登录；实测精度待验,experiment/data/raw/ball3d-status.md,pending
+V07a,C3,B02 校准分位数等号边界,晚帧至少包含第 18 项,当时 17/19；已由 V07b 替代，留作实现失效记录,experiment/runs/B02/calibration.json;experiment/results/README.md,fail
+V07b,C3,B03 统一前缀累积后复算全部原始脚,"全部掩码达到 min(k,n) 且检查受影响的分数",校准包含数为 19/18/18/18；两批盲测分数与官方预测逐字节相同,experiment/runs/B03/calibration.json;experiment/runs/B03/blind_scores.csv;experiment/runs/B02/blind_scores.csv,pass

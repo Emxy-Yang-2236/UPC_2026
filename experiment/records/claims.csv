@@ -1,4 +1,4 @@
 id,requirement_ids,statement,source_ids,artifact_paths,status
 C1,B2;B3,两条同观测有效力轨迹给出约 0.0438 m 的条件最坏误差下界,S1;S6,experiment/runs/B01/pair.json;experiment/runs/B01/matlab.json,conditional
-C2,B1;B3,"在 B-1.0 取整、风界、先验和基础网格下，名义两帧格心为 (2.562,2.074) m；90% 区面积 0.3572 m²；热点随网格改变。",S1;S2;S3;S6,experiment/runs/B02/official.json;experiment/runs/B02/official_grid.csv;experiment/runs/B02/official.png,conditional
-C3,B2,33 脚盲测门内球中覆盖 30 脚；两帧点误差中位数 0.133 m，仅限合成情景,S6,experiment/runs/B02/blind_scores.csv;experiment/runs/B02/blind_summary.json,conditional
+C2,B1;B3,"在 B-1.0 取整、风界、先验和基础网格下，名义两帧格心为 (2.562,2.074) m；90% 区面积 0.3572 m²；热点随网格改变。",S1;S2;S3;S6,experiment/runs/B03/official.json;experiment/runs/B03/official_grid.csv;experiment/runs/B03/official.png,conditional
+C3,B2,33 脚盲测门内球中覆盖 30 脚；两帧点误差中位数 0.133 m，仅限合成情景,S6,experiment/runs/B03/blind_scores.csv;experiment/runs/B03/blind_summary.json,conditional
