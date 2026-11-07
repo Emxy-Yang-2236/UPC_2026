@@ -1,0 +1,288 @@
+{
+  "geometry": {
+    "coordinate_halfwidth_m": 0.005,
+    "equally_spaced_step_s": 0.05,
+    "wind_cap_m_s": 3,
+    "collinearity_threshold_m_s": {
+      "central": 14.849242404917497,
+      "rounded_infimum": 4.353206974048545,
+      "limiting_closed_corner_xy_m": [
+        [
+          1.505,
+          0.445
+        ],
+        [
+          2.955,
+          0.865
+        ]
+      ],
+      "maximum_signed_determinant_at_or_below_cap_m2": -0.004087715519804323
+    },
+    "chord_normal": {
+      "definition": "Left normal to the 0--100 ms horizontal air chord; mean net acceleration weighted by min(t,2h-t)/h\u00b2.",
+      "central_still_air": {
+        "chord_heading_deg": 16.200722996472457,
+        "wind_m_s": [
+          0.0,
+          -0.0
+        ],
+        "triangular_mean_horizontal_acceleration_m_s2": [
+          -16.00000000000001,
+          -16.00000000000001
+        ],
+        "negative_normal_component_m_s2": 10.90059106334372,
+        "midframe_displacement_along_positive_normal_m": 0.013625738829179668
+      },
+      "central_least_magnitude_with_wind": {
+        "chord_heading_deg": 21.785973964761872,
+        "wind_m_s": [
+          1.1134215919023307,
+          -2.7857301302684867
+        ],
+        "triangular_mean_horizontal_acceleration_m_s2": [
+          -16.00000000000001,
+          -16.00000000000001
+        ],
+        "negative_normal_component_m_s2": 8.918978871286173,
+        "midframe_displacement_along_positive_normal_m": 0.01114872358910779
+      },
+      "rounded_infimum_with_wind": {
+        "chord_heading_deg": 21.90746890400813,
+        "wind_m_s": [
+          1.1193261879774434,
+          -2.7833628733795894
+        ],
+        "triangular_mean_horizontal_acceleration_m_s2": [
+          -21.999999999999883,
+          -10.000000000000007
+        ],
+        "negative_normal_component_m_s2": 1.0694841994307644,
+        "midframe_displacement_along_positive_normal_m": 0.0013368552492883934
+      },
+      "rounding_limiting_closed_corner_xy_m": [
+        [
+          1.505,
+          0.445
+        ],
+        [
+          2.955,
+          0.865
+        ]
+      ]
+    },
+    "non_drag_acceleration_certificate": {
+      "scope": "Nominal D/S/E parameter ranges and constant wind. The negative chord-normal non-drag acceleration has at least the stated value at some time in the first 100 ms, and on average under the trajectory-specific positive Dirichlet Green kernel at the middle frame.",
+      "air_speed_cap_m_s": 45.321053217188776,
+      "drag_rate_cap_per_s": 1.8534138743564914,
+      "lower_fraction_of_chord_magnitude": 0.9073293062821755,
+      "central_lower_bound_m_s2": 8.092450912029463,
+      "rounded_lower_bound_m_s2": 0.9703743567492633
+    }
+  },
+  "timing_control": {
+    "scope": "First forward plane roots of a constant-acceleration control; scenario values.",
+    "crossing_s": 0.405008361227395,
+    "gate_speed_x_m_s": 23.919866220361648,
+    "generated_readings_fixed_time_derivative_x_m_s": -634.4256861379826,
+    "generated_readings_crossing_derivative_s_per_s": 26.52296130310007,
+    "fixed_readings_reassigned_times_crossing_derivative_s_per_s": -26.52296130310007,
+    "offset_ms": [
+      -1,
+      0,
+      1
+    ],
+    "generate_at_shifted_times_fit_at_nominal_crossing_s": [
+      0.38233898521054016,
+      0.405008361227395,
+      0.437647496057198
+    ],
+    "keep_readings_fit_at_shifted_times_crossing_s": [
+      0.43918911302193386,
+      0.405008361227395,
+      0.38306805526589893
+    ]
+  },
+  "exact_fit_witnesses": [
+    {
+      "beta_x_magnitudes_per_s": 0.5,
+      "fits": [
+        {
+          "velocity0_m_s": [
+            30.41551974416947,
+            9.413055352685879,
+            6.912833807648177
+          ],
+          "kappa_per_m": 0.020071214267228972,
+          "beta_per_s": [
+            -0.5,
+            -0.20564659070289734,
+            -0.46349110815968314
+          ],
+          "max_early_residual_m": 4.4986236957811343e-13,
+          "arrival_s": 0.40054254300171793,
+          "goal_yz_m": [
+            2.5737791002561945,
+            2.002506344971834
+          ],
+          "goal_solver_difference_m": 1.9626381825558957e-13
+        },
+        {
+          "velocity0_m_s": [
+            30.415426958721756,
+            9.420333530227174,
+            6.903145383782936
+          ],
+          "kappa_per_m": 0.020070468647372688,
+          "beta_per_s": [
+            0.5,
+            0.08474764612823459,
+            -0.25073694620971176
+          ],
+          "max_early_residual_m": 3.4772185131259903e-13,
+          "arrival_s": 0.4005161981560539,
+          "goal_yz_m": [
+            2.6283099300789385,
+            1.9339570305513887
+          ],
+          "goal_solver_difference_m": 2.0759923748532154e-13
+        }
+      ],
+      "separation_m": 0.08759349238767775,
+      "minimax_lower_bound_from_this_pair_m": 0.04379674619383887
+    },
+    {
+      "beta_x_magnitudes_per_s": 0.8,
+      "fits": [
+        {
+          "velocity0_m_s": [
+            30.41556927644572,
+            9.410825171478232,
+            6.915704621660682
+          ],
+          "kappa_per_m": 0.020071437919538398,
+          "beta_per_s": [
+            -0.8,
+            -0.2927885247537366,
+            -0.527286236139135
+          ],
+          "max_early_residual_m": 6.266098750984384e-13,
+          "arrival_s": 0.4005909089987238,
+          "goal_yz_m": [
+            2.5600178837757754,
+            2.0248752702521147
+          ],
+          "goal_solver_difference_m": 1.7279693195502026e-13
+        },
+        {
+          "velocity0_m_s": [
+            30.415420820689334,
+            9.422470043384465,
+            6.900203422874948
+          ],
+          "kappa_per_m": 0.020070244905863257,
+          "beta_per_s": [
+            0.8,
+            0.17184225539556255,
+            -0.1868795760010153
+          ],
+          "max_early_residual_m": 3.8813396940895473e-13,
+          "arrival_s": 0.4005488080814276,
+          "goal_yz_m": [
+            2.6470730878808397,
+            1.9154489265161336
+          ],
+          "goal_solver_difference_m": 2.0009114392447032e-13
+        }
+      ],
+      "separation_m": 0.13983108833589003,
+      "minimax_lower_bound_from_this_pair_m": 0.06991554416794502
+    }
+  ],
+  "match_records": [
+    {
+      "match_id": "DFL-MAT-J03WMX",
+      "times_from_first_live_s": [
+        0.0,
+        0.04,
+        0.08
+      ],
+      "x_from_spot_m": [
+        0.71,
+        1.89,
+        3.04
+      ],
+      "x_increments_m": [
+        1.18,
+        1.1500000000000001
+      ],
+      "signed_second_x_difference_m": -0.029999999999999805,
+      "min_abs_ax_m_s2": 9.374999999999877,
+      "min_acceleration_all_necessary_tests_m_s2": 106.24999999999999,
+      "acceleration_ceiling_m_s2": 102.64786320791185,
+      "gate_time_from_first_live_s": 0.4,
+      "late_only_gate_errors_m": {}
+    },
+    {
+      "match_id": "DFL-MAT-J03WOH",
+      "times_from_first_live_s": [
+        0.0,
+        0.04,
+        0.08
+      ],
+      "x_from_spot_m": [
+        0.06,
+        0.77,
+        1.99
+      ],
+      "x_increments_m": [
+        0.71,
+        1.22
+      ],
+      "signed_second_x_difference_m": 0.51,
+      "min_abs_ax_m_s2": 309.375,
+      "min_acceleration_all_necessary_tests_m_s2": 309.375,
+      "acceleration_ceiling_m_s2": 102.64786320791185,
+      "gate_time_from_first_live_s": 0.40431372549019606,
+      "late_only_gate_errors_m": {
+        "aero": 0.8486902238843553,
+        "line": 1.2186108243303821,
+        "gravity": 0.8092379702739139
+      },
+      "middle_time_shift_examples_not_estimates": {
+        "linearization_at_30_m_s_ms": -8.5,
+        "uniform_speed_from_endpoints_m_s": 24.125,
+        "exact_offset_for_uniform_endpoint_speed_ms": -10.569948186528498
+      }
+    },
+    {
+      "match_id": "DFL-MAT-J03WR9",
+      "times_from_first_live_s": [
+        0.0,
+        0.04,
+        0.08
+      ],
+      "x_from_spot_m": [
+        1.47,
+        1.47,
+        2.57
+      ],
+      "x_increments_m": [
+        0.0,
+        1.0999999999999999
+      ],
+      "signed_second_x_difference_m": 1.0999999999999999,
+      "min_abs_ax_m_s2": 678.125,
+      "min_acceleration_all_necessary_tests_m_s2": 678.125,
+      "acceleration_ceiling_m_s2": 102.64786320791185,
+      "gate_time_from_first_live_s": 0.40954545454545455,
+      "late_only_gate_errors_m": {
+        "line": 0.8974051127929584
+      },
+      "middle_time_shift_examples_not_estimates": {
+        "linearization_at_30_m_s_ms": -18.33333333333333,
+        "uniform_speed_from_endpoints_m_s": 13.749999999999998,
+        "exact_offset_for_uniform_endpoint_speed_ms": -40.0
+      }
+    }
+  ]
+}

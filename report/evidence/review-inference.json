@@ -1,0 +1,1330 @@
+{
+  "command": "python experiment/src/review_inference.py",
+  "scope": "One prescribed kick. Model-conditional parameter marginals, finite rounded-fit witness candidates and arrival-time sensitivity; no measured spin, wind or goal outcome.",
+  "environment": {
+    "python": "3.13.9",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "architecture": "arm64",
+    "processor": "Apple M5",
+    "backend": "CPU, vectorized float64, one BLAS thread per worker"
+  },
+  "input_sha256": {
+    "design/settings.json": "5fdd59e015d750183ab4856760f835b96a475f6e921f2c65fb7dd94befc7758d",
+    "experiment/runs/B03/official.json": "398044a5c56e267665974db8b0dfab70e963dc963cc9ecb73766118add1e0a5e",
+    "experiment/runs/B03/official_tracks.npz": "fa4b598ee9da34bd83f7a8777fda8866af4e6f943d0435833f919608262e5f39",
+    "experiment/runs/Z05/factors.csv": "851e3cae67432ddbed2823832e0272577254623c4913e27d15301624d9364d10"
+  },
+  "source_sha256": {
+    "experiment/src/review_inference.py": "13be0fe9d9524cd0d82c2fdad595ebf4f95a0ef346965489e63be3e73949fc12",
+    "experiment/src/flight.py": "1282669dafd362dc938b9ba92a71044757fc5c4ce201332f7189d723a9d03498",
+    "experiment/src/predict.py": "304a117964f58f9a7c6571422593c9b0d8b9a6e451dba26ee780c05c230eee37",
+    "experiment/src/reference.py": "2d39606aedb1e736e5ec9585fd2e52476064bfdb22e0b4f5b8683d7024683bff",
+    "experiment/src/event_sensitivity.py": "2b87dfdf9a24f260ab52a3ec435a369e618b1182723b581aa524f38a98c9b9b8"
+  },
+  "models": [
+    "D",
+    "S",
+    "E"
+  ],
+  "model_prior": [
+    0.2,
+    0.4,
+    0.4
+  ],
+  "seeds": [
+    8111,
+    8117
+  ],
+  "quantiles": [
+    0.05,
+    0.5,
+    0.95
+  ],
+  "nominal_replay": {
+    "per_seed_per_model": {
+      "8111": {
+        "D": {
+          "n": 131072,
+          "hits": 0,
+          "evidence": 0.0,
+          "second": 0.0,
+          "ess": 0.0
+        },
+        "S": {
+          "n": 131072,
+          "hits": 589,
+          "evidence": 2.7592976549159706e-09,
+          "second": 1.2926525549108268e-20,
+          "ess": 589.0000000000005
+        },
+        "E": {
+          "n": 131072,
+          "hits": 1120,
+          "evidence": 5.2468817886347825e-09,
+          "second": 2.4580150449917265e-20,
+          "ess": 1120.0
+        }
+      },
+      "8117": {
+        "D": {
+          "n": 131072,
+          "hits": 0,
+          "evidence": 0.0,
+          "second": 0.0,
+          "ess": 0.0
+        },
+        "S": {
+          "n": 131072,
+          "hits": 611,
+          "evidence": 2.8623614043355825e-09,
+          "second": 1.3409349932945928e-20,
+          "ess": 611.0000000000005
+        },
+        "E": {
+          "n": 131072,
+          "hits": 1149,
+          "evidence": 5.382738549233362e-09,
+          "second": 2.5216600774066906e-20,
+          "ess": 1149.0
+        }
+      }
+    },
+    "max_absolute_error_against_frozen_tracks": {
+      "D": {
+        "event": 0.0,
+        "yz": 0.0,
+        "time": 0.0,
+        "mass": 0.0
+      },
+      "S": {
+        "event": 0.0,
+        "yz": 0.0,
+        "time": 0.0,
+        "mass": 0.0
+      },
+      "E": {
+        "event": 0.0,
+        "yz": 0.0,
+        "time": 0.0,
+        "mass": 0.0
+      }
+    },
+    "pooled": {
+      "positive_draws": 3469,
+      "ess": 3469.0000000000514,
+      "passes_prescribed_case_support_rule": true,
+      "hits_by_model": {
+        "D": 0,
+        "S": 1200,
+        "E": 2269
+      },
+      "ess_by_model": {
+        "D": 0.0,
+        "S": 1200.0,
+        "E": 2268.999999999999
+      },
+      "direct_draws": 3469,
+      "direct_ess": 3469.0,
+      "direct_probability": 1.0,
+      "model_posterior": [
+        0.0,
+        0.34592101470164316,
+        0.654078985298357
+      ],
+      "direct_release_q05_q50_q95_s": [
+        0.3922124844365584,
+        0.39913294547095435,
+        0.40721881372764906
+      ],
+      "direct_remaining_q05_q50_q95_s": [
+        0.29221248443655834,
+        0.29913294547095437,
+        0.30721881372764903
+      ]
+    }
+  },
+  "parameter_method": {
+    "condition": "Exact release and frame times, 5 mm coordinate half-bins, positive B03 likelihood. Within each model all positive draws retain their original importance weights. D has zero accepted draws; kappa is a free parameter of S and D, omega and C_L are E-specific.",
+    "prior_reference": "All unselected per-model nuisance and independent original-prior velocities drawn by the two official proposal streams; one unit of mass per prior draw. Independent velocity components use B03's launch box. Wind is uniform by disk area. Beta and omega have three independent uniform components within their respective signed cubes.",
+    "release_C_L": "0.38 tanh(5 R |omega cross (v0-w)| / |v0-w|^2); compute from each true prior or posterior launch velocity. Beta in S is an effective force coefficient.",
+    "boundary_bands": "Each scalar band is 2% of the full interval of the reported scalar. For a cube face the width is 2% of one signed component's full width (e.g. max|omega_i|>=62.4). The spin norm has its own upper limit sqrt(3)*65. C_L uses its induced prior support and separately reports distance to the 0.38 saturation scale."
+  },
+  "parameter_marginals": {
+    "S": {
+      "unconditioned_prior_draws": 262144,
+      "positive_draws": 1200,
+      "marginals": {
+        "wind_speed_m_s": {
+          "support": [
+            0.0,
+            3
+          ],
+          "low_2pct_cut": 0.06,
+          "high_2pct_cut": 2.94,
+          "prior_q05_q50_q95": [
+            0.6727409028315989,
+            2.116913740919198,
+            2.9239351309024983
+          ],
+          "posterior_q05_q50_q95": [
+            0.6081179628069707,
+            2.027868978866657,
+            2.9031630092163363
+          ],
+          "prior_mass_low_high_2pct": [
+            0.00042724609375,
+            0.03984832763671875
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.030000000000000006
+          ],
+          "prior_p98": 2.9695724767122997,
+          "posterior_mass_at_or_above_prior_p98": 0.0125
+        },
+        "wind_x_m_s": {
+          "support": [
+            -3,
+            3
+          ],
+          "low_2pct_cut": -2.88,
+          "high_2pct_cut": 2.88,
+          "prior_q05_q50_q95": [
+            -2.4155262045080947,
+            0.006476957085303203,
+            2.412179015013851
+          ],
+          "posterior_q05_q50_q95": [
+            -2.3613406154407675,
+            -0.034531703101496884,
+            2.2893716811726774
+          ],
+          "prior_mass_low_high_2pct": [
+            0.004650115966796875,
+            0.0047607421875
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0008333333333333334,
+            0.0016666666666666668
+          ],
+          "prior_p98": 2.6835798720311805,
+          "posterior_mass_at_or_above_prior_p98": 0.009166666666666668
+        },
+        "wind_y_m_s": {
+          "support": [
+            -3,
+            3
+          ],
+          "low_2pct_cut": -2.88,
+          "high_2pct_cut": 2.88,
+          "prior_q05_q50_q95": [
+            -2.4123803593893065,
+            0.009020027756453669,
+            2.4118050727404503
+          ],
+          "posterior_q05_q50_q95": [
+            -2.364354161700772,
+            0.1828163165707067,
+            2.543057877737947
+          ],
+          "prior_mass_low_high_2pct": [
+            0.00475311279296875,
+            0.004642486572265625
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0025000000000000005,
+            0.006666666666666667
+          ],
+          "prior_p98": 2.6826453835867197,
+          "posterior_mass_at_or_above_prior_p98": 0.02416666666666667
+        },
+        "kappa_m_inv": {
+          "support": [
+            0.006,
+            0.024
+          ],
+          "low_2pct_cut": 0.00636,
+          "high_2pct_cut": 0.02364,
+          "prior_q05_q50_q95": [
+            0.0069160808571501016,
+            0.014993211206866431,
+            0.02309291731907403
+          ],
+          "posterior_q05_q50_q95": [
+            0.014896363204485898,
+            0.019800933992077697,
+            0.02334424803032099
+          ],
+          "prior_mass_low_high_2pct": [
+            0.019634246826171875,
+            0.020015716552734375
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.02833333333333334
+          ],
+          "prior_p98": 0.02364055149882285,
+          "posterior_mass_at_or_above_prior_p98": 0.02833333333333334
+        },
+        "beta_norm_s_inv": {
+          "support": [
+            0.0,
+            1.3856406460551018
+          ],
+          "low_2pct_cut": 0.027712812921102038,
+          "high_2pct_cut": 1.357927833134,
+          "prior_q05_q50_q95": [
+            0.36495940541589555,
+            0.7873007058853838,
+            1.105417006415722
+          ],
+          "posterior_q05_q50_q95": [
+            0.3012716453484036,
+            0.5739831188849969,
+            0.9213347592022989
+          ],
+          "prior_mass_low_high_2pct": [
+            1.52587890625e-05,
+            2.6702880859375e-05
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.0
+          ],
+          "prior_p98": 1.172721016288806,
+          "posterior_mass_at_or_above_prior_p98": 0.0
+        }
+      },
+      "any_component_within_2pct_of_signed_box_face": {
+        "signed_component_support": [
+          -0.8,
+          0.8
+        ],
+        "max_abs_component_cut": 0.768,
+        "analytic_prior_probability": 0.11526400000000014,
+        "sampled_prior_probability": 0.11442947387695312,
+        "posterior_probability": 0.04083333333333334
+      }
+    },
+    "E": {
+      "unconditioned_prior_draws": 262144,
+      "positive_draws": 2269,
+      "marginals": {
+        "wind_speed_m_s": {
+          "support": [
+            0.0,
+            3
+          ],
+          "low_2pct_cut": 0.06,
+          "high_2pct_cut": 2.94,
+          "prior_q05_q50_q95": [
+            0.6694510594473446,
+            2.1214556565037808,
+            2.923612832669778
+          ],
+          "posterior_q05_q50_q95": [
+            0.6595061717717048,
+            2.084551226738504,
+            2.90961144929745
+          ],
+          "prior_mass_low_high_2pct": [
+            0.000377655029296875,
+            0.039093017578125
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.033054208902600274
+          ],
+          "prior_p98": 2.969036208584673,
+          "posterior_mass_at_or_above_prior_p98": 0.017628911414720144
+        },
+        "wind_x_m_s": {
+          "support": [
+            -3,
+            3
+          ],
+          "low_2pct_cut": -2.88,
+          "high_2pct_cut": 2.88,
+          "prior_q05_q50_q95": [
+            -2.4154995148736176,
+            0.00042381564922161047,
+            2.4185974310702134
+          ],
+          "posterior_q05_q50_q95": [
+            -2.381925983678839,
+            -0.13215054404353174,
+            2.3539760375595478
+          ],
+          "prior_mass_low_high_2pct": [
+            0.004650115966796875,
+            0.00460052490234375
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.004407227853680036,
+            0.0030850594975760253
+          ],
+          "prior_p98": 2.6887605148306872,
+          "posterior_mass_at_or_above_prior_p98": 0.014984574702512124
+        },
+        "wind_y_m_s": {
+          "support": [
+            -3,
+            3
+          ],
+          "low_2pct_cut": -2.88,
+          "high_2pct_cut": 2.88,
+          "prior_q05_q50_q95": [
+            -2.412544910704879,
+            -0.001335415404517826,
+            2.4127889363177664
+          ],
+          "posterior_q05_q50_q95": [
+            -2.3455225852157344,
+            0.07682607872432289,
+            2.496705322857688
+          ],
+          "prior_mass_low_high_2pct": [
+            0.0046234130859375,
+            0.0045928955078125
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.004407227853680036,
+            0.004407227853680036
+          ],
+          "prior_p98": 2.6798140157681587,
+          "posterior_mass_at_or_above_prior_p98": 0.028206258263552234
+        },
+        "release_C_L": {
+          "support": [
+            0.0,
+            0.37957929862616097
+          ],
+          "low_2pct_cut": 0.00759158597252322,
+          "high_2pct_cut": 0.3719877126536377,
+          "prior_q05_q50_q95": [
+            0.10739194682603585,
+            0.2771769243725002,
+            0.3561704995391585
+          ],
+          "posterior_q05_q50_q95": [
+            0.13413656193691603,
+            0.22008043238646502,
+            0.3013627299651307
+          ],
+          "prior_mass_low_high_2pct": [
+            0.00022125244140625,
+            0.00379180908203125
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.0
+          ],
+          "prior_p98": 0.36454997427955693,
+          "posterior_mass_at_or_above_prior_p98": 0.0
+        },
+        "omega_norm_rad_s": {
+          "support": [
+            0.0,
+            112.58330249197702
+          ],
+          "low_2pct_cut": 2.2516660498395407,
+          "high_2pct_cut": 110.33163644213748,
+          "prior_q05_q50_q95": [
+            29.654871413192208,
+            63.97214293835877,
+            89.76825747249899
+          ],
+          "posterior_q05_q50_q95": [
+            29.889770387367967,
+            55.86481599909485,
+            81.26469590306924
+          ],
+          "prior_mass_low_high_2pct": [
+            1.9073486328125e-05,
+            4.1961669921875e-05
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.0
+          ],
+          "prior_p98": 95.15703305055166,
+          "posterior_mass_at_or_above_prior_p98": 0.002203613926840018
+        },
+        "drag_offset": {
+          "support": [
+            -0.04,
+            0.27
+          ],
+          "low_2pct_cut": -0.033800000000000004,
+          "high_2pct_cut": 0.26380000000000003,
+          "prior_q05_q50_q95": [
+            -0.02461610752427717,
+            0.11442524722705454,
+            0.25456775533667675
+          ],
+          "posterior_q05_q50_q95": [
+            0.12721783727842575,
+            0.20847276112906804,
+            0.2625392875709253
+          ],
+          "prior_mass_low_high_2pct": [
+            0.02025604248046875,
+            0.01982879638671875
+          ],
+          "posterior_mass_low_high_2pct": [
+            0.0,
+            0.040105773468488336
+          ],
+          "prior_p98": 0.2637506678447913,
+          "posterior_mass_at_or_above_prior_p98": 0.040105773468488336
+        }
+      },
+      "any_component_within_2pct_of_signed_box_face": {
+        "signed_component_support": [
+          -65,
+          65
+        ],
+        "max_abs_component_cut": 62.4,
+        "analytic_prior_probability": 0.11526400000000014,
+        "sampled_prior_probability": 0.11489486694335938,
+        "posterior_probability": 0.06258263552225653
+      },
+      "release_C_L_support": {
+        "upper": 0.37957929862616097,
+        "saturation_scale": 0.38,
+        "derivation": "For u_x>0 and e=u/|u|, e_x |omega cross e| <= (|omega|+|omega_perp_to_x|)/2. The cube and u_x >= v_x,min-w_cap give max |omega cross u|/|u|^2 = A(sqrt(3)+sqrt(2))/(2(v_x,min-w_cap)).",
+        "attaining_limit_v0_m_s": [
+          18.0,
+          3.371173070873834,
+          3.371173070873834
+        ],
+        "attaining_limit_wind_m_s": [
+          3.0,
+          0.0,
+          0.0
+        ],
+        "attaining_limit_omega_rad_s": [
+          65,
+          -65,
+          -65
+        ]
+      },
+      "release_C_L_saturation_check": {
+        "cut": 0.3724,
+        "sampled_prior_probability": 0.003269195556640625,
+        "posterior_probability": 0.0
+      },
+      "omega_norm_above_single_component_cap": {
+        "cut_rad_s": 65,
+        "analytic_prior_probability": 0.4764012244017012,
+        "sampled_prior_probability": 0.4755897521972656,
+        "posterior_probability": 0.2772146319964743
+      }
+    },
+    "analytic_checks": {
+      "S_kappa_prior_q05_q50_q95": [
+        0.0069,
+        0.015000000000000001,
+        0.023100000000000002
+      ],
+      "uniform_disk_speed_prior_q05_q50_q95_m_s": [
+        0.6708203932499369,
+        2.121320343559643,
+        2.924038303442689
+      ],
+      "uniform_disk_speed_prior_low_high_2pct": [
+        0.0004,
+        0.03960000000000008
+      ]
+    }
+  },
+  "rounded_pair_search": {
+    "searched_direct_crossings": 3469,
+    "convex_hull_vertices": 13,
+    "frozen_RK4_separation_m": 0.9216820259555487,
+    "scope": "Diameter of the finitely sampled B03 crossings under rounded observations."
+  },
+  "rounded_pair_candidates": [
+    {
+      "model": "S",
+      "pooled_model_index": 341,
+      "seed": 8111,
+      "within_seed_index": 341,
+      "v0_m_s": [
+        30.488591966852827,
+        9.660620869882806,
+        6.711301833971962
+      ],
+      "wind_m_s": [
+        -0.5457393227896201,
+        -1.3538895414338488,
+        0.0
+      ],
+      "kappa_m_inv": 0.021393246741290037,
+      "beta_s_inv": [
+        -0.7750294315540591,
+        -0.48546264918549514,
+        -0.6544080646201031
+      ],
+      "frozen_yz_m": [
+        2.289525984625685,
+        2.328560965497986
+      ],
+      "frozen_T_s": 0.4045259479360666
+    },
+    {
+      "model": "S",
+      "pooled_model_index": 1107,
+      "seed": 8117,
+      "within_seed_index": 518,
+      "v0_m_s": [
+        30.409971831524917,
+        9.22873635494953,
+        7.141315703579006
+      ],
+      "wind_m_s": [
+        -2.6151834682781403,
+        -0.9938308780939864,
+        0.0
+      ],
+      "kappa_m_inv": 0.016515579502924073,
+      "beta_s_inv": [
+        0.4983903967027947,
+        0.2723884099377704,
+        -0.0843424734171146
+      ],
+      "frozen_yz_m": [
+        2.9063887804114312,
+        1.6437412460499277
+      ],
+      "frozen_T_s": 0.400432703974887
+    }
+  ],
+  "timing": {
+    "condition": "Uniform phase on [-1,+1] ms before conditioning; actual times are (50,100) ms + the same phase. Hold both displayed positions fixed. Marginalize with Gauss-Legendre prior weights and each phase/model's importance evidence. Quantiles condition on first direct entry. Remaining time is T minus the actual second-frame time.",
+    "sampler": "Each seed spawns one stream per model and independent streams per quadrature node. At every node refit the local velocity proposal to the shifted last frame, using the full original prior mixture and the original 5 mm hard-box likelihood. Pool equal seed budgets; retain every positive draw. ESS uses squared joint masses.",
+    "proposals_per_model_per_seed_per_grid": 524288,
+    "overall_propagation_cap_per_model_per_seed_per_grid": 32768,
+    "batch_max": 4096,
+    "primary_nodes": 24,
+    "thresholds": {
+      "pooled_ess": 200,
+      "model_ess_if_model_posterior_at_least_0.1": 25
+    },
+    "grids": {
+      "12": {
+        "positive_draws": 9029,
+        "ess": 7933.8506192917885,
+        "passes_prescribed_case_support_rule": true,
+        "hits_by_model": {
+          "D": 0,
+          "S": 2836,
+          "E": 6193
+        },
+        "ess_by_model": {
+          "D": 0.0,
+          "S": 2505.749014050761,
+          "E": 5428.357346545243
+        },
+        "direct_draws": 9029,
+        "direct_ess": 7933.850619291824,
+        "direct_probability": 1.0,
+        "model_posterior": [
+          0.0,
+          0.3184590883853971,
+          0.6815409116146028
+        ],
+        "direct_release_q05_q50_q95_s": [
+          0.38293668141653586,
+          0.39425041810988587,
+          0.4062289227358615
+        ],
+        "direct_remaining_q05_q50_q95_s": [
+          0.2821361813350309,
+          0.2938807576818279,
+          0.30647067454152793
+        ],
+        "by_seed": {
+          "8111": {
+            "positive_draws": 4498,
+            "ess": 3941.021591480522,
+            "passes_prescribed_case_support_rule": true,
+            "hits_by_model": {
+              "D": 0,
+              "S": 1391,
+              "E": 3107
+            },
+            "ess_by_model": {
+              "D": 0.0,
+              "S": 1232.986727864698,
+              "E": 2708.2001240794134
+            },
+            "direct_draws": 4498,
+            "direct_ess": 3941.0215914805103,
+            "direct_probability": 1.0,
+            "model_posterior": [
+              0.0,
+              0.31584898283808605,
+              0.6841510171619138
+            ],
+            "direct_release_q05_q50_q95_s": [
+              0.3828275088007913,
+              0.3940711317669019,
+              0.40608057465987374
+            ],
+            "direct_remaining_q05_q50_q95_s": [
+              0.2820870696568195,
+              0.2936579049011013,
+              0.3064123374551219
+            ]
+          },
+          "8117": {
+            "positive_draws": 4531,
+            "ess": 3992.9723179960597,
+            "passes_prescribed_case_support_rule": true,
+            "hits_by_model": {
+              "D": 0,
+              "S": 1445,
+              "E": 3086
+            },
+            "ess_by_model": {
+              "D": 0.0,
+              "S": 1272.7851815757251,
+              "E": 2720.281441790721
+            },
+            "direct_draws": 4531,
+            "direct_ess": 3992.9723179960465,
+            "direct_probability": 1.0,
+            "model_posterior": [
+              0.0,
+              0.32101343053870984,
+              0.6789865694612902
+            ],
+            "direct_release_q05_q50_q95_s": [
+              0.38305515149776775,
+              0.394412963749981,
+              0.40633895913894047
+            ],
+            "direct_remaining_q05_q50_q95_s": [
+              0.2821865261438226,
+              0.29405889504051796,
+              0.306508564434801
+            ]
+          }
+        },
+        "mixture_evidence": 2.3110099223110036e-09,
+        "phase_posterior_mean_ms": 0.34080849874986147,
+        "phase_positive_probability": 0.7898027888154192,
+        "quadrature_nodes": [
+          {
+            "phase_ms": -0.981560634246717,
+            "prior_probability": 0.02358766819325564,
+            "hits_D_S_E": [
+              0,
+              1,
+              0
+            ],
+            "posterior_probability": 2.955059041137416e-05,
+            "model_mixture_evidence_at_phase": 2.8952292821534837e-12,
+            "ess": 1.0
+          },
+          {
+            "phase_ms": -0.9041172563704764,
+            "prior_probability": 0.05346966299765938,
+            "hits_D_S_E": [
+              0,
+              1,
+              0
+            ],
+            "posterior_probability": 6.682977493818393e-05,
+            "model_mixture_evidence_at_phase": 2.8884467252900964e-12,
+            "ess": 1.0
+          },
+          {
+            "phase_ms": -0.7699026741943005,
+            "prior_probability": 0.08003916427167318,
+            "hits_D_S_E": [
+              0,
+              18,
+              10
+            ],
+            "posterior_probability": 0.0027897141707627455,
+            "model_mixture_evidence_at_phase": 8.054878118368871e-11,
+            "ess": 28.000000000000014
+          },
+          {
+            "phase_ms": -0.5873179542866119,
+            "prior_probability": 0.10158371336153295,
+            "hits_D_S_E": [
+              0,
+              64,
+              55
+            ],
+            "posterior_probability": 0.014964942664774253,
+            "model_mixture_evidence_at_phase": 3.4044956460712196e-10,
+            "ess": 119.00000000000007
+          },
+          {
+            "phase_ms": -0.36783149899817513,
+            "prior_probability": 0.11674626826917744,
+            "hits_D_S_E": [
+              0,
+              173,
+              225
+            ],
+            "posterior_probability": 0.05714216814620891,
+            "model_mixture_evidence_at_phase": 1.1311378044544925e-09,
+            "ess": 397.9999999999995
+          },
+          {
+            "phase_ms": -0.12523340851146314,
+            "prior_probability": 0.12457352290670148,
+            "hits_D_S_E": [
+              0,
+              346,
+              543
+            ],
+            "posterior_probability": 0.13520400583748515,
+            "model_mixture_evidence_at_phase": 2.508219979141444e-09,
+            "ess": 889.0000000000008
+          },
+          {
+            "phase_ms": 0.12523340851146314,
+            "prior_probability": 0.12457352290670148,
+            "hits_D_S_E": [
+              0,
+              362,
+              890
+            ],
+            "posterior_probability": 0.18898565258792632,
+            "model_mixture_evidence_at_phase": 3.505943382786222e-09,
+            "ess": 1252.000000000002
+          },
+          {
+            "phase_ms": 0.36783149899817513,
+            "prior_probability": 0.11674626826917744,
+            "hits_D_S_E": [
+              0,
+              417,
+              1011
+            ],
+            "posterior_probability": 0.2005473721569795,
+            "model_mixture_evidence_at_phase": 3.969865365457155e-09,
+            "ess": 1428.0000000000057
+          },
+          {
+            "phase_ms": 0.5873179542866119,
+            "prior_probability": 0.10158371336153295,
+            "hits_D_S_E": [
+              0,
+              405,
+              1011
+            ],
+            "posterior_probability": 0.17190835196765955,
+            "model_mixture_evidence_at_phase": 3.9108819118620014e-09,
+            "ess": 1415.999999999996
+          },
+          {
+            "phase_ms": 0.7699026741943005,
+            "prior_probability": 0.08003916427167318,
+            "hits_D_S_E": [
+              0,
+              399,
+              954
+            ],
+            "posterior_probability": 0.12872033129683313,
+            "model_mixture_evidence_at_phase": 3.716605058748978e-09,
+            "ess": 1353.0000000000048
+          },
+          {
+            "phase_ms": 0.9041172563704764,
+            "prior_probability": 0.05346966299765938,
+            "hits_D_S_E": [
+              0,
+              356,
+              770
+            ],
+            "posterior_probability": 0.07127849143013609,
+            "model_mixture_evidence_at_phase": 3.0807245025953345e-09,
+            "ess": 1125.9999999999993
+          },
+          {
+            "phase_ms": 0.981560634246717,
+            "prior_probability": 0.02358766819325564,
+            "hits_D_S_E": [
+              0,
+              294,
+              724
+            ],
+            "posterior_probability": 0.028362589375884664,
+            "model_mixture_evidence_at_phase": 2.778834471176917e-09,
+            "ess": 1018.0000000000003
+          }
+        ]
+      },
+      "24": {
+        "positive_draws": 8824,
+        "ess": 7665.512834066842,
+        "passes_prescribed_case_support_rule": true,
+        "hits_by_model": {
+          "D": 0,
+          "S": 2738,
+          "E": 6086
+        },
+        "ess_by_model": {
+          "D": 0.0,
+          "S": 2396.3244288919186,
+          "E": 5269.53367023857
+        },
+        "direct_draws": 8824,
+        "direct_ess": 7665.512834066932,
+        "direct_probability": 1.0,
+        "model_posterior": [
+          0.0,
+          0.3157080514742684,
+          0.6842919485257316
+        ],
+        "direct_release_q05_q50_q95_s": [
+          0.3828158326497319,
+          0.3941775816649109,
+          0.4058230869111648
+        ],
+        "direct_remaining_q05_q50_q95_s": [
+          0.2820374145920844,
+          0.2938528164763653,
+          0.30596472753085013
+        ],
+        "by_seed": {
+          "8111": {
+            "positive_draws": 4400,
+            "ess": 3829.295286364375,
+            "passes_prescribed_case_support_rule": true,
+            "hits_by_model": {
+              "D": 0,
+              "S": 1390,
+              "E": 3010
+            },
+            "ess_by_model": {
+              "D": 0.0,
+              "S": 1215.5722681874436,
+              "E": 2613.880845904427
+            },
+            "direct_draws": 4400,
+            "direct_ess": 3829.295286364409,
+            "direct_probability": 1.0,
+            "model_posterior": [
+              0.0,
+              0.3204154500490885,
+              0.6795845499509114
+            ],
+            "direct_release_q05_q50_q95_s": [
+              0.38287030917241616,
+              0.3941445586793376,
+              0.40577730694798725
+            ],
+            "direct_remaining_q05_q50_q95_s": [
+              0.2820954001706558,
+              0.29383392465549174,
+              0.3059446071725078
+            ]
+          },
+          "8117": {
+            "positive_draws": 4424,
+            "ess": 3836.225880918379,
+            "passes_prescribed_case_support_rule": true,
+            "hits_by_model": {
+              "D": 0,
+              "S": 1348,
+              "E": 3076
+            },
+            "ess_by_model": {
+              "D": 0.0,
+              "S": 1180.758244889819,
+              "E": 2655.6569495103713
+            },
+            "direct_draws": 4424,
+            "direct_ess": 3836.225880918408,
+            "direct_probability": 1.0,
+            "model_posterior": [
+              0.0,
+              0.3110189457175386,
+              0.6889810542824614
+            ],
+            "direct_release_q05_q50_q95_s": [
+              0.382756512176167,
+              0.3942223426107931,
+              0.40585658169936845
+            ],
+            "direct_remaining_q05_q50_q95_s": [
+              0.28193308682386986,
+              0.29387659968519453,
+              0.3060562926236995
+            ]
+          }
+        },
+        "mixture_evidence": 2.279690058838367e-09,
+        "phase_posterior_mean_ms": 0.34106379507608897,
+        "phase_positive_probability": 0.7904324251505923,
+        "quadrature_nodes": [
+          {
+            "phase_ms": -0.9951872199970152,
+            "prior_probability": 0.006170614899993392,
+            "hits_D_S_E": [
+              0,
+              0,
+              0
+            ],
+            "posterior_probability": 0.0,
+            "model_mixture_evidence_at_phase": 0.0,
+            "ess": 0.0
+          },
+          {
+            "phase_ms": -0.9747285559713048,
+            "prior_probability": 0.014265694314466842,
+            "hits_D_S_E": [
+              0,
+              0,
+              0
+            ],
+            "posterior_probability": 0.0,
+            "model_mixture_evidence_at_phase": 0.0,
+            "ess": 0.0
+          },
+          {
+            "phase_ms": -0.938274552002738,
+            "prior_probability": 0.02213871940870971,
+            "hits_D_S_E": [
+              0,
+              1,
+              0
+            ],
+            "posterior_probability": 5.615782452201716e-05,
+            "model_mixture_evidence_at_phase": 5.7827389166180054e-12,
+            "ess": 1.0
+          },
+          {
+            "phase_ms": -0.8864155270044,
+            "prior_probability": 0.029649292457718267,
+            "hits_D_S_E": [
+              0,
+              4,
+              0
+            ],
+            "posterior_probability": 0.00030036561957241516,
+            "model_mixture_evidence_at_phase": 2.3094666354434733e-11,
+            "ess": 4.0
+          },
+          {
+            "phase_ms": -0.8200019859739005,
+            "prior_probability": 0.036673240705540136,
+            "hits_D_S_E": [
+              0,
+              8,
+              2
+            ],
+            "posterior_probability": 0.0009269417583065103,
+            "model_mixture_evidence_at_phase": 5.7620757557274746e-11,
+            "ess": 10.000000000000002
+          },
+          {
+            "phase_ms": -0.7401241915785534,
+            "prior_probability": 0.043095080765976713,
+            "hits_D_S_E": [
+              0,
+              11,
+              2
+            ],
+            "posterior_probability": 0.0014126198773129696,
+            "model_mixture_evidence_at_phase": 7.472628972934387e-11,
+            "ess": 12.999999999999998
+          },
+          {
+            "phase_ms": -0.648093651936979,
+            "prior_probability": 0.048809326052057046,
+            "hits_D_S_E": [
+              0,
+              27,
+              7
+            ],
+            "posterior_probability": 0.0041728094977154856,
+            "model_mixture_evidence_at_phase": 1.9489538370643825e-10,
+            "ess": 33.99999999999999
+          },
+          {
+            "phase_ms": -0.545421471388835,
+            "prior_probability": 0.053722135057982866,
+            "hits_D_S_E": [
+              0,
+              39,
+              46
+            ],
+            "posterior_probability": 0.011446515230464806,
+            "model_mixture_evidence_at_phase": 4.857310110826478e-10,
+            "ess": 84.99999999999999
+          },
+          {
+            "phase_ms": -0.4337935076260402,
+            "prior_probability": 0.057752834026862855,
+            "hits_D_S_E": [
+              0,
+              63,
+              82
+            ],
+            "posterior_probability": 0.020921881857082922,
+            "model_mixture_evidence_at_phase": 8.25853949601814e-10,
+            "ess": 145.00000000000017
+          },
+          {
+            "phase_ms": -0.31504267969616195,
+            "prior_probability": 0.06083523646390176,
+            "hits_D_S_E": [
+              0,
+              115,
+              147
+            ],
+            "posterior_probability": 0.039679202474326644,
+            "model_mixture_evidence_at_phase": 1.4869060873467941e-09,
+            "ess": 262.00000000000034
+          },
+          {
+            "phase_ms": -0.19111886747361084,
+            "prior_probability": 0.06291872817341425,
+            "hits_D_S_E": [
+              0,
+              130,
+              215
+            ],
+            "posterior_probability": 0.05383773662010348,
+            "model_mixture_evidence_at_phase": 1.9506648739773494e-09,
+            "ess": 344.99999999999983
+          },
+          {
+            "phase_ms": -0.06405689286261007,
+            "prior_probability": 0.06396909767337615,
+            "hits_D_S_E": [
+              0,
+              168,
+              318
+            ],
+            "posterior_probability": 0.07681334409000033,
+            "model_mixture_evidence_at_phase": 2.7374251517852094e-09,
+            "ess": 485.9999999999993
+          },
+          {
+            "phase_ms": 0.06405689286261007,
+            "prior_probability": 0.06396909767337615,
+            "hits_D_S_E": [
+              0,
+              183,
+              395
+            ],
+            "posterior_probability": 0.091003703815168,
+            "model_mixture_evidence_at_phase": 3.2431321755419154e-09,
+            "ess": 578.0000000000017
+          },
+          {
+            "phase_ms": 0.19111886747361084,
+            "prior_probability": 0.06291872817341425,
+            "hits_D_S_E": [
+              0,
+              207,
+              466
+            ],
+            "posterior_probability": 0.10382516847462048,
+            "model_mixture_evidence_at_phase": 3.761824361364345e-09,
+            "ess": 673.000000000001
+          },
+          {
+            "phase_ms": 0.31504267969616195,
+            "prior_probability": 0.06083523646390176,
+            "hits_D_S_E": [
+              0,
+              181,
+              519
+            ],
+            "posterior_probability": 0.1040280309797541,
+            "model_mixture_evidence_at_phase": 3.8982616300964895e-09,
+            "ess": 700.0000000000009
+          },
+          {
+            "phase_ms": 0.4337935076260402,
+            "prior_probability": 0.057752834026862855,
+            "hits_D_S_E": [
+              0,
+              212,
+              488
+            ],
+            "posterior_probability": 0.0984072430225313,
+            "model_mixture_evidence_at_phase": 3.884450303024237e-09,
+            "ess": 699.9999999999977
+          },
+          {
+            "phase_ms": 0.545421471388835,
+            "prior_probability": 0.053722135057982866,
+            "hits_D_S_E": [
+              0,
+              190,
+              499
+            ],
+            "posterior_probability": 0.0898009464817302,
+            "model_mixture_evidence_at_phase": 3.8106885504033285e-09,
+            "ess": 688.9999999999991
+          },
+          {
+            "phase_ms": 0.648093651936979,
+            "prior_probability": 0.048809326052057046,
+            "hits_D_S_E": [
+              0,
+              212,
+              489
+            ],
+            "posterior_probability": 0.08275600046176478,
+            "model_mixture_evidence_at_phase": 3.8652045996434645e-09,
+            "ess": 700.999999999999
+          },
+          {
+            "phase_ms": 0.7401241915785534,
+            "prior_probability": 0.043095080765976713,
+            "hits_D_S_E": [
+              0,
+              194,
+              495
+            ],
+            "posterior_probability": 0.07162007967723706,
+            "model_mixture_evidence_at_phase": 3.788636214421738e-09,
+            "ess": 688.9999999999994
+          },
+          {
+            "phase_ms": 0.8200019859739005,
+            "prior_probability": 0.036673240705540136,
+            "hits_D_S_E": [
+              0,
+              200,
+              419
+            ],
+            "posterior_probability": 0.05462546635810967,
+            "model_mixture_evidence_at_phase": 3.3956402603160173e-09,
+            "ess": 618.9999999999984
+          },
+          {
+            "phase_ms": 0.8864155270044,
+            "prior_probability": 0.029649292457718267,
+            "hits_D_S_E": [
+              0,
+              174,
+              412
+            ],
+            "posterior_probability": 0.041726234930352636,
+            "model_mixture_evidence_at_phase": 3.2082682276189307e-09,
+            "ess": 585.9999999999999
+          },
+          {
+            "phase_ms": 0.938274552002738,
+            "prior_probability": 0.02213871940870971,
+            "hits_D_S_E": [
+              0,
+              136,
+              414
+            ],
+            "posterior_probability": 0.029197312650825237,
+            "model_mixture_evidence_at_phase": 3.0065344867551796e-09,
+            "ess": 550.0000000000008
+          },
+          {
+            "phase_ms": 0.9747285559713048,
+            "prior_probability": 0.014265694314466842,
+            "hits_D_S_E": [
+              0,
+              137,
+              345
+            ],
+            "posterior_probability": 0.016470136314780358,
+            "model_mixture_evidence_at_phase": 2.6319648519624694e-09,
+            "ess": 481.9999999999992
+          },
+          {
+            "phase_ms": 0.9951872199970152,
+            "prior_probability": 0.006170614899993392,
+            "hits_D_S_E": [
+              0,
+              146,
+              326
+            ],
+            "posterior_probability": 0.006972101983718524,
+            "model_mixture_evidence_at_phase": 2.57579379674259e-09,
+            "ess": 471.99999999999955
+          }
+        ]
+      }
+    },
+    "max_abs_grid_difference_ms": {
+      "direct_release_q05_q50_q95_s": 0.40583582469666535,
+      "direct_remaining_q05_q50_q95_s": 0.5059470106777986
+    },
+    "fixed_phase_aerodynamic_reference": {
+      "proposals_per_model_per_seed": 131072,
+      "rule": "Frozen Z05 fixed-phase sensitivity. Quantiles are shown only if the prescribed support rule passed; each row conditions on its stated phase.",
+      "cases": {
+        "phase_minus1ms": {
+          "ess": 1.0,
+          "passes_prescribed_case_support_rule": false,
+          "direct_release_q05_q50_q95_s": null
+        },
+        "phase_plus1ms": {
+          "ess": 2864.9999999999086,
+          "passes_prescribed_case_support_rule": true,
+          "direct_release_q05_q50_q95_s": [
+            0.3801275716558207,
+            0.3854263650864857,
+            0.3916117227325089
+          ]
+        },
+        "phase_minus5ms": {
+          "ess": 0.0,
+          "passes_prescribed_case_support_rule": false,
+          "direct_release_q05_q50_q95_s": null
+        },
+        "phase_plus5ms": {
+          "ess": 0.0,
+          "passes_prescribed_case_support_rule": false,
+          "direct_release_q05_q50_q95_s": null
+        }
+      }
+    },
+    "quadratic_control": {
+      "condition": "Fixed coordinate centres; solve a fresh constant-acceleration control at the two true times. T from release, remaining from the shifted second frame.",
+      "local_dT_dphase_s_per_s": -26.52296130310007,
+      "central_difference_s_per_s": -26.522961319719318,
+      "fixed_phase_controls": {
+        "-1ms": {
+          "event": "in",
+          "point": [
+            2.3306523852828858,
+            1.796065377428469
+          ],
+          "T": 0.43918911302193386,
+          "remaining_s": 0.3401891130219339
+        },
+        "+0ms": {
+          "event": "in",
+          "point": [
+            2.4948244142247114,
+            1.9203670564844242
+          ],
+          "T": 0.4050083612273948,
+          "remaining_s": 0.30500836122739483
+        },
+        "+1ms": {
+          "event": "in",
+          "point": [
+            2.5947068126523094,
+            1.9959923010081773
+          ],
+          "T": 0.3830680552658989,
+          "remaining_s": 0.28206805526589884
+        }
+      }
+    }
+  }
+}

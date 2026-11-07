@@ -80,3 +80,19 @@ python experiment/src/event_sensitivity.py --out scratch/plane-sensitivity-repla
 要从初始条件重新生成射门，将 Z10 运行包解到空目录，进入解压根目录，安装 `experiment/requirements.txt`，运行 `python experiment/src/stable_spin.py --out scratch/Z10-replay --workers 4`。根目录的两个分布压缩包、两次锁和逐脚表是此前运行的冻结结果。重放输出使用新的目录。浮点末位可能随 NumPy、SciPy 和硬件变化，检查校准样本数、各组命中和打印精度下的科学量，环境信息见归档内 config.json。实验使用相互独立的整脚工作进程和每程一个 BLAS 线程。
 
 交叉阈值诊断可在同一报告目录运行 `python3 cross_spin_calibration.py`。默认读取包内 Z09 与 Z10 归档，输出四个留出批次与校准来源组合。
+
+## 审稿复核 · 题面一脚的几何、物理参数和时差
+
+从报告根目录将 [23 个文件的复现包](evidence/review-replay.zip) 解至空目录。包内含冻结的 B03 配置、模型代码、加权轨迹、现场派生表及本轮三份数值基准。运行环境为科学 Python、NumPy 和 SciPy，原始版本写在推断结果的 environment 字段。每个进程使用单个 BLAS 线程。以下最后一个脚本根据包内的冻结候选参数独立求解两脚飞行。
+
+```sh
+python -m zipfile -e evidence/review-replay.zip replay-review
+cd replay-review
+python experiment/src/review_geometry.py > geom-check.json
+python experiment/src/review_inference.py --workers 2 --out infer-check.json
+python experiment/src/review_rounded_pair.py --out pair-check.json
+```
+
+将三个输出分别对照包内 `report/evidence/review-geometry.json`、`review-inference.json` 和 `review-rounded-pair.json`。同一环境应恢复 3,469 条正权重轨迹、取整轨迹对间距 0.921506 m、含共同相位时的到时分位 383/394/406 ms。换平台时分别核对计数、物理量与软件版本；哈希用于辨识归档材料。图表报告的“误差下界”是两条指定轨迹中至少一条的最坏误差。[结果与适用范围](review-response.md)
+
+在本机另建空目录，直接解压这 23 个文件并执行上述三个入口。三份 JSON 输出均与包内基准逐字节一致。未重新生成 Z09 或 Z10 留出射门。

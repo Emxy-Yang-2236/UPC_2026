@@ -1,7 +1,7 @@
 # 来源与证据范围
 
 - S1. University Physics Competition, 2026, Problem B. 给出几何、两次观测、官方样例和任务。本文的风限与观测噪声均为情景假设。[原题](https://uphysicsc.com/2026contest.html)
-- S2. J. E. Goff and M. J. Carré, “Soccer ball lift coefficients via trajectory analysis,” European Journal of Physics 31 (2010), 775–784. 支持速度相关阻力基线与由飞行估计升力的方法。[DOI](https://doi.org/10.1088/0143-0807/31/4/007)
+- S2. J. E. Goff and M. J. Carré, “Soccer ball lift coefficients via trajectory analysis,” European Journal of Physics 31 (2010), 775–784. 图 1 及式 (3) 拟合 Asai 等风洞实验中无旋 Teamgeist 的速度相关阻力，飞行轨迹用于研究升力。[DOI](https://doi.org/10.1088/0143-0807/31/4/007)
 - S3. J. E. Goff, J. Kelley, C. Hobson, K. Seo, T. Asai and S. Choppin, “Creating drag and lift curves from soccer trajectories,” European Journal of Physics 38, 044003 (2017). 作者的 29 条飞行轨迹覆盖初速 9.3–29.9 m/s。用这个速度域限制另一条曲线的延伸是本研究的建模选择。[作者稿](https://shura.shu.ac.uk/15728/1/Kelley%20-%20Creating%20drag%20and%20lift%20curves%20%28AM%29.pdf) · [DOI](https://doi.org/10.1088/1361-6404/aa6fcd)
 - S4. T. Mizota et al., “The strange flight behaviour of slowly spinning soccer balls,” Scientific Reports 3, 1871 (2013). 支持低旋非定常力机制。补充真值中的振幅和周期为设定情景。[论文](https://www.nature.com/articles/srep01871)
 - S5. Ł. Grad, M. K. Czajkowski and A. Varashylau, “Physics-Based 3D Ball Trajectory Reconstruction from Monocular Soccer Video,” 2026. 多视角球轨迹、数据分组与标注单位已核实；本批没有使用原始标注来评价实测精度。[作者项目页](https://lukaszgrad.github.io/soccer-ball3d/) · [发行数据说明](https://github.com/lukaszgrad/ball3d/blob/bba36a2cc8415701134b1f25a9c31602dde8d953/DATA.md)
@@ -12,4 +12,6 @@
 - E. B. Wilson, “Probable inference, the law of succession, and statistical inference,” *Journal of the American Statistical Association* 22, 209–212 (1927). 盲测命中数的二项分数区间；在本研究中用于描述分层情景样本。[DOI](https://doi.org/10.1080/01621459.1927.10502953)
 - P. Virtanen et al., “SciPy 1.0: fundamental algorithms for scientific computing in Python,” *Nature Methods* 17, 261–272 (2020)；L. F. Shampine and M. W. Reichelt, “The MATLAB ODE Suite,” *SIAM Journal on Scientific Computing* 18, 1–22 (1997)。自适应常微分方程求解和跨实现复核。[SciPy](https://doi.org/10.1038/s41592-019-0686-2) · [MATLAB ODE Suite](https://doi.org/10.1137/S1064827594276424)
 
-- I. Griffiths, C. Evans and N. Griffiths, “Tracking the flight of a spinning football in three dimensions,” *Measurement Science and Technology* 16 (2005), 2056–2065。原始实验证明可用四个球面标记同时记录旋转和偏转，为 Z10 的实测接续提供采集方法。[DOI](https://doi.org/10.1088/0957-0233/16/10/022)
+- S10. I. Griffiths, C. Evans and N. Griffiths, “Tracking the flight of a spinning football in three dimensions,” *Measurement Science and Technology* 16 (2005), 2056–2065。原始实验证明可用四个球面标记同时记录旋转和偏转，为 Z10 的实测接续提供采集方法。[DOI](https://doi.org/10.1088/0957-0233/16/10/022)
+
+- S11. T. Asai, K. Seo, O. Kobayashi and R. Sakashita, “Fundamental aerodynamics of the soccer ball,” *Sports Engineering* 10 (2007), 101–110。作者在 7–35 m/s 风洞条件下研究无旋足球。本文引用的 Teamgeist 阻力曲线拟合由 S2 给出，另据 S3 限定速度参数的使用范围。[原始风洞实验](https://doi.org/10.1007/BF02844207) · [曲线拟合](https://doi.org/10.1088/0143-0807/31/4/007)

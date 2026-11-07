@@ -195,23 +195,31 @@ def draw_goal(v, official, grid_rows):
     })
 
 
-def draw_witness(v, pair):
+def draw_witness(v, pair, rounded, grid_rows):
     source = "experiment/runs/B01/pair.json"
-    fig, (goal, early) = plt.subplots(1, 2, figsize=(WIDTH, 2.73), layout="constrained",
-                                      gridspec_kw={"width_ratios": [1, 1.28]})
+    fig, (goal, early) = plt.subplots(1, 2, figsize=(WIDTH, 3.06), layout="constrained",
+                                      gridspec_kw={"width_ratios": [1, 1.16]})
     yz = np.array([shot["goal_yz_m"] for shot in pair["shots"]])
-    midpoint = yz.mean(axis=0)
     separation = np.linalg.norm(yz[0] - yz[1])
     assert np.isclose(separation, pair["goal_separation_m"])
-    goal.plot(*yz.T, color=SLATE, ls="--", lw=1)
-    for (y, z), mark, color, label in zip(yz, ("o", "s"), (TEAL, OCHRE), ("A", "B")):
-        goal.scatter(y, z, marker=mark, color=color, s=36)
-        goal.annotate(label, (y, z), xytext=(6, 1), textcoords="offset points", color=color)
-    goal.annotate(f"{100 * separation:.2f} cm", midpoint, xytext=(9, 3),
-                  textcoords="offset points", fontweight="bold")
+    rounded_yz = np.array([shot["goal_yz_m"] for shot in rounded["verified_flights"]])
+    rounded_gap = np.linalg.norm(rounded_yz[0] - rounded_yz[1])
+    assert np.isclose(rounded_gap, rounded["verified_separation_m"])
+    selected = [[float(row["y_m"]), float(row["z_m"])] for row in grid_rows if row["in_raw_90"] == "1"]
+    columns = np.unique([float(row["y_m"]) for row in grid_rows])
+    rows = np.unique([float(row["z_m"]) for row in grid_rows])
+    dy, dz = columns[1] - columns[0], rows[1] - rows[0]
+    for y, z in selected:
+        goal.add_patch(Rectangle((y - dy/2, z - dz/2), dy, dz, fc=PALE, ec="#bfced0", lw=.6))
+    goal.plot(*rounded_yz.T, color=OCHRE, marker="s", ls="--", ms=4, lw=1, zorder=3)
+    goal.plot(*yz.T, color=TEAL, marker="o", lw=1.6, ms=4, zorder=4)
+    goal.annotate(f"{separation*100:.2f} cm", yz.mean(axis=0), xytext=(-12,-13),
+                  ha="right", textcoords="offset points", color=TEAL, fontsize=8)
+    goal.annotate(f"{rounded_gap*100:.1f} cm", rounded_yz[0], xytext=(6,-1),
+                  textcoords="offset points", color=OCHRE, fontsize=8)
     goal.set(xlabel="$Y$ (m)", ylabel="$Z$ (m)", aspect="equal",
-             xlim=(2.55, 2.69), ylim=(1.91, 2.035))
-    panel(goal, "A   Two crossings")
+             xlim=(2.11, 3.00), ylim=(1.55, 2.42), xticks=[2.2,2.5,2.8], yticks=[1.6,1.9,2.2])
+    panel(goal, "A   Two pairs at the goal")
     grid(goal, "both")
     frames = pair["third_frames"]
     times = np.array([f["t_s"] for f in frames]) * 1000
@@ -225,9 +233,15 @@ def draw_witness(v, pair):
         early.annotate(f"{d:.2f}", (t, d), xytext=(0, 5), ha="center", textcoords="offset points")
     early.set(xlim=(134, 265), ylim=(0, 15.5), xticks=times,
               xlabel="Candidate observation time (ms)", ylabel="Largest coordinate gap (mm)")
-    panel(early, "B   Third-reading separation")
+    panel(early, "B   Extra frame for the exact fit")
     grid(early)
-    v.save(fig, "witness-path", [source], {
+    fig.legend(handles=[Line2D([], [], color=TEAL, marker="o", label="Exact-centre pair"),
+                        Line2D([], [], color=OCHRE, ls="--", marker="s", label="Rounded-reading pair"),
+                        Rectangle((0, 0), 1, 1, fc=PALE, ec="#bfced0", label="Raw 90% region")],
+               loc="outside lower center", ncol=3)
+    v.save(fig, "witness-path", [source, EVIDENCE+"review-rounded-pair.json", EVIDENCE+"grid.csv"], {
+        "rounded_goal_yz_m": rounded_yz.tolist(), "rounded_separation_m": float(rounded_gap),
+        "raw90_cell_centres_yz_m": selected,
         "goal_yz_m": yz.tolist(), "goal_separation_cm": 100 * separation,
         "third_frame_ms": times.tolist(), "max_coordinate_difference_mm": offsets.tolist(),
         "disjoint_if_larger_than_mm": threshold,
@@ -249,7 +263,7 @@ def draw_factors(v, rows):
              "phase_minus5ms", "phase_plus5ms", "tracking_noise", "zero_wind", "half_spin_beta",
              "half_spin_omega", "spin_model_S", "spin_model_E", "mass_410g", "mass_450g"]
     by_scenario = {r["scenario"]: r for r in rows}
-    fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 4.34), sharey=True, layout="constrained")
+    fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 4.50), sharey=True, layout="constrained")
     nominal_area = float(by_scenario["reference"]["region90_m2"])
     axes[1].axvline(nominal_area, color=SLATE, ls="--", lw=1)
     plotted = []
@@ -275,8 +289,13 @@ def draw_factors(v, rows):
     for ax, title in zip(axes, ("A   Forecast displacement", "B   Size of the region")):
         panel(ax, title)
         grid(ax, "x")
-        ax.axhspan(.5, 7.5, color=PALE, zorder=-1)
+        ax.axhspan(.5, 7.5, color="#e8f2f5", zorder=-1)
+        ax.axhspan(7.5, len(order)-.5, color="#f8f0e5", zorder=-1)
+        ax.axhline(7.5, color=SLATE, linewidth=.6)
         ax.tick_params(axis="y", length=0)
+    fig.legend(handles=[Rectangle((0, 0), 1, 1, color="#e8f2f5", label="Measurement assumptions"),
+                        Rectangle((0, 0), 1, 1, color="#f8f0e5", label="Force assumptions")],
+               loc="outside lower center", ncol=2)
     v.save(fig, "sensitivity", [EVIDENCE + "z05-factors.csv"], plotted)
 
 
@@ -617,8 +636,10 @@ def main():
     draw_geometry(v, cfg)
     draw_pipeline(v, cfg)
     measurements = v.json(EVIDENCE + "measurements.json")
-    draw_goal(v, measurements["official"], v.rows(EVIDENCE + "grid.csv"))
-    draw_witness(v, v.json("experiment/runs/B01/pair.json"))
+    grid_rows = v.rows(EVIDENCE + "grid.csv")
+    draw_goal(v, measurements["official"], grid_rows)
+    draw_witness(v, v.json("experiment/runs/B01/pair.json"),
+                 v.json(EVIDENCE + "review-rounded-pair.json"), grid_rows)
     draw_factors(v, v.rows(EVIDENCE + "z05-factors.csv"))
     summary = v.json(EVIDENCE + "z09-summary.json")
     scores, ids = coverage_data(v, summary)

@@ -13,3 +13,6 @@ C11,B2,在 Z08 的 2 ms 帧可用延迟与 10 ms 帧龄限制下 120 Hz 和 240 
 C12,B2,独立 600 脚中气动整池命中 343/368；稳定旋转 90/110，重力 77/110。,S6,experiment/runs/Z10/summary.json;report/stable-spin.md,conditional
 C13,B2,稳定组配对取整预测少错 0.163 m；先验半宽减半少错 0.0417 m。最大族阈值多中 15 脚但面积增加 0.824 m²。,S6,experiment/runs/Z10/summary.json;experiment/runs/Z10/thresholds.json,conditional
 C14,B2,对同一批 110 脚保留预测，仅交换 Z09 与 Z10 的固定阈值，气动/重力命中由 78/94 变为 90/77（每个数字的分母皆为 110）。,S6,report/evidence/z10-cross-calibration.json;report/stable-spin.md,conditional
+C15,B1;B3,允许各轴 5 mm 取整与 3 m/s 恒风时，题面两段水平位移要求的向内加权净加速度下确界为 1.0695 m/s²，给定模型范围下至少某时刻非阻力投影达到 0.9704 m/s²。,S1;S6,report/evidence/review-geometry.json;report/review-response.md,conditional
+C16,B1;B3,两个模型 S 的允许发球产生相同厘米读数且直接入门，复核交点相距 0.921506 m，给出约 0.460753 m 的条件最坏点误差下界。,S1;S6,report/evidence/review-rounded-pair.json;report/evidence/review-inference.json,conditional
+C17,B3,两帧共享 ±1 ms 均匀相位先验时，条件入门到时的 5/50/95 百分位为出脚后 383/394/406 ms，真实末帧的余时为 282/294/306 ms。,S1;S6,report/evidence/review-inference.json;report/review-response.md,conditional

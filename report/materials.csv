@@ -46,3 +46,8 @@ recheck_spin.py,validation,标准库从冻结格分布重新计算 Z10 阈值与
 cross_spin_calibration.py,code,Z09 与 Z10 冻结预测的交叉阈值诊断
 evidence/z10-cross-calibration.json,table,Z10b 两套阈值在两批稳定旋转留出上的面积与命中
 evidence/z10-validation.json,validation,两次完整重跑的逐文件摘要和独立标准库核验计数
+review-response.md,section,针对 bfd0c04 的 7 项主要及 11 项次要审稿意见，逐项对应到最新版论文
+evidence/review-geometry.json,validation,横弯力界、精确中心拟合、时钟对照与三脚现场记录
+evidence/review-inference.json,result,重放 B03 原始加权轨迹所得的参数分布与共享相位气动到时积分
+evidence/review-rounded-pair.json,validation,两脚相同取整读数的物理见证、事件与独立求解器核对
+evidence/review-replay.zip,code,本轮可离线独立复算的源代码、配置、冻结输入与数值基准

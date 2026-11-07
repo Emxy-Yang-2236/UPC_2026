@@ -1,6 +1,8 @@
 # UPC 2026 B · 两帧预测点球
 
-本分支 `research/2026-b` 接续论文修订稿 `bfd0c04`。论文第 6.6 节与附录 H 检验稳定旋转球的早期预测，将两帧测量误差、升力先验与区域校准分别对照。[阅读论文](paper/manuscript.pdf) · [补充实验设计](design/stable-spin.md) · [完整实验报告](report/stable-spin.md) · [三维模型图](paper/figures/problem-geometry.pdf)
+队号 **720**。本分支 `research/2026-b` 在稳定旋转球增补稿上完成了对 `bfd0c04` 审稿意见的复核。两次显示读数相同的轨迹可在门面相距 0.922 m，正文也给出横弯力界、参数分布和时钟误差下的到时。[逐条回复与复现证据](report/review-response.md)
+
+论文第 6.6 节与附录 H 检验稳定旋转球的早期预测，将两帧测量误差、升力先验与区域校准分别对照。[阅读论文](paper/manuscript.pdf) · [补充实验设计](design/stable-spin.md) · [完整实验报告](report/stable-spin.md) · [三维模型图](paper/figures/problem-geometry.pdf)
 
 ```sh
 git clone --branch research/2026-b https://github.com/Emxy-Yang-2236/UPC_2026.git

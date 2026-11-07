@@ -17,3 +17,5 @@ V13,C2;C11,短时间抛体解析检查和迟到帧检查以及 B03 官方复算�
 V14,C12;C13,解析重力首事件与独立 1 ms RK4 对比；锁定预测复核阈值和按脚评分,重力三类事件与解析相符；六脚偏差低于 0.1 mm/0.1 ms；独立计数与面积一致,三类首事件和六脚均通过，标准库复核 12 个校准阈值和 7848 行评分,experiment/runs/Z10/reference-checks.json;report/recheck_spin.py;report/evidence/z10-validation.json,pass
 V15,C12;C13,从空目录解包，在不同工作进程数下完整重放,两次冻结科学输出一致，不计主机配置字段,15 项科学输出逐字节相同，包括两批预测、阈值、逐脚评分和汇总,report/evidence/z10-validation.json;report/evidence/z10-replay.zip,pass
 V16,C14,固定两批盲测预测和阈值做四组交叉；原对角逐脚核对,两套原阈值须复现其对应队列每脚原始命中,两套对角逐脚完全一致。其余交叉组合保存命中变动和面积,report/cross_spin_calibration.py;report/evidence/z10-cross-calibration.json,pass
+V17,C15;C16,闭盒顶点和弦法向推导，使用 DOP853 和 RK45 从发球状态重新积分取整见证,两次读数均严格在取整区间内；两求解器首次入门点差小于 1e-9 m,界内最小余量 0.0434 mm；两脚都在触地前穿过开口，求解器交点差小于 1e-12 m,report/evidence/review-geometry.json;report/evidence/review-rounded-pair.json,pass
+V18,C17,重放冻结 B03 样本并比较 12 与 24 个求积节点对应的时间分位,检查原轨迹权重、事件及位置；并报告两种节点数的六个分位差,冻结 3469 个正权重样本全部恢复，两套积分节点的六个分位相差至多 0.51 ms,report/evidence/review-inference.json;report/evidence/review-replay.zip,pass

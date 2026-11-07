@@ -6,6 +6,7 @@
     "experiment/src/predict.py": "304a117964f58f9a7c6571422593c9b0d8b9a6e451dba26ee780c05c230eee37",
     "report/evidence/measurements.json": "374e2f6b4ea50cc82097de4ed2ea437c575475b547e53759948c6b4cc8943755",
     "report/evidence/grid.csv": "d096007181a91a87137ccc4323ac7e2abe3ffdb5ad336d10abb5954bdbbb9cfa",
+    "report/evidence/review-rounded-pair.json": "0855c532e149b944db710ec25cf20ed84b1afa4e602a353c558e756605f46b75",
     "report/evidence/z05-factors.csv": "851e3cae67432ddbed2823832e0272577254623c4913e27d15301624d9364d10",
     "report/evidence/z09-summary.json": "d6a852ac10d9b7ff82632419de00e358b3f778788ce5186d7ac19da7d6d4b05f",
     "report/evidence/z09-replay.zip": "25d19713589fb417608440b0892492767a21c5edbbe4944010a9ab4cb2c739c7",
@@ -560,11 +561,50 @@
       }
     },
     "witness-path.pdf": {
-      "sha256": "fb782979b12f4b5e7251a86a34d888b4de48cf026f318f7f210c20743d3106c2",
+      "sha256": "4b133fa7e9b81bd65d118bb606cf392434cea68c131ce068ce9885317034d339",
       "sources": [
-        "experiment/runs/B01/pair.json"
+        "experiment/runs/B01/pair.json",
+        "report/evidence/review-rounded-pair.json",
+        "report/evidence/grid.csv"
       ],
       "plotted": {
+        "rounded_goal_yz_m": [
+          [
+            2.2897669714433793,
+            2.3285702192030335
+          ],
+          [
+            2.906396645931076,
+            1.6437775329229751
+          ]
+        ],
+        "rounded_separation_m": 0.9215059297918063,
+        "raw90_cell_centres_yz_m": [
+          [
+            2.3180000000000005,
+            1.83
+          ],
+          [
+            2.3180000000000005,
+            2.074
+          ],
+          [
+            2.5620000000000003,
+            1.83
+          ],
+          [
+            2.5620000000000003,
+            2.074
+          ],
+          [
+            2.8060000000000005,
+            1.83
+          ],
+          [
+            2.8060000000000005,
+            2.074
+          ]
+        ],
         "goal_yz_m": [
           [
             2.5737791002561945,
@@ -590,7 +630,7 @@
       }
     },
     "sensitivity.pdf": {
-      "sha256": "73548b434d2f55e074bcc91be2fb5c9a2b6e013a6389ca52c87be063fdcfbc75",
+      "sha256": "c53327496dea9a426cf90f7ac516909dc3d1a7f5cb29337c7f5af0f1640b7890",
       "sources": [
         "report/evidence/z05-factors.csv"
       ],

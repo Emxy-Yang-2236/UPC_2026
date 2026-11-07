@@ -36,6 +36,8 @@ The Lagrange weights of the two readings are \(\lambda_1=s(2-s)\) and \(\lambda_
 \end{equation}
 At the nominal crossing the weights are \(-49.41\) and \(28.76\). Allowing independent errors of up to 5 mm in each coordinate gives linear bounds of 0.439 m in \(Y\) and 0.424 m in \(Z\). A common \(+1\) ms offset shifts \((Y,Z)\) by \((-0.123,-0.093)\) m to first order. Central differences with a \(1\,\mu\)s step reproduce the timing derivative to within \(2\times10^{-5}\) m/s. The large weights arise from extending an unconstrained quadratic well beyond the observations. The aerodynamic predictor restricts curvature through its force and launch bounds.
 
+With the same positions reassigned to times \(h+\tau,2h+\tau\) and the quadratic refitted, \(dT/d\tau=-26.52\) at zero. The exact forward roots for \(\tau=-1,0,+1\) ms are respectively 439.2, 405.0 and 383.1 ms. Holding the time labels fixed and instead generating later positions, as in Eq.~\eqref{eq:timing-spatial}, reverses the local derivative. This timing sensitivity belongs to the unconstrained quadratic. The aerodynamic timing interval in Sec.~\ref{sec:measurement} weights physically admissible flights.
+
 \subsection{Covariance near a smooth crossing}
 Let \(\Sigma_e\) be the covariance of noise drawn independently in each frame, \(\Sigma_b\) that of a bias shared by the frames, and \(\sigma_\tau^2\) the timing variance. Assume independence among these sources. With \(w=\lambda_1\vv v(h)+\lambda_2\vv v(2h)\), Eq.~\eqref{eq:timing-spatial} gives
 \begin{equation}
@@ -100,6 +102,7 @@ Profile & Forecast & Points & Events & ESS \(<25\) & Median (ms) & 95th (ms)\\\m
 \bottomrule\end{tabular}
 \end{table}
 
+\clearpage
 \section{Forecast algorithm and physical checks}
 \label{app:algorithm}
 \subsection{From observations to first-event probabilities}
@@ -113,6 +116,12 @@ The inputs are the release point, observed positions and times, the camera-error
 \end{enumerate}
 
 Report the unconditional entry probability alongside the conditional point, especially near the goal boundary where entry mass may be small. Geometric bounds can exclude a flight under the stated assumptions. A low effective sample size flags uncertainty in the numerical approximation.
+
+\subsection{A bound on the force needed to turn the horizontal flight}
+\label{app:bend}
+Put \(L=2h\), \(\vv a_*=(\vv p_2-2\vv p_1)/h^2\) and let \(\vv n\) be the left unit normal to the chord \(\vv p_2-L\vv w\) in the air frame. Integrating by parts gives \(\vv n\cdot\vv a_*=\int_0^L \min(t,L-t)\,\vv n\cdot\ddot{\vv p}(t)\,dt/h^2\). The second difference therefore measures a time-weighted net acceleration. To minimize its inward magnitude over a wind disk of radius \(W\), rotate the chord by the largest possible angle to the left. Its heading is then \(\arg(\vv p_2)+\arcsin(LW/\|\vv p_2\|)\), with \(\vv n\cdot\vv p_2=-LW\). For these positive coordinates and negative acceleration components the inward projection decreases as this angle increases. Over the rounding box it is smallest when \(x_1\) is largest, \(y_1\) smallest, \(x_2\) smallest and \(y_2\) largest. The limiting points in the closed box are \((1.505,0.445)\) and \((2.955,0.865)\) m.
+
+To separate the non-drag force from the net acceleration, write \(d(t)=\vv n\cdot[\vv p(t)-t\vv w]\), \(A=-\vv n\cdot\vv a_*=2d(h)/h^2\) and \(b(t)=A t(L-t)/2\). The horizontal equation is \(d''+c(t)d'=\ell_n(t)\), with \(c\) the drag rate and \(\ell_n\) the projected non-drag acceleration. The difference \(d-b\) vanishes at \(0,h,L\). Rolle's theorem applied first to \(d-b\), then to \(e^{\int_0^t c}(d-b)'\), gives a time \(s\) such that \(-\ell_n(s)=A[1-c(s)(h-s)]\). Over the first 100 ms, \(\dot U\le g\) gives \(U\le\lVert(38,12,11)\rVert+3+0.1g<45.33\ \mathrm{m/s}\). With the coefficients from Sec.~\ref{sec:forces}, \(c\le\max(\kappa_{\max},K C_{D,\max})U<1.854\ \mathrm{s^{-1}}\). The peak inward non-drag component must therefore reach at least \((1-1.854h)A\), about \(8.09\ \mathrm{m/s^2}\) at the displayed centres and \(0.97\ \mathrm{m/s^2}\) allowing rounding.
 
 \subsection{Assumptions, limits and solver checks}
 \begin{table}[htbp]\centering\small
@@ -132,4 +141,4 @@ Cell width and RK4 steps & Numerical choices & Affect the modal cell and integra
 
 Under gravity alone, \(x(t)=v_{0x}t\), \(y(t)=v_{0y}t\) and \(z(t)=R+v_{0z}t-gt^2/2\). The analytic plane and ground times check event ordering. In still air, drag alone preserves horizontal heading because the horizontal acceleration is proportional to the horizontal velocity. Equation~\eqref{eq:wind} extends this property to the frame of a constant wind. These limits check the geometry and force signs independently of posterior sampling.
 
-Four RK4 comparisons with adaptive DOP853 cover vacuum flight, drag with ground contact, effective transverse lift and the empirical force law. The solvers agreed to within 0.171 mm in event position and 0.038 ms in event time on these cases. The trajectory pair in Sec.~\ref{sec:ambig} also has a separate high-accuracy integration and MATLAB replay. The observations still limit what can be inferred about wind, spin and release time.
+Four RK4 comparisons with adaptive DOP853 cover vacuum flight, drag with ground contact, effective transverse lift and the empirical force law. The solvers agreed to within 0.171 mm in event position and 0.038 ms in event time on these cases. The original exact-centre pair in Sec.~\ref{sec:ambig} also has a MATLAB replay. Independent adaptive integrations verify the two rounded-coordinate witnesses. The observations still limit what can be inferred about wind, spin and release time.

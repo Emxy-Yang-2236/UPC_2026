@@ -1,0 +1,61 @@
+{
+  "positive_weight_direct_crossings_searched": 3469,
+  "archived_maximum_pair_distance_m": 0.9216820259555487,
+  "verified_flights": [
+    {
+      "model": "S",
+      "pooled_model_index": 341,
+      "early_m": [
+        [
+          1.5018672675223028,
+          0.4548265098769354,
+          0.43580812067500724
+        ],
+        [
+          2.9600808890138683,
+          0.8554582281449821,
+          0.7435257477654809
+        ]
+      ],
+      "goal_yz_m": [
+        2.2897669714433793,
+        2.3285702192030335
+      ],
+      "arrival_s": 0.4045159905226385,
+      "smallest_clearance_inside_display_bin_m": 0.00017349012306460809,
+      "max_early_solver_discrepancy_m": 8.881784197001252e-16,
+      "goal_solver_discrepancy_m": 2.5121479338940403e-15,
+      "event_time_solver_discrepancy_s": 1.1102230246251565e-16,
+      "goal_change_from_frozen_RK4_m": 0.00024116441976297667
+    },
+    {
+      "model": "S",
+      "pooled_model_index": 1107,
+      "early_m": [
+        [
+          1.5002648220854176,
+          0.4464909270688888,
+          0.44495660035248913
+        ],
+        [
+          2.9612969324143177,
+          0.8647636694494264,
+          0.7365966182483605
+        ]
+      ],
+      "goal_yz_m": [
+        2.906396645931076,
+        1.6437775329229751
+      ],
+      "arrival_s": 0.40043144114015805,
+      "smallest_clearance_inside_display_bin_m": 4.339964751087343e-05,
+      "max_early_solver_discrepancy_m": 8.881784197001252e-16,
+      "goal_solver_discrepancy_m": 6.358389842764979e-15,
+      "event_time_solver_discrepancy_s": 8.326672684688674e-16,
+      "goal_change_from_frozen_RK4_m": 3.712955096479921e-05
+    }
+  ],
+  "verified_separation_m": 0.9215059297918063,
+  "witness_worst_case_floor_m": 0.46075296489590317,
+  "scope": "Two direct model-S flights giving the prescribed rounded readings with exact timestamps. Other admissible flights could separate farther."
+}
