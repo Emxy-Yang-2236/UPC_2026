@@ -1,0 +1,165 @@
+{
+  "settings": {
+    "version": "B-1.0",
+    "official": {
+      "r0": [
+        0,
+        0,
+        0.11
+      ],
+      "times": [
+        0.05,
+        0.1,
+        0.15
+      ],
+      "xyz": [
+        [
+          1.5,
+          0.45,
+          0.44
+        ],
+        [
+          2.96,
+          0.86,
+          0.74
+        ]
+      ],
+      "gate": 11,
+      "half_width": 3.66,
+      "height": 2.44
+    },
+    "physics": {
+      "g": 9.81,
+      "radius": 0.11,
+      "mass": 0.43,
+      "air_density": 1.2,
+      "wind_cap": 3,
+      "kappa": [
+        0.006,
+        0.024
+      ],
+      "beta_cap": 0.8,
+      "omega_cap": 65,
+      "drag_offset": [
+        -0.04,
+        0.27
+      ],
+      "velocity_lo": [
+        18,
+        -12,
+        1.5
+      ],
+      "velocity_hi": [
+        38,
+        12,
+        11
+      ]
+    },
+    "observation": {
+      "quantum_m": 0.01,
+      "mask_names": [
+        "origin",
+        "first",
+        "late",
+        "both"
+      ]
+    },
+    "solver": {
+      "early_dt": 0.025,
+      "late_dt": 0.0125,
+      "horizon": 1.25,
+      "reference_rtol": 1e-10,
+      "reference_atol": 1e-12
+    },
+    "sampling": {
+      "models": [
+        "D",
+        "S",
+        "E"
+      ],
+      "prior": [
+        0.2,
+        0.4,
+        0.4
+      ],
+      "spin_fraction_range": [
+        0.1,
+        0.9
+      ],
+      "prior_proposal": 0.02,
+      "proposal_halfwidth_m": 0.007,
+      "inverse_steps": 3,
+      "n_single": 8192,
+      "n_both": 8192,
+      "n_official": 131072,
+      "resample_cap": 512,
+      "official_cap": 8192,
+      "official_seeds": [
+        8111,
+        8117
+      ],
+      "batch": 4096
+    },
+    "study": {
+      "dev": 9,
+      "cal": 36,
+      "blind": 48,
+      "seeds": {
+        "dev": 42401,
+        "cal": 77401,
+        "blind": 77407
+      },
+      "bootstrap_seed": 42937,
+      "bootstrap_n": 2000,
+      "grid": [
+        30,
+        10
+      ],
+      "coverage": 0.9,
+      "min_ess": 25,
+      "official_min_ess": 200,
+      "reference_position_tol_m": 0.003,
+      "reference_time_tol_s": 0.0002
+    }
+  },
+  "masks": {
+    "two_100ms": [
+      0,
+      1
+    ],
+    "late_pair_150ms": [
+      1,
+      2
+    ],
+    "three_150ms": [
+      0,
+      1,
+      2
+    ],
+    "noisy_hard": [
+      0,
+      1
+    ],
+    "noisy_independent": [
+      0,
+      1
+    ],
+    "noisy_shared": [
+      0,
+      1
+    ]
+  },
+  "predict_seeds": [
+    77501,
+    77507
+  ],
+  "noise_tracking_sigma_m": 0.006,
+  "noise_shared_sigma_m": 0.008,
+  "noise_seeds": [
+    77431,
+    77443
+  ],
+  "python": "3.10.11",
+  "numpy": "2.2.6",
+  "reference_step_s": 0.001
+}

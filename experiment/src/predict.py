@@ -1,6 +1,7 @@
 """Importance-sampling predictor. This module never receives a reference outcome."""
 import numpy as np
 from flight import early, finish, draw_nuisance, gravity, cell_edges, cell_ids, cell_geometry
+from observation_layer import rounded_probability
 
 MASKS = {"origin": (), "first": (0,), "late": (1,), "both": (0,1)}
 
@@ -10,6 +11,7 @@ def posterior_tracks(observations, kind, cfg, n, cap, rng):
     lo, hi = np.array(p["velocity_lo"]), np.array(p["velocity_hi"])
     pv = 1 / np.prod(hi-lo)
     epsilon = cfg["observation"]["quantum_m"]/2
+    noise = cfg["observation"].get("tracking_noise")
     latest = max(observations) if observations else None
     times = o["times"]
     r0 = np.array(o["r0"])
@@ -25,8 +27,11 @@ def posterior_tracks(observations, kind, cfg, n, cap, rng):
             t = 0.
         else:
             t = times[latest]
-            target = observations[latest]
-            center = np.tile((target-r0)/t - .5*t*gravity(cfg),(count,1))
+            bias = 0.
+            if noise is not None and noise["shared_bias_sigma_m"] > 0:
+                bias = rng.normal(0., noise["shared_bias_sigma_m"], size=(count, 3))
+            target = observations[latest] - bias
+            center = np.broadcast_to((target-r0)/t - .5*t*gravity(cfg),(count,3)).copy()
             for _ in range(sp["inverse_steps"]):
                 frames, _, _ = early(center,nuisance,kind,cfg,latest)
                 center += (target-frames[-1])/t
@@ -39,10 +44,17 @@ def posterior_tracks(observations, kind, cfg, n, cap, rng):
             q = frac*pv*in_prior + (1-frac)/(2*width)**3*in_local
             frames, velocities, alive = early(v0,nuisance,kind,cfg,latest)
             accepted = in_prior & alive[-1]
-            for frame, measurement in observations.items():
-                delta = frames[frame]-measurement
-                accepted &= np.all((delta>=-epsilon)&(delta<epsilon),axis=1)
-            weights = np.divide(pv*accepted,q,out=np.zeros(count),where=q>0)
+            if noise is None:
+                for frame, measurement in observations.items():
+                    delta = frames[frame]-measurement
+                    accepted &= np.all((delta>=-epsilon)&(delta<epsilon),axis=1)
+                likelihood = accepted
+            else:
+                likelihood = accepted.astype(float)
+                for frame, measurement in observations.items():
+                    delta = frames[frame] + bias - measurement
+                    likelihood *= np.prod(rounded_probability(delta, noise["sigma_m"], epsilon), axis=1)
+            weights = np.divide(pv*likelihood,q,out=np.zeros(count),where=q>0)
             r, v = frames[-1], velocities[-1]
         keep = weights>0
         if np.any(keep):

@@ -38,3 +38,19 @@ python3 experiment/src/check_auxiliary_tracks.py --output scratch/D03.json
 D02 的 `inputs.json`、`predictions.json`、`lock.json`、`support.csv`、`reference.csv`、`scores.csv`、`summary.json` 可与归档中的 `experiment/runs/D02/` 比较；软件版本变化时锁中的环境字段可不同。D03 应与包内 [auxiliary.json](evidence/auxiliary.json) 一致。两种实验的输入接口、时钟和目标各自定义，故保留各自的评分表。
 
 **本次实测扩充的验收。** 2026-11-07，独立上下文只读 ZIP 解包，运行两个标准库复核，得到官方区域 0.357216 m²、合成命中 30/33、现场加速度上界 102.647863 m/s² 与唯一末帧点误差 0.848690 m。实验端另外在空目录离线重放 D02，预测与评分七个文件逐字节相同，隐藏帧扰动检验通过 3/3；D03 由公开来源重取后与包内聚合逐字节一致。随后增加末章的迭代方向，稿件审阅又补明取整与有界误差的区别、系统重采样及等预算对照。数表未变，最终 24 项均从解包目录按 SHA-256 核对。
+
+## 补充实验 Z05–Z07
+
+从报告目录执行 `python -I recheck_extensions.py`，可用标准库复算 Z05 基准面积、Z06 的逐脚分母和表内均值，以及 Z07 三脚的纳入状态。需从同一份源程序重新运行时，将 [补充复现包](evidence/z05-z07-replay.zip) 解到空目录。使用 Python 3.10.11、NumPy 2.2.6 可得到本轮运行，三个输出目录须为新路径。
+
+```sh
+python -m zipfile -e evidence/z05-z07-replay.zip replay-extensions
+cd replay-extensions
+python experiment/src/factor_sweep.py --out scratch/Z05
+python experiment/src/additional_information.py --out scratch/Z06
+python experiment/src/field_anchor_check.py --out scratch/Z07
+```
+
+预测阶段读取各自的可见读数，Z06 在评分前写出每批预测及 SHA-256。参考求解器用同一生成力律的 1 ms 积分，并自动与 48 脚冻结 DOP853 参考比较。新测试的种子、初始条件、真实事件、每种子校准分位数与逐脚结果均保存在运行目录。独立报告同时携带 Z05 数据表、Z06 评分与汇总、Z07 诊断表。Z07 复现包的 IDSSE 派生帧来自已注明版本的 CC BY 4.0 数据，出处见来源章节。 [补充复核脚本](recheck_extensions.py) · [来源](references.md)
+
+本轮计算时设置 `OPENBLAS_NUM_THREADS=1`。解包后的 Z07 复放在所有 18 行的事件、标志与分母上相同，默认线程设置下 ESS 的最大差约 $1.1\times10^{-13}$。数值复核采用容差，SHA-256 用于核对冻结文件。

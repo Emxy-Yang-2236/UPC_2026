@@ -1,0 +1,2442 @@
+{
+  "python": "3.10.11",
+  "numpy": "2.2.6",
+  "scenarios": {
+    "reference": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.5010000000000003,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1708.9999999999854
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1759.9999999999814
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.34592101470165476,
+        0.6540789852983787
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "box_2p5mm": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.005,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.623,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 34.0
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 34.0
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.3529411764705882,
+        0.6470588235294117
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "box_10mm": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.02,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.012,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          3.2940000000000005,
+          1.83
+        ],
+        "fine": [
+          3.2330000000000005,
+          1.891
+        ],
+        "shift": [
+          3.1720000000000006,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            3.2940000000000005,
+            1.83
+          ],
+          "ess": 21274.56278689574
+        },
+        {
+          "point": [
+            3.2940000000000005,
+            1.83
+          ],
+          "ess": 21424.974489006785
+        }
+      ],
+      "model_posterior": [
+        0.175083094850001,
+        0.29932112469995054,
+        0.5255957804498014
+      ],
+      "gate_events": [
+        0.955785485200546,
+        0.044214514799454104,
+        0.0,
+        0.0
+      ]
+    },
+    "phase_minus1ms": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.049,
+            0.099
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.8060000000000005,
+          2.074
+        ],
+        "fine": [
+          2.745,
+          2.135
+        ],
+        "shift": [
+          2.684,
+          2.1959999999999997
+        ]
+      },
+      "per_seed": [
+        {
+          "point": null,
+          "ess": 0.0
+        },
+        {
+          "point": [
+            2.8060000000000005,
+            2.074
+          ],
+          "ess": 1.0
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "phase_plus1ms": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.051,
+            0.101
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.623,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1409.9999999999832
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1454.9999999999811
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.2883071553228666,
+        0.7116928446771489
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "phase_minus5ms": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.045,
+            0.095
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": null,
+        "fine": null,
+        "shift": null
+      },
+      "per_seed": [
+        {
+          "point": null,
+          "ess": 0.0
+        },
+        {
+          "point": null,
+          "ess": 0.0
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gate_events": null
+    },
+    "phase_plus5ms": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.055,
+            0.105
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": null,
+        "fine": null,
+        "shift": null
+      },
+      "per_seed": [
+        {
+          "point": null,
+          "ess": 0.0
+        },
+        {
+          "point": null,
+          "ess": 0.0
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gate_events": null
+    },
+    "zero_wind": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 0.0,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.5010000000000003,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1850.9999999999714
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1913.9999999999627
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.33705179282869746,
+        0.6629482071713388
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "half_spin_beta": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.4,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.623,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 2529.9999999999045
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 2588.9999999998945
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.5567493651103986,
+        0.44325063488964717
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "half_spin_omega": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 32.5,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.8060000000000005,
+          2.074
+        ],
+        "fine": [
+          2.745,
+          1.891
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.8060000000000005,
+            2.074
+          ],
+          "ess": 1897.999999999959
+        },
+        {
+          "point": [
+            2.8060000000000005,
+            2.074
+          ],
+          "ess": 1946.9999999999557
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.31209362808843816,
+        0.6879063719115991
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "mass_410g": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.41,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.5010000000000003,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1665.999999999991
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1669.9999999999945
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.3597122302158388,
+        0.6402877697841931
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "mass_450g": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.45,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.623,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1688.9999999999875
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1761.9999999999802
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.3477252970153694,
+        0.6522747029846638
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "spin_model_S": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.623,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 589.0000000000124
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 611.0000000000131
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        1.0000000000000164,
+        0.0
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "spin_model_E": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ]
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.007,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          2.5620000000000003,
+          2.074
+        ],
+        "fine": [
+          2.5010000000000003,
+          2.013
+        ],
+        "shift": [
+          2.684,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1119.999999999973
+        },
+        {
+          "point": [
+            2.5620000000000003,
+            2.074
+          ],
+          "ess": 1148.999999999968
+        }
+      ],
+      "model_posterior": [
+        0.0,
+        0.0,
+        1.0000000000000424
+      ],
+      "gate_events": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "tracking_noise": {
+      "config": {
+        "version": "B-1.0",
+        "official": {
+          "r0": [
+            0,
+            0,
+            0.11
+          ],
+          "times": [
+            0.05,
+            0.1
+          ],
+          "xyz": [
+            [
+              1.5,
+              0.45,
+              0.44
+            ],
+            [
+              2.96,
+              0.86,
+              0.74
+            ]
+          ],
+          "gate": 11,
+          "half_width": 3.66,
+          "height": 2.44
+        },
+        "physics": {
+          "g": 9.81,
+          "radius": 0.11,
+          "mass": 0.43,
+          "air_density": 1.2,
+          "wind_cap": 3,
+          "kappa": [
+            0.006,
+            0.024
+          ],
+          "beta_cap": 0.8,
+          "omega_cap": 65,
+          "drag_offset": [
+            -0.04,
+            0.27
+          ],
+          "velocity_lo": [
+            18,
+            -12,
+            1.5
+          ],
+          "velocity_hi": [
+            38,
+            12,
+            11
+          ]
+        },
+        "observation": {
+          "quantum_m": 0.01,
+          "mask_names": [
+            "origin",
+            "first",
+            "late",
+            "both"
+          ],
+          "tracking_noise": {
+            "sigma_m": 0.006,
+            "shared_bias_sigma_m": 0.008
+          }
+        },
+        "solver": {
+          "early_dt": 0.025,
+          "late_dt": 0.0125,
+          "horizon": 1.25,
+          "reference_rtol": 1e-10,
+          "reference_atol": 1e-12
+        },
+        "sampling": {
+          "models": [
+            "D",
+            "S",
+            "E"
+          ],
+          "prior": [
+            0.2,
+            0.4,
+            0.4
+          ],
+          "spin_fraction_range": [
+            0.1,
+            0.9
+          ],
+          "prior_proposal": 0.02,
+          "proposal_halfwidth_m": 0.026,
+          "inverse_steps": 3,
+          "n_single": 2048,
+          "n_both": 16384,
+          "n_official": 131072,
+          "resample_cap": 512,
+          "official_cap": 8192,
+          "official_seeds": [
+            8111,
+            8117
+          ],
+          "batch": 4096
+        },
+        "study": {
+          "dev": 9,
+          "cal": 36,
+          "blind": 48,
+          "seeds": {
+            "dev": 42401,
+            "cal": 42437,
+            "blind": 42509
+          },
+          "bootstrap_seed": 42937,
+          "bootstrap_n": 2000,
+          "grid": [
+            30,
+            10
+          ],
+          "coverage": 0.9,
+          "min_ess": 25,
+          "official_min_ess": 200,
+          "reference_position_tol_m": 0.003,
+          "reference_time_tol_s": 0.0002
+        }
+      },
+      "grid_modes": {
+        "base": [
+          3.2940000000000005,
+          1.83
+        ],
+        "fine": [
+          3.2330000000000005,
+          1.891
+        ],
+        "shift": [
+          3.1720000000000006,
+          1.952
+        ]
+      },
+      "per_seed": [
+        {
+          "point": [
+            3.2940000000000005,
+            1.83
+          ],
+          "ess": 5852.634295404919
+        },
+        {
+          "point": [
+            3.2940000000000005,
+            1.83
+          ],
+          "ess": 6000.940342573619
+        }
+      ],
+      "model_posterior": [
+        0.29901625331118037,
+        0.2592955369329206,
+        0.4416882097558456
+      ],
+      "gate_events": [
+        0.9340125787974759,
+        0.06598742120252411,
+        0.0,
+        0.0
+      ]
+    }
+  }
+}

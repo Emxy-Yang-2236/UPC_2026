@@ -1,0 +1,86 @@
+[
+  {
+    "seed": 77501,
+    "method": "two_100ms",
+    "level": 0.9110576923076928,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77501,
+    "method": "late_pair_150ms",
+    "level": 0.9579831932773109,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77501,
+    "method": "three_150ms",
+    "level": 0.9961904761904762,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77501,
+    "method": "noisy_hard",
+    "level": 1.0,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77501,
+    "method": "noisy_independent",
+    "level": 0.8328792038145345,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77501,
+    "method": "noisy_shared",
+    "level": 0.9232906481987245,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77507,
+    "method": "two_100ms",
+    "level": 0.89174769499788,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77507,
+    "method": "late_pair_150ms",
+    "level": 0.9656307351141926,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77507,
+    "method": "three_150ms",
+    "level": 0.9959839357429718,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77507,
+    "method": "noisy_hard",
+    "level": 1.0,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77507,
+    "method": "noisy_independent",
+    "level": 0.7711568591932974,
+    "calibration_in_goal": 25,
+    "rank": 24
+  },
+  {
+    "seed": 77507,
+    "method": "noisy_shared",
+    "level": 0.9613903974014382,
+    "calibration_in_goal": 25,
+    "rank": 24
+  }
+]

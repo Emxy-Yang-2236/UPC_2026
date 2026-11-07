@@ -10,3 +10,6 @@ V07b,C3,B03 统一前缀累积后复算全部原始脚,"全部掩码达到 min(k
 V00,C4,解析共线必要条件及误差盒 16 个角点,精确读数及半格误差风界、静风相容阈值均在首项容差内,14.84924 m/s、4.35321 m/s、7.27903 mm,design/start.py;report/evidence/measurements.json,pass
 V08,C5,原生早帧锁定后对照过线；独立复算三脚门线、加速度界、欧氏误差,早晚帧严格分开；剩余证据与闭式界和参考表一致,3/3 物理下界超出 102.648 m/s²，主/复本双帧均无支持；3 脚可重建后段交点，晚帧仅 1 个条件格心可评分。,experiment/runs/D02/lock.json;experiment/runs/D02/reference.csv;experiment/runs/D02/support.csv;experiment/runs/D02/scores.csv,pass
 V09,C6,固定输入来源后以缓存和网络复现聚合、按段闭式重算中位数,源文件哈希相同；分母及聚合一致，闭式误差差异 <1e-12 m,47 个 ISSIA 片段可评分；两个中位数独立核对且聚合逐字节相同，StatsBomb 筛出 9/1/1。,experiment/runs/D03/summary.json;experiment/runs/D03/README.md,pass
+V10,C7,在 Z05 重跑 B03 默认条件,默认格心和原始联合面积一致,格心与面积一致且所有扫参情景记录 ESS 与缺失,experiment/runs/Z05/factors.csv,pass
+V11,C8;C9,参考积分与 B03 冻结 DOP853 比较,48 脚事件一致且最大差分别小于 0.1 mm 和 0.1 ms,事件一致且门面差 1.89e-6 m 与时间差 6.27e-7 s,experiment/runs/Z06/reference-check.json,pass
+V12,C7;C8;C9;C10,从可独立读取的补充 CSV 复核,数据表与汇总的分母和均值一致,补充复核通过,report/recheck_extensions.py;report/evidence/z06-summary.json,pass

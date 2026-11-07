@@ -1,12 +1,13 @@
 """Independent scalar adaptive solver, synthetic reference physics and kinematic controls."""
 import math
 import numpy as np
-from scipy.integrate import solve_ivp
 
 from flight import EVENTS
 
 
 def solve(v0, acceleration, cfg):
+    from scipy.integrate import solve_ivp
+
     o,p,s=cfg["official"],cfg["physics"],cfg["solver"]
     def gate(t,state): return state[0]-o["gate"]
     def ground(t,state): return state[2]-p["radius"]
@@ -27,7 +28,7 @@ def solve(v0, acceleration, cfg):
     return sol,3,None,None
 
 
-def synthetic(split,cfg):
+def synthetic(split,cfg,*,rounded=True,solver=solve):
     spec=cfg["study"]
     seeds=np.random.SeedSequence(spec["seeds"][split]).spawn(spec[split]+1)
     order=np.random.default_rng(seeds[-1])
@@ -58,11 +59,11 @@ def synthetic(split,cfg):
                 force=amp*np.array([0,np.sin(angle),.4*np.cos(angle)])
                 a+=force-unit*(force@unit)
             return a
-        sol,e,q,t=solve(v0,truth,cfg)
+        sol,e,q,t=solver(v0,truth,cfg)
         if sol.t[-1]<max(cfg["official"]["times"]): raise ValueError(f"missing required early frame: {shot}")
         f=sol.sol(cfg["official"]["times"])[:3].T
         quantum=cfg["observation"]["quantum_m"]
-        readings=(np.floor(f/quantum+.5)*quantum).round(8)
+        readings=(np.floor(f/quantum+.5)*quantum).round(8) if rounded else f
         data.append({"id":shot,"xyz":readings.tolist()})
         outcomes.append({"id":shot,"family":["no_spin","stable_spin","wake"][label],"event":EVENTS[e],"yz":q,"T":t})
     return data,outcomes

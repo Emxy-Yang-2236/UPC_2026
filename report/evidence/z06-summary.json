@@ -1,0 +1,299 @@
+{
+  "metrics": {
+    "two_100ms": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 0,
+      "low_ess": 0,
+      "point_error_m": {
+        "n": 72,
+        "mean": 0.18249569992245246
+      },
+      "brier": {
+        "n": 96,
+        "mean": 0.028808222730185656
+      },
+      "raw_area_m2": {
+        "n": 72,
+        "mean": 0.3456395555555556
+      },
+      "cal_area_m2": {
+        "n": 72,
+        "mean": 0.34977400000000003
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.3205564541641733
+      },
+      "raw_hit": {
+        "n": 72,
+        "hit": 61
+      },
+      "cal_hit": {
+        "n": 72,
+        "hit": 61
+      }
+    },
+    "late_pair_150ms": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 0,
+      "low_ess": 20,
+      "point_error_m": {
+        "n": 72,
+        "mean": 0.1259718620501982
+      },
+      "brier": {
+        "n": 96,
+        "mean": 0.021383633566698406
+      },
+      "raw_area_m2": {
+        "n": 72,
+        "mean": 0.13643666666666665
+      },
+      "cal_area_m2": {
+        "n": 72,
+        "mean": 0.1769542222222222
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.27055645416417323
+      },
+      "raw_hit": {
+        "n": 72,
+        "hit": 62
+      },
+      "cal_hit": {
+        "n": 72,
+        "hit": 64
+      }
+    },
+    "three_150ms": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 6,
+      "low_ess": 46,
+      "point_error_m": {
+        "n": 65,
+        "mean": 0.130247232380272
+      },
+      "brier": {
+        "n": 90,
+        "mean": 0.03339662296653868
+      },
+      "raw_area_m2": {
+        "n": 72,
+        "mean": 0.09261155555555554
+      },
+      "cal_area_m2": {
+        "n": 72,
+        "mean": 0.1256871111111111
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.27055645416417323
+      },
+      "raw_hit": {
+        "n": 72,
+        "hit": 52
+      },
+      "cal_hit": {
+        "n": 72,
+        "hit": 60
+      }
+    },
+    "noisy_hard": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 2,
+      "low_ess": 8,
+      "point_error_m": {
+        "n": 68,
+        "mean": 0.42516447391859513
+      },
+      "brier": {
+        "n": 94,
+        "mean": 0.10142718000914165
+      },
+      "raw_area_m2": {
+        "n": 72,
+        "mean": 0.3547353333333333
+      },
+      "cal_area_m2": {
+        "n": 72,
+        "mean": 17.860799999999998
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.3205564541641733
+      },
+      "raw_hit": {
+        "n": 72,
+        "hit": 27
+      },
+      "cal_hit": {
+        "n": 72,
+        "hit": 72
+      }
+    },
+    "noisy_independent": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 0,
+      "low_ess": 0,
+      "point_error_m": {
+        "n": 72,
+        "mean": 0.23084323424377828
+      },
+      "brier": {
+        "n": 96,
+        "mean": 0.06873761887888244
+      },
+      "raw_area_m2": {
+        "n": 72,
+        "mean": 1.869595777777778
+      },
+      "cal_area_m2": {
+        "n": 72,
+        "mean": 1.2610055555555557
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.3205564541641733
+      },
+      "raw_hit": {
+        "n": 72,
+        "hit": 72
+      },
+      "cal_hit": {
+        "n": 72,
+        "hit": 68
+      }
+    },
+    "noisy_shared": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 0,
+      "low_ess": 0,
+      "point_error_m": {
+        "n": 72,
+        "mean": 0.25714941554651694
+      },
+      "brier": {
+        "n": 96,
+        "mean": 0.06444973012313969
+      },
+      "raw_area_m2": {
+        "n": 72,
+        "mean": 1.2560442222222226
+      },
+      "cal_area_m2": {
+        "n": 72,
+        "mean": 1.6091257777777779
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.3205564541641733
+      },
+      "raw_hit": {
+        "n": 72,
+        "hit": 71
+      },
+      "cal_hit": {
+        "n": 72,
+        "hit": 71
+      }
+    },
+    "noisy_gravity": {
+      "attempts": 96,
+      "unique_shots": 48,
+      "in_goal_shots": 36,
+      "missing_event": 0,
+      "low_ess": 0,
+      "point_error_m": {
+        "n": 72,
+        "mean": 0.21972475996554192
+      },
+      "brier": {
+        "n": 96,
+        "mean": 0.10416666666666667
+      },
+      "raw_area_m2": {
+        "n": 0,
+        "mean": null
+      },
+      "cal_area_m2": {
+        "n": 0,
+        "mean": null
+      },
+      "time_to_goal_s": {
+        "n": 72,
+        "mean": 0.3205564541641733
+      },
+      "raw_hit": {
+        "n": 0,
+        "hit": 0
+      },
+      "cal_hit": {
+        "n": 0,
+        "hit": 0
+      }
+    }
+  },
+  "paired_point_error": {
+    "three_150ms_minus_two_100ms": {
+      "complete_shots": 31,
+      "mean_difference_m": -0.050154099135373734,
+      "shot_bootstrap95_m": [
+        -0.0859747273715944,
+        -0.016979120963847474
+      ]
+    },
+    "late_pair_150ms_minus_two_100ms": {
+      "complete_shots": 36,
+      "mean_difference_m": -0.05652383787225425,
+      "shot_bootstrap95_m": [
+        -0.08976725284688955,
+        -0.027867209551583106
+      ]
+    },
+    "three_150ms_minus_late_pair_150ms": {
+      "complete_shots": 31,
+      "mean_difference_m": 0.0027403909337247634,
+      "shot_bootstrap95_m": [
+        -0.01707568437361177,
+        0.022760299447630736
+      ]
+    },
+    "noisy_shared_minus_noisy_hard": {
+      "complete_shots": 34,
+      "mean_difference_m": -0.15855956074132938,
+      "shot_bootstrap95_m": [
+        -0.2652647830573929,
+        -0.04953636031942818
+      ]
+    },
+    "noisy_shared_minus_noisy_independent": {
+      "complete_shots": 36,
+      "mean_difference_m": 0.026306181302738662,
+      "shot_bootstrap95_m": [
+        -0.018968040284998638,
+        0.08406321474241044
+      ]
+    },
+    "noisy_shared_minus_noisy_gravity": {
+      "complete_shots": 36,
+      "mean_difference_m": 0.03742465558097501,
+      "shot_bootstrap95_m": [
+        -0.0126718842026012,
+        0.09743203006406861
+      ]
+    }
+  }
+}

@@ -17,3 +17,12 @@ evidence/field/support.csv,validation,三个个案的早段加速度必要下界
 evidence/auxiliary.json,result,ISSIA先见帧外推及StatsBomb事件筛查的聚合数据和下载哈希
 evidence/field-replay.zip,code,固定原生实测输入与程序以及辅助实验的复现源包
 next-steps.md,section,报告结尾：依证据排序的迭代方向、待解问题和验收判据
+zhaohaoyang-progress.md,section,Z04 回顾性等预算运行与三脚原生时序诊断
+innovation-and-factors.md,section,论文贡献与 Z05–Z07 定量因素分析
+field-acquisition.md,section,人工采集和严格实测验收所需材料
+recheck_extensions.py,validation,从补充数表重算关键指标与分母
+evidence/z05-factors.csv,table,官方条件假设扫参及有效样本量
+evidence/z06-scores.csv,table,新种子合成留出逐脚误差覆盖面积与时间
+evidence/z06-summary.json,result,新合成留出汇总及按脚配对区间
+evidence/z07-field-diagnostics.csv,table,三脚实测在不同锚点假设下的开发诊断
+evidence/z05-z07-replay.zip,code,补充实验的源码配置和冻结参考输入

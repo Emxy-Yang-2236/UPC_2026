@@ -1,5 +1,19 @@
 """Development observation process; parameters require independent calibration."""
+import math
+
 import numpy as np
+
+
+def rounded_probability(delta, sigma, half_bin):
+    """Probability of a displayed coordinate bin conditional on the shared bias."""
+    # The interval probability is symmetric about zero. Reflect to the
+    # negative tail to avoid subtracting two values numerically equal to one.
+    distance = np.asarray(np.abs(delta))
+    scale = math.sqrt(2) * sigma
+    lower = ((distance-half_bin)/scale).ravel()
+    upper = ((distance+half_bin)/scale).ravel()
+    return np.fromiter((.5*(math.erfc(a)-math.erfc(b)) for a, b in zip(lower, upper)),
+                       dtype=float, count=distance.size).reshape(distance.shape)
 
 
 def observe(trajectory, times, rng, *, phase_s=0., bias_m=(0.,0.,0.),

@@ -5,3 +5,7 @@ C3,B2,33 脚盲测门内球中覆盖 30 脚；两帧点误差中位数 0.133 m�
 C4,B1;B3,固定起点与时刻且各水平坐标误差允许 ±5 mm 时，官方读数要求恒风纯阻力至少 4.3532 m/s,S1;S6,design/start.py;report/evidence/measurements.json,conditional
 C5,B1;B2,三脚 IDSSE 点球在首活球帧精确、40/80 ms 观测及冻结发球先验下均无双帧支持；锚点加 80 ms 只有一脚可报条件位置，误差 0.849 m。,S6;S7,experiment/runs/D02/support.csv;experiment/runs/D02/scores.csv;experiment/runs/D02/reference.csv,conditional
 C6,B2,ISSIA 同一录像的 47 个可评分段，120 ms 外推三维误差中位数为匀速 0.162 m、保持原位 0.996 m。StatsBomb 决赛 11 次点球中 1 次被扑终点在门线前。两项作辅助检验。,S8;S9,experiment/runs/D03/summary.json;experiment/runs/D03/README.md,conditional
+C7,B2;B3,官方样例的坐标硬盒半宽由 5 mm 加到 10 mm 时门内均值移动 0.141 m 且联合区由 0.357 扩到 0.893 m²。,S1;S6,experiment/runs/Z05/factors.csv,conditional
+C8,B2,新合成集上把 100 ms 双帧改为 150 ms 晚双帧的配对点误差均值差为 −0.0565 m 且等待 50 ms。,S6,experiment/runs/Z06/scores.csv;experiment/runs/Z06/summary.json,conditional
+C9,B2,在设定带噪合成情景下原硬盒校准区退到全门面而共享偏差模型的校准平均面积为 1.609 m² 且命中 71/72。,S6,experiment/runs/Z06/scores.csv;experiment/runs/Z06/summary.json,conditional
+C10,B2,允许飞行中锚点的初始竖直速度为负后原三脚中的科隆一脚可预测；三脚仍缺离脚同步核验。,S6;S7,experiment/runs/Z07/field-diagnostics.csv,conditional
