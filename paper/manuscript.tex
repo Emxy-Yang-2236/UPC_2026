@@ -3,9 +3,8 @@
 \usepackage{lmodern}
 \usepackage[margin=0.94in,top=0.86in,bottom=0.86in,headheight=15pt,headsep=16pt]{geometry}
 \usepackage{amsmath,amssymb,booktabs,graphicx,microtype,fancyhdr,xcolor}
-\definecolor{ink}{HTML}{183F4B}
-\definecolor{muted}{HTML}{465D65}
-\usepackage[font=small,labelfont={bf,color=ink},labelsep=period,
+\definecolor{coverrule}{HTML}{465D65}
+\usepackage[font=small,labelfont={bf,color=black},labelsep=period,
             justification=raggedright,singlelinecheck=false,skip=5pt]{caption}
 \usepackage[hidelinks,bookmarksnumbered]{hyperref}
 \graphicspath{{figures/}{../report/evidence/}}
@@ -13,21 +12,21 @@
 \hypersetup{pdftitle={Predicting Penalty Trajectories: What Two Early Positions Can Resolve},pdfauthor={},pdflang={en}}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[R]{\small\sffamily\color{muted}Team \TeamNumber}
-\fancyfoot[C]{\small\sffamily\color{muted}\thepage}
+\fancyhead[R]{\small\sffamily\color{black}Team \TeamNumber}
+\fancyfoot[C]{\small\sffamily\color{black}\thepage}
 \renewcommand{\headrulewidth}{0.3pt}
-\fancypagestyle{cover}{\fancyhf{}\fancyhead[R]{\small\sffamily\color{muted}Team \TeamNumber}\renewcommand{\headrulewidth}{0pt}}
+\fancypagestyle{cover}{\fancyhf{}\fancyhead[R]{\small\sffamily\color{black}Team \TeamNumber}\renewcommand{\headrulewidth}{0pt}}
 \makeatletter
 \renewcommand{\section}{\reserveheadroom\@startsection{section}{1}{\z@}
   {-2.5ex \@plus -.4ex \@minus -.2ex}{1.2ex \@plus .2ex}
-  {\normalfont\Large\bfseries\color{ink}\raggedright}}
+  {\normalfont\Large\bfseries\color{black}\raggedright}}
 \renewcommand{\subsection}{\reserveheadroom\@startsection{subsection}{2}{\z@}
   {-1.7ex \@plus -.3ex \@minus -.2ex}{0.55ex \@plus .1ex}
-  {\normalfont\normalsize\sffamily\bfseries\color{ink}\raggedright}}
+  {\normalfont\normalsize\sffamily\bfseries\color{black}\raggedright}}
 \renewcommand{\@seccntformat}[1]{\csname the#1\endcsname\hspace{.65em}}
 \makeatother
 \renewenvironment{abstract}
-  {\par\noindent{\large\bfseries\color{ink}Abstract}\par\vspace{5pt}\noindent\ignorespaces}
+  {\par\noindent{\large\bfseries\color{black}Abstract}\par\vspace{5pt}\noindent\ignorespaces}
   {\par}
 \linespread{1.075}
 \setlength{\parindent}{1.15em}
@@ -51,14 +50,14 @@
 \begin{center}
 \begin{minipage}{0.89\textwidth}
 \raggedright
-{\large\sffamily\bfseries\color{muted}Problem B\par}
+{\large\sffamily\bfseries\color{black}Problem B\par}
 \vspace{0.25in}
-{\fontsize{25}{30}\selectfont\bfseries\color{ink}
+{\fontsize{25}{30}\selectfont\bfseries\color{black}
  Predicting Penalty Trajectories:\\
  What Two Early Positions\\
  Can Resolve\par}
 \vspace{0.28in}
-{\color{muted}\hrule height 0.45pt}
+{\color{coverrule}\hrule height 0.45pt}
 \vspace{0.24in}
 \pdfbookmark[1]{Abstract}{cover-abstract}
 \begin{abstract}
