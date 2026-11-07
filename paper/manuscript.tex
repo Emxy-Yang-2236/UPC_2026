@@ -10,7 +10,7 @@
 \usepackage[hidelinks,bookmarksnumbered]{hyperref}
 \graphicspath{{figures/}{../report/evidence/}}
 \providecommand{\TeamNumber}{[pending]}
-\hypersetup{pdftitle={Predicting a Penalty Kick's Goal-Line Crossing from Two Early Positions},pdfauthor={},pdflang={en}}
+\hypersetup{pdftitle={Predicting Penalty Trajectories: What Two Early Positions Can Resolve},pdfauthor={},pdflang={en}}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{\small\sffamily\color{muted}Team \TeamNumber}
@@ -49,16 +49,16 @@
 {\large\sffamily\bfseries\color{muted}Problem B\par}
 \vspace{0.25in}
 {\fontsize{25}{30}\selectfont\bfseries\color{ink}
- Predicting a Penalty Kick's\\
- Goal-Line Crossing\\
- from Two Early Positions\par}
+ Predicting Penalty Trajectories:\\
+ What Two Early Positions\\
+ Can Resolve\par}
 \vspace{0.28in}
 {\color{muted}\hrule height 0.45pt}
 \vspace{0.24in}
 \pdfbookmark[1]{Abstract}{cover-abstract}
 \begin{abstract}
 \leftskip=0pt \rightskip=0pt \parfillskip=0pt plus 1fil
-How precisely can two positions, observed 50 and 100 ms after a penalty kick, locate the ball at the goal line? We weight trajectories from three aerodynamic models by their agreement with the readings and estimate the crossing location conditional on direct entry. For the official example, with coordinates rounded to the nearest centimetre and horizontal wind bounded at 3 m/s, the most probable cell is centred 2.562 m from the goal centre on the positive-\(y\) side and 2.074 m above ground. Six cells spanning \(0.3572\ \mathrm{m^2}\) contain 90.52\% of the conditional probability. Two admissible trajectories reproduce the displayed positions to numerical precision yet cross 8.76 cm apart. Among 48 held-out simulated kicks, the two-frame forecast had a median location error of 0.133 m for the 33 direct entries. Its nominal 90\% region contained 30 of those crossings, compared with all 33 for the 100 ms position alone. With eight times as many trajectory proposals, the two-frame configuration reduced mean region area by \(2.722\ \mathrm{m^2}\) and the direct-entry Brier score by 0.0556 relative to the single-frame forecast. In three professional match penalties, positions sampled 40 and 80 ms after the first live frame violated the models' acceleration bounds under the assumed launch conditions and coordinate accuracy. The later frame alone yielded one forecast, 0.849 m from the tracking reference. Field validation therefore requires independent release timing and a calibrated tracking-error model.
+Two early positions constrain a penalty kick without uniquely determining its goal-line crossing. We combine a geometric force test, three aerodynamic models and an explicit observation model to predict first-event outcomes and a joint entry region. For the prescribed hypothetical kick, assuming centimetre rounding, exact release timing and horizontal wind below 3 m/s, the highest-mass goal cell is centred at \((2.562,2.074)\) m. A six-cell region of \(0.3572\ \mathrm{m^2}\) contains 90.52\% of the probability conditional on direct entry; the median arrival time is 0.399 s. Two admissible trajectories fit the same readings yet cross 8.76 cm apart, imposing a conditional 4.38 cm worst-case point-error lower bound. Retrospective equal-budget tests on 48 simulated kicks reduce mean region area from 3.071 to \(0.288\ \mathrm{m^2}\) with two frames, but also reduce coverage. On 48 new synthetic kicks, shifting the observation pair from 50/100 to 100/150 ms reduces mean point error from 0.182 to 0.126 m, at a 50 ms cost in remaining flight time. Adding a third frame at the same deadline instead produces sampling failures and undercoverage. Under simulated tracking noise, a rounding-only likelihood is overconfident; modelling tracking error restores useful regions, although a gravity baseline remains competitive in point error. Three public match penalties expose timing and launch-state incompatibilities and do not establish field accuracy. The strongest conclusions concern identifiable physics, conditional uncertainty and the cost of acquiring additional information.
 \end{abstract}
 \end{minipage}
 \end{center}
@@ -66,7 +66,10 @@ How precisely can two positions, observed 50 and 100 ms after a penalty kick, lo
 
 \section{Flight geometry in the first 100 milliseconds}
 
-By the second observation, the ball in the official example has travelled 2.96 m toward a goal plane 11 m from the penalty spot. The two readings determine its mean velocity over 50 ms. The remaining 8.04 m make the goal crossing sensitive to forces that the early positions constrain only partially. The contest asks for the most likely point of entry, the uncertainty in both coordinates and a test of the forecast~\cite{upc}.
+By the second observation, the ball in the prescribed example has travelled 2.96 m toward a goal plane 11 m from the penalty spot. The two readings constrain its mean velocity over 50 ms. The remaining 8.04 m make the goal crossing sensitive to forces that the early positions constrain only partially. The contest asks for the most likely point of entry, the uncertainty in both coordinates and a test of the forecast~\cite{upc}.
+
+
+Our argument has three parts. First, the horizontal geometry can exclude a force class without fitting all of its parameters, while a pair of admissible flights proves that a unique endpoint is not identifiable. Second, a conditional probability map gives a usable answer only when its observation and aerodynamic assumptions are stated. Third, paired synthetic tests distinguish information gain from computing effort and from the loss of action time. The supplied kick has no observed endpoint; simulated tests and public tracking cases answer different validation questions.
 
 \subsection{Release geometry and first-event outcomes}
 Take \(x\) toward the goal, \(y\) across its face from the centre, and \(z\) upward from the ground. The ball centre starts at \(\vv r_0=(0,0,0.11)\) m. The prescribed positions, in metres, are
@@ -75,7 +78,7 @@ Take \(x\) toward the goal, \(y\) across its face from the centre, and \(z\) upw
  \vv r(0.100\,\mathrm{s})=(2.96,0.86,0.74).
  \label{eq:data}
 \end{equation}
-We take the release position and times as exact. Each later coordinate \(q\), displayed to the nearest centimetre, admits the half-open interval \([q-\epsilon,q+\epsilon)\), where \(\epsilon=0.005\) m. Further tracking error and uncertainty in release time would require a separate measurement model.
+Our nominal analysis takes the release position and times as exact. The problem does not specify a measurement-error distribution, a ball type, wind or spin. We therefore interpret the displayed decimal precision as centimetre rounding for a reproducible reference scenario, and test alternatives explicitly. Each later coordinate \(q\), displayed to the nearest centimetre, admits the half-open interval \([q-\epsilon,q+\epsilon)\), where \(\epsilon=0.005\) m. Tracking error and release-time uncertainty enter the observation layer developed below. These are alternative conditions, not measured properties of the hypothetical kick.
 
 We follow the ball until its centre crosses \(x=11\) m or descends to one ball radius above ground. A crossing through the opening, \(-3.66<Y<3.66\) m and \(0<Z<2.44\) m, is a direct entry \(G\). This ball-centre criterion neglects collisions with the frame, rebounds and goalkeeper interventions. The other outcomes are a crossing outside the opening, earlier ground contact, or neither event by 1.25 s. We estimate all four probabilities and the joint distribution of \(Q=(Y,Z)\) conditional on \(G\).
 
@@ -88,14 +91,14 @@ The mean horizontal velocities in the two successive intervals are \((30.0,9.0)\
  \frac{|\det(\vv p_1,\vv p_2)|}{\norm{t_2\vv p_1-t_1\vv p_2}} .
  \label{eq:wind}
 \end{equation}
-The determinant is the signed area spanned by two planar vectors. The displayed coordinates require at least 14.849 m/s of wind. At fixed wind, the determinant is linear in each coordinate separately and attains its extrema over the closed rounding boxes at their corners. Across the half-open rounding boxes, 4.353 m/s is the infimum wind speed compatible with horizontal collinearity. Our 3 m/s wind cap therefore rules out a drag-only explanation. The geometry leaves the source of the lateral force unresolved.
+The determinant is the signed area spanned by two planar vectors. The displayed coordinates require at least 14.849 m/s of wind. At fixed wind, the determinant is linear in each coordinate separately and attains its extrema over the closed rounding boxes at their corners. Across the half-open rounding boxes, 4.353 m/s is the infimum wind speed compatible with horizontal collinearity. Our 3 m/s wind cap therefore rules out a drag-only explanation. This is a necessary geometric condition, not sufficient evidence for a complete drag-only trajectory at any permitted wind. The geometry leaves the source of the lateral force unresolved; it does not uniquely identify spin.
 
 In still air, each position bounds the slope of a line through the origin. For these positive coordinates, the closure of its admissible interval is
 \[
  \left[\frac{y_i-\epsilon}{x_i+\epsilon},\,\frac{y_i+\epsilon}{x_i-\epsilon}\right].
 \]
 The two intervals' closures first touch at \(\epsilon=7.279\) mm. Thus 5 mm precision resolves a departure from a straight horizontal path in this example. A 1 cm bound admits a straight path.
-\clearpage
+
 
 \section{Aerodynamic models and conditional inference}
 
@@ -118,17 +121,35 @@ D represents quadratic drag. S adds a transverse force with constant coefficient
 \end{aligned}
 \label{eq:coeff}
 \end{equation}
-The drag transition comes from a wind-tunnel fit for a nonspinning Teamgeist ball~\cite{goff2010}. We clip its speed input to the initial-speed range of a separate 29-flight study~\cite{goff2017}. The offset \(\delta\) and the saturating lift law are modelling assumptions.
+The drag transition comes from a wind-tunnel fit for a nonspinning Teamgeist ball~\cite{goff2010}. We clip its speed input to the initial-speed range of a separate 29-flight study~\cite{goff2017}. The offset \(\delta\) and the saturating lift law are modelling assumptions. Clipping a curve does not validate it for the unknown ball or for speeds outside its measured domain. S is an effective transverse-force model: its \(\vv\beta\) is not a measured angular velocity. The broader E spin prior is a scenario range rather than an inferred population distribution.
 
 The prior probabilities of D, S and E are \(0.2,0.4,0.4\). We draw constant horizontal wind uniformly from a disk of radius 3 m/s. Independent uniform launch-velocity ranges are \([18,38]\), \([-12,12]\) and \([1.5,11]\) m/s along \(x,y,z\). In D and S, \(\kappa\) is uniform on \([0.006,0.024]\ \mathrm{m^{-1}}\). In S, each component of \(\vv\beta\) is uniform within \(\pm0.8\ \mathrm{s^{-1}}\). In E, each component of \(\vv\omega\) is uniform within \(\pm65\ \mathrm{rad/s}\) and \(\delta\) is uniform on \([-0.04,0.27]\).
 
+
+\subsection{Why modest aerodynamic uncertainty matters}
+The first chord gives a speed scale \(U_0\simeq32\) m/s. With \(\kappa\simeq0.020\ \mathrm{m^{-1}}\), the drag time scale \((\kappa U_0)^{-1}\simeq1.56\) s exceeds the approximately 0.4 s flight, but their ratio is about 0.26 and cannot be neglected. A transverse coefficient of \(0.5\ \mathrm{s^{-1}}\) gives an initial acceleration scale of 16 m/s\(^2\). Over the remaining 0.30 s, even an unresolved 1 m/s\(^2\) acceleration changes a constant-acceleration extrapolation by about 4.5 cm. These are dimensional estimates, not extra simulated results. They explain why fitting the first 100 ms tightly need not fix the endpoint.
+
+With constant wind, the force models also obey an energy check. Since \(\vv u\cdot(\vv\beta\times\vv u)=0\) and \(\vv u\cdot\vv n=0\),
+\[
+ \frac{\mathrm d}{\mathrm dt}\frac{U^2}{2}
+   =\vv u\cdot\vv g-d(U)U^2,\qquad d(U)\ge0.
+\]
+The transverse term redirects air-relative velocity; drag dissipates air-relative kinetic energy. This identity constrains the acceleration bounds used in the match-data check.
+
 \subsection{Trajectory weighting and goal-plane probabilities}
-After drawing wind and aerodynamic parameters, we centre a launch-velocity proposal on a gravity-based estimate corrected three times against the latest visible position. We draw velocities from a mixture of this local uniform proposal (half-width \(0.007\,\mathrm{m}/t\) per axis at observation time \(t\)) and the original prior (2\%). A trajectory inside every observed interval receives the prior-to-proposal density ratio. Others receive zero weight. The mean weight over all proposals estimates each model's evidence. Multiplying by the model priors and normalizing yields the posterior weights. For propagation to the goal, systematic resampling caps each model at 512 trajectories per test kick or 8,192 per seed for the official case. The official runs stayed below the cap.
+After drawing wind and aerodynamic parameters, we centre a launch-velocity proposal on a gravity-based estimate corrected three times against the latest visible position. We draw velocities from a mixture of this local uniform proposal (half-width \(0.007\,\mathrm{m}/t\) per axis at observation time \(t\)) and the original prior (2\%). A trajectory inside every observed interval receives the prior-to-proposal density ratio. Others receive zero weight. More generally, with parameters \(\theta\), proposal density \(q_M\) and observation likelihood \(L\),
+\begin{equation}
+ w_{Mj}=\frac{p(\theta_{Mj}\mid M)L(D\mid\theta_{Mj},M)}{q_M(\theta_{Mj})},\quad
+ \widehat Z_M=\frac1{N_M}\sum_jw_{Mj},\quad
+ \widehat p(M\mid D)\propto p(M)\widehat Z_M.
+ \label{eq:weights}
+\end{equation}
+Nuisance parameters drawn from their priors cancel in the ratio; the velocity proposal still requires correction. The mean weight over all proposals estimates each model's evidence. Multiplying by the model priors and normalizing yields the posterior weights. For propagation to the goal, systematic resampling caps each model at 512 trajectories per test kick or 8,192 per seed for the official case. The official runs stayed below the cap.
 
-We integrate by fourth-order Runge--Kutta with steps of 25 ms through the official observations and at most 12.5 ms thereafter. Linear interpolation locates and orders plane and ground events. Across four numerical checks, including independent DOP853 integrations in SciPy~\cite{scipy}, discrepancies stayed below 0.171 mm in position and 0.038 ms in time. After summing weights by first event, we distribute the direct-entry mass across a \(30\times10\) equal-area grid. The centre of the highest-mass cell is the point forecast. Cells ranked by decreasing mass form the raw joint region once their cumulative mass reaches 90\%. Zero total weight leaves the forecast undefined. Zero direct-entry weight leaves its conditional map undefined.
-\clearpage
+We integrate by fourth-order Runge--Kutta with steps of 25 ms through the official observations and at most 12.5 ms thereafter. Linear interpolation locates and orders plane and ground events. Across four numerical checks, including independent DOP853 integrations in SciPy~\cite{scipy}, discrepancies stayed below 0.171 mm in position and 0.038 ms in time. After summing weights by first event, we distribute the direct-entry mass across a \(30\times10\) equal-area grid. The centre of the highest-mass cell is the point forecast. Cells ranked by decreasing mass form the raw joint region once their cumulative mass reaches 90\%. Zero total weight leaves the forecast undefined. Zero direct-entry weight leaves its conditional map undefined. We monitor \(\mathrm{ESS}=1/\sum_j\bar w_j^2\) using normalized weights (and model/phase mixture contributions), flagging values below 25 for test kicks. ESS is a sampling diagnostic, not evidence of physical validity. A finite run with no accepted proposals is not a proof that the allowed parameter set is empty.
 
-\section{Goal-line forecast for the official kick}
+
+\section{Goal-line forecast for the prescribed hypothetical kick}
 
 \subsection{Modal cell and joint prediction region}
 The highest-probability cell is centred at \((Y,Z)=(2.562,2.074)\) m and holds 29.14\% of the probability conditional on direct entry (Fig.~\ref{fig:goal}). Its centre is 1.098 m in from the positive-\(y\) post and 0.366 m below the crossbar. The six most probable cells form the rectangle
@@ -141,23 +162,23 @@ Together they cover \(0.3572\ \mathrm{m^2}\) and contain 90.52\% of the conditio
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{goal-forecast.pdf}
-\caption{Goal-plane location at \(x=11\) m for the official kick. The left panel locates the enlarged area within the goal. The right panel gives the conditional probability in each outlined square cell (side length 0.244 m) of the raw 90\% region. Darker shading indicates greater mass throughout.}
+\caption{Goal-plane location at \(x=11\) m for the prescribed hypothetical kick. The left panel locates the enlarged area within the goal. The right panel gives the conditional probability in each outlined square cell (side length 0.244 m) of the raw 90\% region. Darker shading indicates greater mass throughout.}
 \label{fig:goal}
 \end{figure}
 
-We combined two independent runs of 131,072 proposals per model per seed. All 3,469 positive-weight trajectories crossed inside the opening, giving an estimated direct-entry probability of 1 in this sample. The posterior model weights were \(0,0.346,0.654\) for D, S and E. The zero weight for D agrees with the geometric bound in Eq.~\eqref{eq:wind}. The official example supplies no measured crossing for comparison.
+We combined two independent runs of 131,072 proposals per model per seed. All 3,469 positive-weight trajectories crossed inside the opening, giving an estimated direct-entry probability of 1 in this sample. The posterior model weights were \(0,0.346,0.654\) for D, S and E. The zero weight for D agrees with the geometric bound in Eq.~\eqref{eq:wind}. The prescribed hypothetical example supplies no measured crossing for comparison. The estimate of one is conditional on the adopted parameter support and finite sample; it is not a guarantee of scoring or a calibrated real-world goal probability.
 
 \subsection{Sensitivity to grid choice and force law}
-Both seeds selected the same cell, as did mixtures in which E accounted for 10\% to 90\% of the combined S/E prior. A finer grid moved the mode to \((2.501,2.013)\) m, and shifting the original grid by half a cell moved it to \((2.684,1.952)\) m. The millimetre digits in the reported mode specify a grid centre. The six-cell region gives the scale of its positional uncertainty.
+Both seeds selected the same cell, as did mixtures in which E accounted for 10\% to 90\% of the combined S/E prior. A finer grid moved the mode to \((2.501,2.013)\) m, and shifting the original grid by half a cell moved it to \((2.684,1.952)\) m. The millimetre digits in the reported mode specify a grid centre. The six-cell region gives the scale of its positional uncertainty. The conditional continuous mean is \((2.603,1.970)\) m; it minimizes posterior squared-distance loss, whereas the modal cell answers a fixed-area probability question. We retain the modal-cell convention for all scored forecasts. Neither estimator is a grid-independent continuous density mode, and the displayed millimetre digits do not represent millimetre accuracy.
 
 Kinematic fits illustrate the effect of force assumptions over the remaining eight metres. A least-squares fit of launch velocity under gravity alone gives \((3.217,1.957)\) m. Constant acceleration fitted exactly to release and both frames gives \((2.495,1.920)\) m. This spread measures sensitivity to the extrapolation law.
-\clearpage
+
 
 \section{A lower bound on two-position prediction error}
 \label{sec:ambig}
 
 \subsection{Indistinguishable readings and distinct crossings}
-The official readings at 50 and 100 ms admit two physically distinct crossings even when we fit the displayed coordinates to numerical precision. In model S we set the wind to zero and fixed \(\beta_x\) at either \(-0.5\) or \(+0.5\ \mathrm{s^{-1}}\). For each choice we solved the six early-coordinate equations for the three launch-velocity components and \(\kappa,\beta_y,\beta_z\). Both solutions lie within the prior ranges. Their largest coordinate residual was below \(5\times10^{-13}\) m, and an independent integration with MATLAB \texttt{ode45} reproduced both crossings~\cite{matlab}.
+The prescribed readings at 50 and 100 ms admit two physically distinct crossings even when we fit the displayed coordinates to numerical precision. In model S we set the wind to zero and fixed \(\beta_x\) at either \(-0.5\) or \(+0.5\ \mathrm{s^{-1}}\). For each choice we solved the six early-coordinate equations for the three launch-velocity components and \(\kappa,\beta_y,\beta_z\). Both solutions lie within the prior ranges. Their largest coordinate residual was below \(5\times10^{-13}\) m, and an independent integration with MATLAB \texttt{ode45} reproduced both crossings~\cite{matlab}.
 
 The two fitted drag coefficients agree to the displayed precision, \(0.02007\ \mathrm{m^{-1}}\). The corresponding \((\beta_y,\beta_z)\) pairs are \((-0.206,-0.463)\) and \((0.085,-0.251)\ \mathrm{s^{-1}}\). At any instant, the component of \(\vv\beta\) parallel to \(\vv u\) contributes no transverse force. As gravity changes the direction of \(\vv u\), that component can begin to affect the flight. Small compensating changes to launch velocity allow the two force histories to match both early readings.
 
@@ -173,46 +194,140 @@ This lower bound applies whenever both flights are admissible. It requires no as
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{trajectory-pair.pdf}
-\caption{Separation of two trajectories that reproduce both official readings. Left, the largest difference along any measured axis at each candidate third observation. The dashed line marks twice the 5 mm coordinate-error bound. Right, the two goal-plane crossings on equal spatial scales.}
+\caption{Separation of two trajectories that reproduce both prescribed readings. Left, the largest difference along any measured axis at each candidate third observation. The dashed line marks twice the 5 mm coordinate-error bound. Right, the two goal-plane crossings on equal spatial scales.}
 \label{fig:ambig}
 \end{figure}
 
 At 150, 200 and 250 ms the largest coordinate differences are 1.35, 5.30 and 12.96 mm, respectively (Fig.~\ref{fig:ambig}). With deterministic centimetre rounding, the heights already display as 1.26 and 1.25 m at 200 ms. Under a general \(\pm5\) mm error bound, either flight can still yield the same reading at that time. Of the three times examined, only 250 ms separates this pair for every admissible error.
-\clearpage
 
-\section{Forecast performance on held-out simulated kicks}
 
-\subsection{Test design and empirical coverage}
-A separate adaptive solver generated test trajectories with a different speed-dependent drag law. The generator included spin-free flight, stable spin with decaying lift, and low-spin flight with a time-varying wake. Slowly spinning balls can experience unsteady forces~\cite{mizota}. We prescribed the wake amplitude and period in the generator and omitted the wake from the forecasting models. We randomly ordered one kick per family within each block of three and split whole kicks into development (9), calibration (36) and blind test (48). At a common 100 ms decision time, we supplied the release position alone, release and either frame, or release and both frames. We froze forecasts before scoring the endpoints.
+\section{Observation uncertainty and sensitivity}
+\label{sec:measurement}
+
+\subsection{A measurement layer separate from the force law}
+For coordinate axis \(a\), let \(d_{ia}\) be a displayed position with quantum \(q=0.01\) m. A tracking model before rounding is
+\begin{equation}
+ d_{ia}=\mathcal R_q\!\left[r_a(t_i+\tau;\theta,M)+b_a+e_{ia}\right],
+ \quad b_a\sim N(0,\sigma_b^2),\quad e_{ia}\sim N(0,\sigma_e^2).
+ \label{eq:observe}
+\end{equation}
+The bias \(b_a\) is shared within a kick; \(e_{ia}\) is independent across frames and axes. The release offset \(\tau\) is shared across all frames. Conditional on \(b,\tau\), the likelihood is
+\begin{equation}
+ L=\prod_{i,a}\left[
+ \Phi\!\left(\frac{d_{ia}+q/2-r_a(t_i+\tau)-b_a}{\sigma_e}\right)
+ -\Phi\!\left(\frac{d_{ia}-q/2-r_a(t_i+\tau)-b_a}{\sigma_e}\right)\right].
+ \label{eq:likelihood}
+\end{equation}
+Here \(\Phi\) is the standard-normal cumulative distribution. The rounding-only case is the corresponding indicator likelihood. We sample \(b\) from its prior and integrate it through the importance weights. For bounded timing scenarios, \(\tau\) is uniform on its stated interval and integrated with five or seven Gauss--Legendre nodes, sharing a fixed total proposal budget. These likelihood parameters are known simulation inputs in the tests below; no field calibration is claimed.
+
+The observation scale can rival the aerodynamic signal. If the release coordinate is exact and two frame errors have variance \(\sigma^2\) and correlation \(\rho_e\), the inferred discrete acceleration obeys
+\begin{equation}
+ \operatorname{Var}\!\left(\frac{e_2-2e_1}{h^2}\right)
+   =\frac{(5-4\rho_e)\sigma^2}{h^4}.
+ \label{eq:noise}
+\end{equation}
+At \(h=50\) ms, a common 1 ms timing shift contributes \(-v\tau/h^2\) for the linear motion term, or 12 m/s\(^2\) in magnitude at 30 m/s. A translation shared by all three coordinates, including release, cancels in the second difference; a bias shared only by the two measured frames does not. This distinction prevents apparent curvature from being attributed automatically to lift.
+
+\subsection{Which assumptions move the prescribed prediction?}
+Fifteen one-factor scenarios repeat the prescribed inputs with the same two seeds and 131,072 proposals per model per seed. Table~\ref{tab:sensitivity} and Fig.~\ref{fig:sensitivity} compare the continuous conditional means to avoid confusing a grid-cell jump with a physical displacement. These are scenario changes after reconditioning on the same readings, not total-effect sensitivity indices or calibrated confidence limits.
 
 \begin{table}[htbp]
-\centering
-\caption{Blind forecasts at a common 100 ms decision time. Location errors, hits and mean region areas use the same 33 direct entries. A hit places the true crossing in a selected cell. The Brier score averages \((P(G)-\mathbf{1}_G)^2\) over all 48 kicks, including ten outside crossings and five earlier ground contacts.}
-\label{tab:blind}
-\small
-\setlength{\tabcolsep}{4.4pt}
-\renewcommand{\arraystretch}{1.13}
-\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrrrrrrr@{}}
-\toprule
- & \multicolumn{2}{c}{Point error (m)} & & \multicolumn{2}{c}{Raw 90\% region} & \multicolumn{2}{c}{Calibrated region}\\
-\cmidrule(lr){2-3}\cmidrule(lr){5-6}\cmidrule(l){7-8}
-Input positions & Median & Mean & Brier & Hits & Area (m\(^2\)) & Hits & Area (m\(^2\))\\
-\midrule
-Release only     & 2.347 & 2.404 & 0.2898 & 23/33 & 11.431 & 33/33 & 17.861\\
-Release + 50 ms  & 0.127 & 0.259 & 0.1153 & 32/33 & 3.704 & 28/33 & 2.087\\
-Release + 100 ms & 0.131 & 0.216 & 0.1057 & 33/33 & 3.022 & 27/33 & 1.290\\
-Release + both   & 0.133 & 0.181 & 0.0501 & 30/33 & 0.299 & 29/33 & 0.220\\
-\bottomrule
-\end{tabular*}
+\centering\small
+\caption{Selected sensitivity scenarios. All other nominal conditions are held fixed. Shift is the Euclidean displacement of the continuous conditional mean; area is the nominal 90\% grid region. Mass changes affect E's force-to-mass factor; the acceleration coefficients in D/S keep their definitions.}
+\label{tab:sensitivity}
+\begin{tabular}{@{}lrr@{}}\toprule
+Changed assumption & Mean shift (cm) & Area (m\(^2\))\\\midrule
+\csname @@input\endcsname tables/sensitivity.tex
+\bottomrule\end{tabular}
 \end{table}
 
-For each of the 19 direct entries in the calibration set, we ranked cells by decreasing mass and scored the entry by the cumulative mass preceding its true cell. For each input choice, the cutoff was the \(\lceil0.90(19+1)\rceil=18\)th ordered score. The calibrated region includes cells whose preceding mass is at most this cutoff. With both frames, the cutoff was 0.8104. The calibrated region contained 29/33 test entries with mean area \(0.220\ \mathrm{m^2}\). The raw region contained 30/33, with a descriptive 95\% Wilson interval of 76.4--96.9\% for coverage~\cite{wilson}.
+\begin{figure}[htbp]\centering
+\includegraphics[width=.94\linewidth]{sensitivity.pdf}
+\caption{Conditional sensitivity for the prescribed hypothetical inputs, computed from the same frozen scenario table as Table~\ref{tab:sensitivity}. Bar length is a change from nominal, not an uncertainty interval or a universal ranking of factors.}
+\label{fig:sensitivity}\end{figure}
 
-\subsection{Paired comparisons and kinematic baselines}
-Relative to the late frame alone, the two-frame configuration reduced mean raw region area by \(2.722\ \mathrm{m^2}\) and the Brier score by 0.0556 (Table~\ref{tab:blind}). The smaller raw regions covered 30 of 33 crossings, down from 33 of 33. For the signed differences (both minus late), 95\% intervals from 2,000 whole-kick bootstrap resamples were \([-2.979,-2.466]\ \mathrm{m^2}\) and \([-0.0988,-0.0086]\), respectively. The mean point-error difference was \(-0.034\) m, with interval \([-0.082,0.010]\) m. Each model used 16,384 proposals with both frames and 2,048 with one, so the comparison combines extra information with greater sampling effort.
+Doubling the coordinate bound to 10 mm moves the mean by 14.1 cm and increases the region to 0.893 m\(^2\). Adding 6 mm independent tracking error and 8 mm shared bias before rounding moves it by 23.7 cm. Within these reconditioned scenarios, removing wind shifts the mean by only 0.83 cm, while halving E's spin range shifts it by 9.08 cm. The 410--450 g endpoints are consistent with the specified match-ball mass range~\cite{ifab}; radius is held fixed, and this is not a coupled ball-size study.
 
-For the nine stable-spin entries, mean point error fell from 0.492 to 0.311 m with the added frame. For the eight wake entries it rose from 0.131 to 0.180 m. Gravity alone had a lower median error (0.104 m) across all 33 entries than the two-frame aerodynamic forecast, but a higher mean (0.203 m) and Brier score (0.125). The constant-acceleration fit gave a mean error of 0.258 m for 32 entries and a Brier score of 0.146 over all 48 kicks.
-\clearpage
+Tightening the bound to 2.5 mm produces ESS 68, below the prescribed-case threshold of 200. Shifting both observation times earlier by 1 ms leaves ESS 1; either sign of a 5 ms shift yields no positive-weight samples. These cases diagnose inadequate support or sampling, not precise endpoints. Interactions among timing, noise, wind and spin remain unresolved by one-factor tests. In particular, the small wind effect is local to this conditioned example and cannot be generalized to all penalties.
+
+
+\newpage
+\section{Testing accuracy, coverage and computing effort}
+\label{sec:tests}
+
+\subsection{Synthetic truth and controls}
+The reference generator uses a different drag curve from the predictor,
+\[
+ C_D^{\rm ref}=0.19+\frac{0.20}{1+\exp[(U-20)/2.5]}+d_0,
+ \qquad d_0\sim\mathcal U(0,0.1),
+\]
+and a lift coefficient \(0.32\tanh(4R\norm{\vv\omega\times\vv u}/U^2)e^{-0.12t}\), directed along \(\vv\omega\times\vv u\). Launch velocities are independent uniforms on \([20,36]\), \([-11,11]\), \([2,10]\) m/s, and wind is uniform in a horizontal disk of radius 2.5 m/s. Three equally represented families have spin-component bounds of 0, 55 and 6 rad/s. The last adds a time-varying transverse acceleration: project \(A(0,\sin\phi(t),0.4\cos\phi(t))\) perpendicular to \(\vv u\), with \(A\in[2,5]\) m/s\(^2\), period 0.18--0.55 s and uniform phase. Unsteady low-spin forces have experimental precedent~\cite{mizota}, but these amplitudes, frequencies and family proportions are synthetic choices.
+
+The original study splits whole kicks into 9 development, 36 calibration and 48 blind-test cases, generating reference flights with DOP853~\cite{scipy}. Later extensions use new calibration/test seeds with the same physical generator, integrated by 1 ms RK4. Against the 48 frozen DOP853 flights, all first-event labels agree; maximum endpoint and time differences are \(1.9\times10^{-6}\) m and \(6.3\times10^{-7}\) s. This checks numerical implementation, not the realism of the generator. Every forecast reads only its permitted early frames and is written and hashed before endpoint scoring. New-seed tests are conditional synthetic holdouts; they are not independent measurements of nature.
+
+Point error is Euclidean distance on the goal plane. We report region hits and area on the same direct-entry population, and the Brier score \((P(G)-\mathbf1_G)^2\) for first-event classification. Gravity with a least-squares launch velocity and an exact constant-acceleration fit provide transparent controls. Missing event estimates and missing conditional points are reported separately. A smaller region is useful only with adequate coverage and forecast availability.
+
+\subsection{The second frame under equal proposal budgets}
+The original 48-kick blind study contains 33 direct entries, ten outside crossings and five early ground contacts. Its two-frame median point error was 0.133 m and raw-region coverage 30/33, but it used eight times the proposal budget of the single-frame baseline. We therefore base the information comparison on a retrospective rerun of those same kicks with 2,048 proposals per model for each input choice and three paired seeds (Table~\ref{tab:budget}). The rerun is not a fresh blind test.
+
+\begin{table}[htbp]\centering\small
+\caption{Equal-budget retrospective comparison at the same 100 ms cutoff. The 99 goal predictions are 33 kicks times three seeds; they are not 99 independent kicks. Neither method lacks an event estimate in 144 attempts. Regions are uncalibrated.}
+\label{tab:budget}
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Observed frames & Mean error (m) & Hits & Area (m\(^2\)) & ESS $<25$\\\midrule
+\csname @@input\endcsname tables/equal-budget.tex
+\bottomrule\end{tabular}\end{table}
+
+The two-frame regions are much smaller, but their coverage also falls. Averaging seed differences within each kick and resampling 33 kicks 2,000 times gives a mean point-error difference (both minus late) of \(-4.46\) cm, with a descriptive 95\% bootstrap interval \([-9.14,0.08]\) cm. The interval contains zero. The second frame supplies curvature information and reduces admissible trajectories, but these data do not establish a reliable mean point-error improvement. Sampling effort, coverage and area must accompany any accuracy claim.
+
+\subsection{Tracking error can defeat a narrow likelihood}
+A new 36-kick calibration set and 48-kick test set compare likelihoods using identical noisy inputs. Before centimetre rounding, each coordinate receives a kick-shared Gaussian bias of standard deviation 8 mm and frame-independent noise of standard deviation 6 mm. Every aerodynamic method uses 8,192 proposals per model and two paired seeds. The independent-error comparator has marginal standard deviation 10 mm; the shared-error model uses the actual simulated 6/8 mm decomposition. Their local velocity-proposal half-width is increased to $0.026\,\mathrm{m}/t$, while the rounding-only comparator retains $0.007\,\mathrm{m}/t$; importance weights correct each proposal. This compares complete finite-budget configurations, not likelihood changes under an identical proposal. It tests a known-noise scenario rather than estimating those parameters from two observations.
+
+\begin{table}[htbp]\centering\small
+\caption{Noisy-input tests at 100 ms. There are 36 true direct entries and two seeds (72 attempts). $n_Q$ counts defined point forecasts. Region hits and mean areas include all 72 attempts, assigning an empty raw region when the conditional map is undefined. Calibration may fall back to the entire opening.}
+\label{tab:noise}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrrr@{}}\toprule
+ & Mean error & $n_Q$ & Raw & Raw area & Calibrated & Cal. area\\
+Likelihood & (m) & & hits & (m\(^2\)) & hits & (m\(^2\))\\\midrule
+\csname @@input\endcsname tables/noise.tex
+\bottomrule\end{tabular}\end{table}
+
+For each method and seed, calibration ranks goal cells by decreasing probability and records the cumulative probability preceding the true cell. A true cell with zero mass receives score one. With \(n\) direct entries in the separate calibration set, the cutoff is order statistic \(\lceil0.9(n+1)\rceil\); an unavailable rank or a cutoff of one returns the whole goal. Cells with preceding mass at most the cutoff are included. This finite-sample construction is useful under exchangeable calibration/test conditions; the balanced synthetic families and real-world distribution shift preclude a blanket field-coverage guarantee. We report realized counts.
+
+The rounding-only method attains 72/72 calibrated hits only by selecting the full 17.861 m\(^2\) goal. Allowing tracking error yields materially more informative regions. Shared-noise modelling reduces mean paired error relative to the hard likelihood by 15.86 cm, with a shot-bootstrap interval of 4.95--26.53 cm on the 34 complete paired kicks. Its advantage over independent noise is not established: the paired interval includes zero. Gravity alone has mean point error 0.220 m, below both probabilistic noise models, but a worse event Brier score (0.104 versus 0.069 and 0.064). The rounding-only Brier score is 0.101 on 94/96 available estimates; the others use 96/96. Thus no single method dominates every metric, and successful noise modelling must not be described as universal point-accuracy superiority.
+
+
+\section{When is another observation worth waiting for?}
+\label{sec:waiting}
+
+\subsection{Later information versus more information at one deadline}
+Using the same new synthetic calibration/test kicks, we compare three noiseless-rounded input choices with 8,192 proposals per model and two paired seeds. The original 50/100 ms pair is available at 100 ms. The 100/150 ms pair and all three positions are available at 150 ms. The former comparison includes waiting; the latter holds the decision time fixed.
+
+\begin{table}[htbp]\centering\small
+\caption{Additional-observation tests. The 72 goal attempts are 36 kicks times two seeds; event availability and low ESS use all 96 attempts. $n_Q$ is the number of defined goal-point forecasts. Empty maps count as misses and zero area, so missingness must be read alongside apparent area reductions.}
+\label{tab:waiting}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrrr@{}}\toprule
+Frames (ms) & Mean error & $n_Q$ & Hits & Area & No event & ESS $<25$\\
+ & (m) & & & (m\(^2\)) & estimate & \\\midrule
+\csname @@input\endcsname tables/waiting.tex
+\bottomrule\end{tabular}\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{waiting-tradeoff.pdf}
+\caption{Information--time tradeoff on the new synthetic kicks. Point errors use defined goal forecasts; remaining times use all 36 true entries. The three-frame mean uses 65/72 available points. Regions count undefined maps as empty, as in Table~\ref{tab:waiting}. Labels identify observation times in ms. No goalkeeper motion or computation latency is included.}
+\label{fig:waiting}\end{figure}
+
+Waiting for the later pair lowers mean error by 5.65 cm (36 complete paired kicks; 95\% shot-bootstrap interval 2.79--8.98 cm), while mean remaining flight time falls from 321 to 271 ms. Calibrated hits increase from 61/72 to 64/72, with mean area decreasing from 0.350 to 0.177 m\(^2\). This is evidence for a conditional forecast improvement at a known 50 ms time cost, not evidence for an increased save probability.
+
+At the same 150 ms cutoff, retaining the earliest frame produces six unavailable event estimates and low ESS in 46/96 attempts. Only 31 kicks have defined paired points for both seeds. On those complete pairs, three frames minus the late pair changes mean error by +0.27 cm, with interval \([-1.71,2.28]\) cm. The small three-frame region accompanies reduced raw coverage (52/72), so it is not an improvement by itself. More observations do not guarantee lower realized prediction error, even with exact inference. Here, low ESS and missing estimates identify finite-proposal concentration as a contributor; model mismatch and finite-test variation may also matter. This does not establish that the third observation is intrinsically harmful. An adaptive proposal or sequential sampler is a computational extension requiring fresh validation, not a result established here.
+
+\subsection{Frames must arrive before the decision}
+A separate set of 48 synthetic kicks (16 per force family, 33 direct entries) tests acquisition under 13 camera/noise profiles. For each deadline, 50 and 100 ms, we choose the latest distinct native frame already received and no more than 10 ms old, and use its actual timestamp in inference. With 2 ms frame availability delay, 25, 60, 120 and 240 Hz supply both frames for 0, 22, 47 and 48 kicks, respectively. These counts depend on simulated camera phase and the stated age criterion; they are not general hardware specifications. At 240 Hz, increasing delay to 6 ms lowers readiness to 46/48. Predictor execution time is additional.
+
+For regular frames without drops, the worst-case age is bounded by \(\ell+1/f\), where \(\ell\) is availability delay and \(f\) is frame rate. The 10 ms target with 2 ms delay therefore requires at least 125 Hz in this ideal periodic model. A 240 Hz pilot provides margin, but its frame interval alone brackets release only to a half-width of about 2.08 ms. A proposed 1 ms timing target needs a finer independent timing reference.
+
+For the same simulated \(\pm3\) ms release error, marginalizing that offset increases ESS-qualified estimates from 45/96 to 92/96 and raw hits from 56/66 to 61/66. Mean point error rises from 0.196 to 0.218 m and mean area from 0.377 to 0.543 m\(^2\). Wider, better-supported uncertainty can be appropriate even when the point estimate does not improve. These capture simulations specify trial targets; they do not replace an actual calibration or field measurement.
+
 
 \section{Compatibility with 25 Hz match tracking}
 
@@ -250,7 +365,7 @@ The vertical condition uses the launch prior \(v_{z,\min}=1.5\) m/s. Regensburg'
 
 \subsection{Forecast from the 80 ms position alone}
 With only the \(+80\) ms frame, neither seed produced positive weight for Cologne or Kaiserslautern. Both yielded a forecast for Regensburg. Its modal cell centre, \((2.074,1.098)\) m, missed the reference by 0.849 m. The raw region covered \(4.941\ \mathrm{m^2}\) and contained the reference. A second seed selected the same centre with area \(4.584\ \mathrm{m^2}\). With the same late frame, gravity and straight-line fits gave errors of 0.809 and 1.219 m. With both frames gravity gave 0.853 m for Regensburg and reached the ground first in the other two cases.
-\clearpage
+
 
 \section{Measurement limits and field validation}
 
@@ -262,16 +377,45 @@ A separate short-horizon comparison on ISSIA-3D, a multi-camera reconstruction o
 \subsection{Design of a release-synchronized field test}
 Synchronized multi-view footage with independent ball-contact annotations would establish release times. Record clock alignment, coordinate calibration, lost frames and intervening contacts. To score a kick, require both early positions by the decision time and an identifiable first event. An interception before the natural crossing should be recorded as a contact or a censored outcome.
 
-Independent calibration sequences can estimate timing bias, per-axis error and cross-frame dependence. A revised model could assign a timing offset to each kick and distinguish a release state from an in-flight anchor. The three existing cases can inform development. Freeze the revised model before testing on held-out matches. Report forecast availability across eligible kicks, point error, coverage and region area on the same entries, and Brier scores on confirmed first events. Reporting area alongside coverage makes the cost of widening a region explicit.
+Independent calibration sequences can estimate timing bias, per-axis error and cross-frame dependence. Equation~\eqref{eq:observe} already accommodates a shared timing offset; its field parameters still require calibration. A separate retrospective check relaxes the anchor vertical-velocity lower bound from +1.5 to -11 m/s. Cologne then yields two forecasts with ESS 58 and 48, while the other two cases remain unsupported. This isolates sensitivity to the launch prior; it does not establish release timing or validate the forecast. The three existing cases can inform development. Freeze the revised model before testing on held-out matches. Report forecast availability across eligible kicks, point error, coverage and region area on the same entries, and Brier scores on confirmed first events. Reporting area alongside coverage makes the cost of widening a region explicit.
 
-For a goalkeeper, waiting changes both the quality of the forecast and the time available to act. The official median crossing time leaves 299 ms at the original decision and 149 ms after a 250 ms observation. A comparison of a third position, measured spin and measured wind should record both crossing error and remaining action time on the same shots. Estimating save probability would also require the goalkeeper's starting position, movement-onset delay and time-dependent reach.
+For a goalkeeper, waiting changes both the quality of the forecast and the time available to act. The official median crossing time leaves 299 ms at the original decision and 149 ms after a 250 ms observation. Section~\ref{sec:waiting} quantifies one such tradeoff in synthetic flights. A future comparison of independently measured spin or wind should use the same shots and account for the time required to obtain that information. Estimating save probability would also require the goalkeeper's starting position, movement-onset delay and time-dependent reach.
+
+\subsection{What the evidence establishes, and what it does not}
+The force-exclusion inequality and the indistinguishable-flight pair are conditional physical statements. Solver agreement establishes numerical accuracy within the specified equations. Synthetic holdouts test forecasting under explicit distribution shifts between generator and predictor. Match cases reveal failures of timing and launch assumptions; none qualifies as a release-synchronized external accuracy test. These four kinds of evidence cannot substitute for one another.
+
+The opening is evaluated using the stipulated ball-centre geometry. Finite-radius post and crossbar collisions, ground rebounds, ball deformation and goalkeeper contacts are omitted. Model probabilities inherit broad, unmeasured priors; the empirical force law is not ball-specific, and wake dynamics enter the test generator but not the predictor. One-factor sensitivity does not cover joint extremes. Repeated seeds reduce Monte Carlo dependence without increasing the number of independent kicks. Finally, the sampler is an offline research method: frame availability does not establish end-to-end real-time operation.
+
+These limits suggest a practical reporting rule: state the decision time and observations; give an event distribution; if direct-entry support is nonzero, report a point convention and joint region; attach coverage, area and sampling diagnostics; flag failed support rather than returning a falsely precise point. This rule addresses the original hypothetical problem without requiring a physical reenactment of its prescribed coordinates.
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
-For the official kick, the most probable goal cell is centred at \((2.562,2.074)\) m, and the six-cell region in Eq.~\eqref{eq:region} contains 90.52\% of the conditional mass. Two flights within a single force law fit the same early positions and impose a 4.38 cm lower bound on worst-case point error. The compact regions observed in simulated kicks rely on a known release and a specified error model. In professional match data, an acceleration bound shows exactly where those assumptions fail to accommodate the observed motion.
-\clearpage
+For the prescribed scenario at the 100 ms decision, our nominal highest-mass cell is centred at \((2.562,2.074)\) m. The joint region \(2.196\le Y\le2.928\) m, \(1.708\le Z\le2.196\) m contains 90.52\% of the direct-entry conditional mass and has area 0.3572 m\(^2\); median arrival is 0.399 s. These values depend on centimetre rounding, exact timing, the stated wind cap and model priors. A feasible trajectory pair proves a 4.38 cm worst-case point-error lower bound within the admitted force family.
 
-\begin{thebibliography}{9}\small
+The general method is tested against alternative synthetic physics, transparent kinematic baselines and equal-budget comparisons. The second frame strongly narrows regions but does not establish a mean point-error advantage on the retrospective test. On new synthetic kicks, a later observation pair improves point error at a 50 ms time cost. Tracking error, timing and sampling failures can dominate nominal precision, and adding a third frame is not automatically beneficial to a finite-budget implementation. The useful outcome is a conditional forecast with explicit uncertainty and failure diagnostics; external accuracy and goalkeeper benefit remain separate questions.
+
+\appendix
+\section{Reproduction and evidence map}
+The accompanying source package separates design, generated experiments and manuscript assets. The prescribed-case inputs, seeds 8111/8117, 30\(\times\)10 grid and solver tolerances are stored with the original run. The equal-budget rerun uses three seeds; the new timing/noise comparison uses truth seeds 77401/77407 and inference seeds 77501/77507. Tables and the two new figures are generated directly from frozen results, with source SHA-256 checksums. The main result can be reconstructed without the public match data.
+
+\begin{center}\small
+\begin{tabular}{@{}ll@{}}\toprule
+Claim or check & Package evidence\\\midrule
+Wind geometry and model assumptions & \texttt{design/}, \texttt{report/methods.md}\\
+Feasible pair and prescribed prediction & \texttt{experiment/runs/B01/}, \texttt{B03/}\\
+Equal-budget comparison & \texttt{experiment/runs/Z04/}\\
+Conditional factor sensitivity & \texttt{report/evidence/z05-factors.csv}\\
+Timing and noisy-input tests & \texttt{report/evidence/z06-summary.json}\\
+Match timing and anchor checks & \texttt{report/field.md}, \texttt{experiment/runs/Z07/}\\
+Causal acquisition simulations & \texttt{report/evidence/z08-feedback.csv}\\
+Generated tables and figure provenance & \texttt{paper/build\_assets.py}, \texttt{asset-sources.json}\\\bottomrule
+\end{tabular}\end{center}
+
+From the repository root, \texttt{python report/recheck.py}, \texttt{python report/recheck\_field.py} and \texttt{python report/recheck\_extensions.py} reconstruct the headline checks. Regenerate manuscript tables and figures with \texttt{python paper/build\_assets.py}, then compile \texttt{paper/manuscript.tex}. The reproduction guide supplies the full-run entry points and archived configurations. Numerical agreement verifies the recorded computations; it does not remove the model and data limitations above.
+
+
+\clearpage
+\begin{thebibliography}{99}\small
 \addcontentsline{toc}{section}{\refname}
 \setlength{\itemsep}{4pt}
 \bibitem{upc}
@@ -298,10 +442,9 @@ DOI \doi{10.1137/S1064827594276424}.
 T. Mizota et al., The strange flight behaviour of slowly spinning soccer balls.
 \emph{Scientific Reports} \textbf{3}, 1871 (2013).
 DOI \doi{10.1038/srep01871}.
-\bibitem{wilson}
-E.~B. Wilson, Probable inference, the law of succession, and statistical inference.
-\emph{Journal of the American Statistical Association} \textbf{22}, 209--212 (1927).
-DOI \doi{10.1080/01621459.1927.10502953}.
+\bibitem{ifab}
+International Football Association Board, Laws of the Game, Law 2: The Ball.
+\href{https://www.theifab.com/laws/latest/the-ball/}{Ball specifications}, accessed 7 November 2026.
 \bibitem{bassek}
 M. Bassek, R. Rein, H. Weber and D. Memmert, An integrated dataset of spatiotemporal and event data in elite soccer.
 \emph{Scientific Data} \textbf{12}, 195 (2025).

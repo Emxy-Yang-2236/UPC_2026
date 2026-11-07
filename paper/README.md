@@ -1,16 +1,28 @@
-# B 题英文论文初稿
+# B 题英文论文整合稿
 
-[阅读 PDF](manuscript.pdf) · [编辑 LaTeX 源文件](manuscript.tex) · [查阅独立实验报告](../report/README.md)
+[阅读 PDF](manuscript.pdf) · [编辑 LaTeX](manuscript.tex) · [修订说明与人工依赖](../report/paper-revision.md)
 
-从研究仓库根目录编译。两幅矢量图已随 TeX 放在 `paper/figures/`，队员可直接编译。
+本稿以原九页初稿为基础，纳入截至 ee3a661 的 B01–B03、D02–D03 和 Z04–Z08 证据。主答案仍为题面假想射门在 100 ms 的两帧条件预测；新章节解释观测误差、影响因素、等预算比较及等待代价。论文不宣称现场验证已通过或保证获奖。
+
+在仓库根目录生成新增图表，再编译：
 
 ```sh
+python paper/build_assets.py
 cd paper
 tectonic manuscript.tex
 ```
 
-需要调整图形时，在仓库根目录运行 `python3 paper/figures/draw.py`（需要 NumPy、Matplotlib），再编译 TeX。门面概率图读取冻结的 [300 格概率表](../report/evidence/grid.csv)，成对轨迹图读取[观测与过线位置](../report/evidence/measurements.json)。
+图表生成需要 NumPy、Matplotlib；已生成的四个表和两幅新增矢量图均随仓库交付，直接编译无需 Python。asset-sources.json 保存输入数据 SHA-256。原两幅图由 paper/figures/draw.py 从冻结门面及见证轨迹数据生成。
 
-写作者从报告提交 `b3e15a6b2aa9be5bf83a1b83975dd3621624c8db` 独立起稿；完成独立审阅后的对齐报告为 `10bb233a0e907b7c58ecf36009263d52b49c2847`。官方样例、合成盲测和职业比赛实测在正文中分别标明。[实验后续方向与待解决问题](../report/next-steps.md) · [审阅记录](review.md) · [本轮导出核对](submission-checklist.md)
+关键结果复核：
 
-私下定稿时用实际队号替换 `\TeamNumber`，将核准的逐字披露存为 `paper/ai-verbatim.tex`，重新编译并核对实际文件名。该本地附件由 Git 忽略；公开初稿保留队号占位和披露进度。[赛事规则与队内交接](../contest-rules.md)
+```sh
+python report/recheck.py
+python report/recheck_field.py
+python report/recheck_extensions.py
+python design/start.py
+```
+
+[论证提纲](outline.md) · [独立审阅记录](review.md) · [最终导出检查](submission-checklist.md) · [原始实验报告](../report/README.md)
+
+公开稿保留队号占位和 AI 披露缺口。提交前由队伍填实际 \TeamNumber，把经过覆盖核对的真实原始提问和完整输出放入 ai-verbatim.tex，重新编译、检查匿名性和每页队号，以实际队号加 B 命名。该私有附录和 private/ 中的部分交互记录不上传。只写使用概述不满足完整披露要求。
