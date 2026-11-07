@@ -18,9 +18,10 @@
   },
   "figures": {
     "problem-geometry.pdf": {
-      "sha256": "b9df262c7fa8f2fc02fddddaaf0f03a292e45b36cf4c00d8722cb8ebb190e5ef",
+      "sha256": "8af59de1c411a013002a536380359b7b9e3ffa53cba527984b8dba66aa9da2d3",
       "sources": [
-        "design/settings.json"
+        "design/settings.json",
+        "experiment/runs/B01/pair.json"
       ],
       "plotted": {
         "observations_xyz_m": [
@@ -41,13 +42,64 @@
           ]
         ],
         "time_ms": [
-          0.0,
-          50.0,
-          100.0
+          0,
+          50,
+          100
         ],
         "gate_x_m": 11,
         "half_width_m": 3.66,
-        "height_m": 2.44
+        "height_m": 2.44,
+        "remaining_x_m": 8.04,
+        "witness": "A, the first archived zero-wind S-model flight",
+        "continuation_times_s": [
+          0.15,
+          0.2,
+          0.25,
+          0.40054254300171793
+        ],
+        "continuation_xyz_m": [
+          [
+            4.3821484227085294,
+            1.231822579812813,
+            1.0117983240618778
+          ],
+          [
+            5.7683774876012155,
+            1.5671277729554527,
+            1.2570406814517485
+          ],
+          [
+            7.120428646069661,
+            1.8674332684454091,
+            1.4772381028641772
+          ],
+          [
+            11.0,
+            2.5737791002561945,
+            2.002506344971834
+          ]
+        ],
+        "path_display": "straight joins of archived samples",
+        "release_air_relative_velocity_m_s": [
+          30.41551974416947,
+          9.413055352685879,
+          6.912833807648177
+        ],
+        "effective_lift_vector_per_s": [
+          -0.5,
+          -0.20564659070289734,
+          -0.46349110815968314
+        ],
+        "force_directions": {
+          "weight": "vertically down",
+          "drag": "-u",
+          "lift": "beta cross u"
+        },
+        "arrow_lengths": "schematic",
+        "view_azimuth_elevation_deg": [
+          37,
+          20
+        ]
       }
     },
     "prediction-workflow.pdf": {

@@ -15,6 +15,8 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import FancyBboxPatch, Rectangle
 from matplotlib.ticker import MaxNLocator, PercentFormatter
 
+from flight_schematic import flight_figure
+
 ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper"
 FIGURES = PAPER / "figures"
@@ -79,36 +81,9 @@ def grid(ax, axis="y"):
 
 
 def draw_geometry(v, settings):
-    source = "design/settings.json"
-    o = settings["official"]
-    coords = np.array([o["r0"], *o["xyz"]])
-    times = np.r_[0, o["times"]] * 1000
-    fig, ax = plt.subplots(figsize=(WIDTH, 2.36), layout="constrained")
-    gate = o["gate"]
-    half = o["half_width"]
-    ax.add_patch(Rectangle((0, -half), gate, 2 * half, fc=PALE, ec=FAINT))
-    ax.axhline(0, c=FAINT, ls="--", lw=.9)
-    ax.plot([gate, gate], [-half, half], c=INK, lw=2)
-    ax.plot(*coords[:, :2].T, c=TEAL, lw=1.3, marker="o", ms=5)
-    for i, ((x, y, z), t) in enumerate(zip(coords, times)):
-        title = "Release anchor" if i == 0 else f"{t:.0f} ms"
-        ax.annotate(f"{title}\n$z={z:.2f}$ m", (x, y),
-                    xytext=[(0, -20), (0, 16), (22, -24)][i],
-                    textcoords="offset points", ha="center",
-                    va="bottom" if i == 1 else "top", color=TEAL)
-    ax.annotate("", xy=(gate, 2.65), xytext=(coords[-1, 0], 2.65),
-                arrowprops={"arrowstyle": "<->", "color": SLATE})
-    ax.text((gate + coords[-1, 0]) / 2, 3.05,
-            f"{gate - coords[-1, 0]:.2f} m beyond last observation", ha="center")
-    ax.text(gate + .28, .05, "Goal\nplane", va="center")
-    ax.set(xlim=(-.9, 12.45), ylim=(-4.1, 4.05), xlabel="Downfield position $x$ (m)",
-           ylabel="Lateral position $y$ (m)", yticks=[-half, 0, half],
-           xticks=[0, 2, 4, 6, 8, gate])
-    ax.spines["left"].set_visible(False)
-    v.save(fig, "problem-geometry", [source], {
-        "observations_xyz_m": coords.tolist(), "time_ms": times.tolist(),
-        "gate_x_m": gate, "half_width_m": half, "height_m": o["height"],
-    })
+    source = "experiment/runs/B01/pair.json"
+    fig, plotted = flight_figure(settings["official"], v.json(source))
+    v.save(fig, "problem-geometry", ["design/settings.json", source], plotted)
 
 
 def draw_pipeline(v, settings):
