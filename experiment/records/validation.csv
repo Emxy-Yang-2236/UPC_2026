@@ -13,3 +13,4 @@ V09,C6,固定输入来源后以缓存和网络复现聚合、按段闭式重算�
 V10,C7,在 Z05 重跑 B03 默认条件,默认格心和原始联合面积一致,格心与面积一致且所有扫参情景记录 ESS 与缺失,experiment/runs/Z05/factors.csv,pass
 V11,C8;C9,参考积分与 B03 冻结 DOP853 比较,48 脚事件一致且最大差分别小于 0.1 mm 和 0.1 ms,事件一致且门面差 1.89e-6 m 与时间差 6.27e-7 s,experiment/runs/Z06/reference-check.json,pass
 V12,C7;C8;C9;C10,从可独立读取的补充 CSV 复核,数据表与汇总的分母和均值一致,补充复核通过,report/recheck_extensions.py;report/evidence/z06-summary.json,pass
+V13,C2;C11,短时间抛体解析检查和迟到帧检查以及 B03 官方复算与 Z08 数表复核,因果帧和不等间隔积分有效且结果可复算,短间隔和迟到帧检查通过并复现 B03 格心和预测区域,report/recheck_extensions.py;experiment/runs/Z08/feedback.csv,pass

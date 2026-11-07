@@ -15,3 +15,5 @@ python3 -m venv .venv
 - 在完整目录中看到 `complete.json` 表示该批正常结束。`failure.json` 记录异常，中断时原目录保留并换新 ID 重跑。真实点球的纳入状态独立于合成评分。
 
 实测接续包含 [D02 原生帧预测与门线核验](runs/D02/README.md) 和 [D03 其他公开数据的辅助实验](runs/D03/README.md)。两者用各自的公开数据复现，合成盲测指标单独保留。
+
+采集条件仿真使用相同的预测器，按照每帧曝光和坐标可用时刻选择输入，并在给定时间误差范围内传播离脚偏移。从仓库根运行 `python experiment/src/capture_feedback.py --out scratch/Z08-replay`（需要 NumPy），`feedback.csv` 汇总帧率、延迟、丢帧和噪声的影响。 [采集清单](../report/field-acquisition.md) · [冻结反馈](runs/Z08/feedback.csv)

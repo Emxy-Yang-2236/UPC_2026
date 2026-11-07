@@ -1,4 +1,6 @@
 """B-1.0 vectorized double-precision flight and event solver (SI)."""
+import math
+
 import numpy as np
 
 EVENTS = ("in", "out", "ground", "timeout")
@@ -63,9 +65,16 @@ def early(v, nuisance, kind, cfg, last=1):
     frames, velocities, valid = [], [], []
     alive = np.ones(len(v), bool)
     prev = 0.
+    max_dt = cfg["solver"]["early_dt"]
+    if not math.isfinite(max_dt) or max_dt <= 0.:
+        raise ValueError("early_dt must be positive and finite")
     for t in cfg["official"]["times"][:last+1]:
-        n_steps = round((t-prev)/cfg["solver"]["early_dt"])
-        h = (t-prev)/n_steps
+        interval = t-prev
+        if not math.isfinite(interval) or interval <= 0.:
+            raise ValueError("Observation times must be finite, positive and increasing")
+        # Ignore round-off at an exact multiple of the requested step bound.
+        n_steps = max(1, math.ceil(interval/max_dt - 1e-12))
+        h = interval/n_steps
         for _ in range(n_steps):
             dr, v = advance(v, nuisance, kind, h, cfg)
             r = r + dr

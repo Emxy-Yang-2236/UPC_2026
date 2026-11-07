@@ -54,3 +54,9 @@ python experiment/src/field_anchor_check.py --out scratch/Z07
 预测阶段读取各自的可见读数，Z06 在评分前写出每批预测及 SHA-256。参考求解器用同一生成力律的 1 ms 积分，并自动与 48 脚冻结 DOP853 参考比较。新测试的种子、初始条件、真实事件、每种子校准分位数与逐脚结果均保存在运行目录。独立报告同时携带 Z05 数据表、Z06 评分与汇总、Z07 诊断表。Z07 复现包的 IDSSE 派生帧来自已注明版本的 CC BY 4.0 数据，出处见来源章节。 [补充复核脚本](recheck_extensions.py) · [来源](references.md)
 
 本轮计算时设置 `OPENBLAS_NUM_THREADS=1`。解包后的 Z07 复放在所有 18 行的事件、标志与分母上相同，默认线程设置下 ESS 的最大差约 $1.1\times10^{-13}$。数值复核采用容差，SHA-256 用于核对冻结文件。
+
+## Z08 采集条件仿真
+
+解压 [Z08 复现包](evidence/z08-replay.zip) 后，在包根运行 `python experiment/src/capture_feedback.py --out scratch/Z08`。本轮用 Python 3.10.11 和 NumPy 2.2.6，设置 `OPENBLAS_NUM_THREADS=1`。输出包含设定、独立合成参考、可用输入、评分前锁定的预测、逐脚评分和汇总。`python -I recheck_extensions.py` 可从交接包表格重算采集分母、名义命中和平均区域。
+
+预测器将不等间隔积分拆为不超过步长上限的子步。时钟情景使用离脚偏移的有界均匀先验，对 5 或 7 个 Gauss–Legendre 节点分配同一总提议预算，并按节点先验与读数似然合并事件分布。ESS 在归一化权重下计算，避免极小权重平方下溢。测试覆盖 5 ms 间隔的抛体解析解、迟到帧及缺帧、三帧预算、极小权重和 B03 官方复算。 [采集清单](field-acquisition.md) · [反馈表](evidence/z08-feedback.csv)

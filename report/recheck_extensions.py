@@ -13,6 +13,26 @@ def read_csv(name):
         return list(csv.DictReader(source))
 
 
+def check_capture():
+    rows = read_csv('z08-scores.csv')
+    for profile in read_csv('z08-feedback.csv'):
+        scores = [r for r in rows if r['profile'] == profile['profile']]
+        ready = [r for r in scores if r['input_status'] == 'ready']
+        assert len(scores) == int(profile['attempts'])
+        assert len({r['id'] for r in ready}) == int(profile['input_ready'])
+        assert all(0. <= float(r['max_age_ms']) <= 10. + 1e-9 for r in ready)
+        assert sum(r['event_available'] == 'True' and float(r['ess']) >= 25 for r in scores) == int(profile['ess25_estimates'])
+        hits = [int(r['nominal90_hit']) for r in scores if r['nominal90_hit']]
+        assert (sum(hits), len(hits)) == (int(profile['nominal90_hits']), int(profile['nominal90_goal_n']))
+        for column, summary in [('point_error_m', 'point_error_mean_m'), ('area_m2', 'mean_region_area_m2')]:
+            values = [float(r[column]) for r in scores if r[column]]
+            if values:
+                assert isclose(mean(values), float(profile[summary]), abs_tol=1e-12)
+            else:
+                assert profile[summary] == ''
+    return len(rows)
+
+
 def main():
     factors = {row['scenario']: row for row in read_csv('z05-factors.csv')}
     assert isclose(float(factors['reference']['region90_m2']), .357216, abs_tol=1e-10)
@@ -41,7 +61,7 @@ def main():
     for mode, events in [('launch_hard', 0), ('airborne_hard', 2), ('airborne_soft', 2)]:
         assert sum(r['mode'] == mode and r['has_event_distribution'] == 'True' for r in field) == events
     print(json.dumps({'status': 'pass', 'factor_scenarios': len(factors), 'score_rows': len(rows),
-                      'field_diagnostic_rows': len(field), 'waiting_cost_s': two-three}))
+                      'field_diagnostic_rows': len(field), 'capture_score_rows': check_capture(), 'waiting_cost_s': two-three}))
 
 
 if __name__ == '__main__':

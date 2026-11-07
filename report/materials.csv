@@ -26,3 +26,7 @@ evidence/z06-scores.csv,table,新种子合成留出逐脚误差覆盖面积与�
 evidence/z06-summary.json,result,新合成留出汇总及按脚配对区间
 evidence/z07-field-diagnostics.csv,table,三脚实测在不同锚点假设下的开发诊断
 evidence/z05-z07-replay.zip,code,补充实验的源码配置和冻结参考输入
+evidence/z08-config.json,input,采集仿真的条件与种子
+evidence/z08-feedback.csv,table,13 种采集条件的及时取帧与预测汇总
+evidence/z08-scores.csv,table,采集仿真逐脚因果输入状态与预测评分
+evidence/z08-replay.zip,code,采集仿真的源码与配置复现包

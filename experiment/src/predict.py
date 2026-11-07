@@ -63,8 +63,9 @@ def posterior_tracks(observations, kind, cfg, n, cap, rng):
         return {"n":n,"hits":0,"evidence":0.,"second":0.,"ess":0.}, (np.empty(0,int),np.empty((0,2)),np.empty(0),np.empty(0))
     weights,r,v,*nuisance = (np.concatenate(a) for a in zip(*chunks))
     total, squares = weights.sum(), weights@weights
+    normalized = weights / total
     info = {"n":n,"hits":len(weights),"evidence":float(total/n),
-            "second":float(squares/n**2),"ess":float(total**2/squares)}
+            "second":float(squares/n**2),"ess":float(1/(normalized@normalized))}
     if len(weights)>cap:
         cdf=np.cumsum(weights/total)
         cdf[-1]=1.
@@ -77,13 +78,60 @@ def posterior_tracks(observations, kind, cfg, n, cap, rng):
     return info,(event,yz,arrival,masses)
 
 
+def phase_cases(visible, cfg):
+    """Quadrature over a shared release offset, with a uniform bounded prior."""
+    width = cfg["observation"].get("release_phase_halfwidth_s", 0.)
+    if not np.isfinite(width) or width < 0.:
+        raise ValueError("Release phase half-width must be finite and nonnegative")
+    if not visible or width == 0.:
+        return [(1., cfg)]
+    times = np.asarray(cfg["official"]["times"], dtype=float)
+    if times[0] <= width:
+        raise ValueError("The phase prior must place all input frames after release")
+    nodes, weights = np.polynomial.legendre.leggauss(cfg["observation"].get("phase_nodes", 3))
+    return [(float(weight/2), dict(cfg, official=dict(cfg["official"], times=times+width*node)))
+            for node, weight in zip(nodes, weights)]
+
+
+def pool_phase_tracks(runs, probabilities):
+    infos, tracks = zip(*runs)
+    evidence = sum(p*i["evidence"] for p, i in zip(probabilities, infos))
+    ess_inverse = sum((p*i["evidence"]/evidence)**2/i["ess"]
+                      for p, i in zip(probabilities, infos) if evidence and i["ess"])
+    summary = {"n": sum(i["n"] for i in infos), "hits": sum(i["hits"] for i in infos),
+               "evidence": evidence, "second": sum(p*p*i["second"] for p, i in zip(probabilities, infos)),
+               "ess": 1/ess_inverse if ess_inverse else 0.}
+    events, points, arrival, _ = zip(*tracks)
+    masses = np.concatenate([p*track[3] for p, track in zip(probabilities, tracks)])
+    return summary, (np.concatenate(events), np.concatenate(points), np.concatenate(arrival), masses)
+
+
 def predict(visible, cfg, seed, official=False):
     sp = cfg["sampling"]
-    n = sp["n_official"] if official else (sp["n_both"] if len(visible)==2 else sp["n_single"])
+    count = len(cfg["official"]["times"])
+    visible = {index: np.asarray(point, dtype=float) for index, point in visible.items()}
+    for index, point in visible.items():
+        if not isinstance(index, (int, np.integer)) or not 0 <= index < count:
+            raise ValueError("Observation index is outside the configured times")
+        if point.shape != (3,) or not np.isfinite(point).all():
+            raise ValueError("Each observation must contain three finite coordinates")
+    n = sp["n_official"] if official else (sp["n_both"] if len(visible)>=2 else sp["n_single"])
     cap=sp["official_cap"] if official else sp["resample_cap"]
+    cases = phase_cases(visible, cfg)
+    probabilities = [p for p, _ in cases]
+    size, extra = divmod(n, len(cases))
+    if size < 1 or cap < len(cases):
+        raise ValueError("Sampling and resampling budgets must cover all phase cases")
+    cap_size, cap_extra = divmod(cap, len(cases))
     infos, tracks=[],[]
-    for model, stream in zip(sp["models"],np.random.SeedSequence(seed).spawn(3)):
-        info,samples=posterior_tracks(visible,model,cfg,n,cap,np.random.default_rng(stream))
+    for model, stream in zip(sp["models"],np.random.SeedSequence(seed).spawn(len(sp["models"]))):
+        if len(cases) == 1:
+            info, samples = posterior_tracks(visible, model, cases[0][1], n, cap, np.random.default_rng(stream))
+        else:
+            runs = [posterior_tracks(visible, model, case, size+(i<extra), cap_size+(i<cap_extra),
+                                     np.random.default_rng(child))
+                    for i, ((_, case), child) in enumerate(zip(cases, stream.spawn(len(cases))))]
+            info, samples = pool_phase_tracks(runs, probabilities)
         infos.append(info)
         tracks.append(samples)
     return infos,tracks
@@ -124,9 +172,9 @@ def summarize(infos,tracks,cfg):
     totals=pri @ np.array([np.bincount(e,weights=m,minlength=4) for e,_,_,m in tracks])
     z=totals.sum()
     evidence=np.array([a["evidence"] for a in infos])
-    second=sum(p**2*i["second"] for p,i in zip(pri,infos))
-    ess=float(z**2/second) if second else 0.
-    models=pri*evidence/z if z>0 else np.zeros(3)
+    models=pri*evidence/z if z>0 else np.zeros(len(infos))
+    ess_inverse = sum(p*p/i["ess"] for p, i in zip(models, infos) if i["ess"])
+    ess = float(1/ess_inverse) if ess_inverse else 0.
     cells=pri @ grid_masses(tracks,edges)
     hist=cells/cells.sum() if cells.sum() else cells
     return {"events": (totals/z).tolist() if z else None,
