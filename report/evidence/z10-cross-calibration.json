@@ -1,0 +1,90 @@
+[
+  {
+    "test": "Z09",
+    "calibration": "Z09",
+    "method": "aero",
+    "threshold": 0.8214019880523362,
+    "goals": 23,
+    "hits": 12,
+    "mean_area_m2": 0.8878629565217392,
+    "gains_vs_own": 0,
+    "losses_vs_own": 0
+  },
+  {
+    "test": "Z09",
+    "calibration": "Z09",
+    "method": "gravity",
+    "threshold": 0.08000121610261321,
+    "goals": 23,
+    "hits": 21,
+    "mean_area_m2": 1.2606100869565218,
+    "gains_vs_own": 0,
+    "losses_vs_own": 0
+  },
+  {
+    "test": "Z09",
+    "calibration": "Z10",
+    "method": "aero",
+    "threshold": 0.8594178166703517,
+    "goals": 23,
+    "hits": 14,
+    "mean_area_m2": 1.0328201739130436,
+    "gains_vs_own": 2,
+    "losses_vs_own": 0
+  },
+  {
+    "test": "Z09",
+    "calibration": "Z10",
+    "method": "gravity",
+    "threshold": 0.06869284838381938,
+    "goals": 23,
+    "hits": 19,
+    "mean_area_m2": 0.9215137391304349,
+    "gains_vs_own": 0,
+    "losses_vs_own": 2
+  },
+  {
+    "test": "Z10",
+    "calibration": "Z09",
+    "method": "aero",
+    "threshold": 0.8214019880523362,
+    "goals": 110,
+    "hits": 78,
+    "mean_area_m2": 0.8751792,
+    "gains_vs_own": 0,
+    "losses_vs_own": 12
+  },
+  {
+    "test": "Z10",
+    "calibration": "Z09",
+    "method": "gravity",
+    "threshold": 0.08000121610261321,
+    "goals": 110,
+    "hits": 94,
+    "mean_area_m2": 1.1479623272727273,
+    "gains_vs_own": 17,
+    "losses_vs_own": 0
+  },
+  {
+    "test": "Z10",
+    "calibration": "Z10",
+    "method": "aero",
+    "threshold": 0.8594178166703517,
+    "goals": 110,
+    "hits": 90,
+    "mean_area_m2": 1.0186068363636365,
+    "gains_vs_own": 0,
+    "losses_vs_own": 0
+  },
+  {
+    "test": "Z10",
+    "calibration": "Z10",
+    "method": "gravity",
+    "threshold": 0.06869284838381938,
+    "goals": 110,
+    "hits": 77,
+    "mean_area_m2": 0.8454112000000001,
+    "gains_vs_own": 0,
+    "losses_vs_own": 0
+  }
+]

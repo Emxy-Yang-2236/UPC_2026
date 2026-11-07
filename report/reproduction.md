@@ -71,3 +71,12 @@ python experiment/src/event_sensitivity.py --out scratch/plane-sensitivity-repla
 ```
 
 将结果与冻结汇总、复现档案和事件诊断逐项核对。复现档案保留两个误差情景的输入与真值、全部锁定预测、校准阈值和 720 条评分。墙钟时间和含计时值的文件哈希随机器与重跑而变。取整情景两种气动力方法在匹配操作点均覆盖 70/71，带跟踪误差时重力与两帧气动力方法均覆盖 67/71。 [完整实验说明](coverage-and-crossing.md) · [复现档案](evidence/z09-replay.zip) · [事件诊断](evidence/plane-sensitivity.json)
+
+
+## Z10 稳定旋转球独立留出
+
+在报告目录运行 `python3 recheck_spin.py --run evidence/z10-replay.zip`，标准库即可重算分位秩、命中、面积及代表性曲率诊断。全部归档均可离线使用。[完整运行包](evidence/z10-replay.zip) · [实验结果与限制](stable-spin.md)
+
+要从初始条件重新生成射门，将 Z10 运行包解到空目录，进入解压根目录，安装 `experiment/requirements.txt`，运行 `python experiment/src/stable_spin.py --out scratch/Z10-replay --workers 4`。根目录的两个分布压缩包、两次锁和逐脚表是此前运行的冻结结果。重放输出使用新的目录。浮点末位可能随 NumPy、SciPy 和硬件变化，检查校准样本数、各组命中和打印精度下的科学量，环境信息见归档内 config.json。实验使用相互独立的整脚工作进程和每程一个 BLAS 线程。
+
+交叉阈值诊断可在同一报告目录运行 `python3 cross_spin_calibration.py`。默认读取包内 Z09 与 Z10 归档，输出四个留出批次与校准来源组合。

@@ -39,3 +39,10 @@ evidence/z09-summary.json,result,校准覆盖面积与逐脚配对及分组汇�
 evidence/z09-replay.zip,result,校准和测试输入真值锁定预测及逐脚结果
 evidence/plane-sensitivity.json,result,恒加速度对照门线事件导数及角点输出
 visual-revision.md,section,新版图表证据映射与数据处理核验
+stable-spin.md,section,Z10 稳定旋转球的复验和三个机制对照
+evidence/z10-summary.json,result,Z10 逐组分母及校准与曲率的配对结果
+evidence/z10-replay.zip,code,Z10 原始读数与真值锁定预测逐脚评分及可离线重放代码
+recheck_spin.py,validation,标准库从冻结格分布重新计算 Z10 阈值与盲测指标
+cross_spin_calibration.py,code,Z09 与 Z10 冻结预测的交叉阈值诊断
+evidence/z10-cross-calibration.json,table,Z10b 两套阈值在两批稳定旋转留出上的面积与命中
+evidence/z10-validation.json,validation,两次完整重跑的逐文件摘要和独立标准库核验计数

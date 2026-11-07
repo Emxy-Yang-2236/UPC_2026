@@ -11,3 +11,5 @@
 - S9. Hudl StatsBomb Open Data, Argentina–France, 2022 FIFA World Cup final, match 3869685. 使用点球标签、比赛阶段和射门终点的聚合计数。[固定版本事件](https://github.com/hudl/open-data/blob/0bb2d94a146808c2297936b99b6da8e9b2a05138/data/events/3869685.json)
 - E. B. Wilson, “Probable inference, the law of succession, and statistical inference,” *Journal of the American Statistical Association* 22, 209–212 (1927). 盲测命中数的二项分数区间；在本研究中用于描述分层情景样本。[DOI](https://doi.org/10.1080/01621459.1927.10502953)
 - P. Virtanen et al., “SciPy 1.0: fundamental algorithms for scientific computing in Python,” *Nature Methods* 17, 261–272 (2020)；L. F. Shampine and M. W. Reichelt, “The MATLAB ODE Suite,” *SIAM Journal on Scientific Computing* 18, 1–22 (1997)。自适应常微分方程求解和跨实现复核。[SciPy](https://doi.org/10.1038/s41592-019-0686-2) · [MATLAB ODE Suite](https://doi.org/10.1137/S1064827594276424)
+
+- I. Griffiths, C. Evans and N. Griffiths, “Tracking the flight of a spinning football in three dimensions,” *Measurement Science and Technology* 16 (2005), 2056–2065。原始实验证明可用四个球面标记同时记录旋转和偏转，为 Z10 的实测接续提供采集方法。[DOI](https://doi.org/10.1088/0957-0233/16/10/022)

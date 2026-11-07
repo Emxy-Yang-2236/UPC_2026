@@ -1,6 +1,6 @@
 # UPC 2026 B · 两帧预测点球
 
-本分支 `research/2026-b` 接续论文修订稿 `bfd0c04`。当前研究为[稳定旋转球独立复验](design/stable-spin.md)。[阅读论文](paper/manuscript.pdf) · [三维模型图](paper/figures/problem-geometry.pdf) · [研究方案](design/README.md) · [固定截止时间验证](report/coverage-and-crossing.md)
+本分支 `research/2026-b` 接续论文修订稿 `bfd0c04`。当前研究为[稳定旋转球独立复验设计](design/stable-spin.md)，[完整实验报告](report/stable-spin.md)。[阅读论文](paper/manuscript.pdf) · [三维模型图](paper/figures/problem-geometry.pdf) · [研究方案](design/README.md) · [固定截止时间验证](report/coverage-and-crossing.md)
 
 ```sh
 git clone --branch research/2026-b https://github.com/Emxy-Yang-2236/UPC_2026.git
