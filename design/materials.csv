@@ -2,3 +2,5 @@ path,role,description
 outline.md,section,B 题最终研究提纲与整体论证顺序
 settings.json,input,B-1.0 官方样例和冻结的物理及统计设置
 start.py,code,无第三方依赖的几何判据与冷启动检查
+stable-spin.md,section,Z10 稳定旋转球独立留出方案和机制解释口径
+stable-spin.json,input,Z10 固定干预与随机种子

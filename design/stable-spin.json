@@ -1,0 +1,14 @@
+{
+  "study": "Z10",
+  "cal": 300, "blind": 600,
+  "truth_seeds": {"cal": 104729, "blind": 104743},
+  "noise_seeds": {"cal": 104759, "blind": 104761},
+  "inference_seeds": {"cal": 104773, "blind": 104779},
+  "repeat_seed": 104789, "repeat_blind_first": 48,
+  "bootstrap_seed": 104801, "bootstrap_draws": 4000,
+  "target": 0.90, "proposal_count": 8192, "propagation_cap": 512,
+  "independent_sigma_m": 0.006, "shared_sigma_m": 0.008,
+  "tracking_proposal_halfwidth_m": 0.026, "observable_cut": 2.0,
+  "lift_scale": {"narrow": 0.5, "wide": 1.5},
+  "spin_rich_weights": [0.02, 0.49, 0.49]
+}
