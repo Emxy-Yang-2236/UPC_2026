@@ -1,0 +1,118 @@
+{
+  "target": 0.9,
+  "goal_area_m2": 17.860799999999998,
+  "observable_cut": 2.0,
+  "tracking_axis_sd_m_s2": 6.760670578179849,
+  "pooled": {
+    "tracking": {
+      "nominal": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.8594178166703517,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      },
+      "gravity": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.06869284838381938,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      },
+      "narrow": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.7728062209391423,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      },
+      "wide": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.9278618117107396,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      },
+      "spin_rich": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.9292663762660309,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      }
+    },
+    "rounded": {
+      "nominal": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.9274725274725274,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      },
+      "gravity": {
+        "n": 180,
+        "rank": 163,
+        "threshold": 0.06764380106943033,
+        "rank_exceeds_n": false,
+        "missing_distribution_n": 0,
+        "hits": 163
+      }
+    }
+  },
+  "family": {
+    "no_spin": {
+      "n": 63,
+      "rank": 58,
+      "threshold": 0.5628045240862746,
+      "rank_exceeds_n": false,
+      "missing_distribution_n": 0,
+      "hits": 58
+    },
+    "stable_spin": {
+      "n": 55,
+      "rank": 51,
+      "threshold": 0.9698241635781669,
+      "rank_exceeds_n": false,
+      "missing_distribution_n": 0,
+      "hits": 51
+    },
+    "wake": {
+      "n": 62,
+      "rank": 57,
+      "threshold": 0.678429608191631,
+      "rank_exceeds_n": false,
+      "missing_distribution_n": 0,
+      "hits": 57
+    }
+  },
+  "worst_family": {
+    "threshold": 0.9698241635781669,
+    "families_at_max": [
+      "stable_spin"
+    ]
+  },
+  "observable": {
+    "low": {
+      "n": 141,
+      "rank": 128,
+      "threshold": 0.7802984858544607,
+      "rank_exceeds_n": false,
+      "missing_distribution_n": 0,
+      "hits": 128
+    },
+    "high": {
+      "n": 39,
+      "rank": 36,
+      "threshold": 0.9600094767003616,
+      "rank_exceeds_n": false,
+      "missing_distribution_n": 0,
+      "hits": 36
+    }
+  }
+}
