@@ -1,0 +1,51 @@
+\section{Does the second reading help at 100 ms?}
+\label{sec:coverage}
+
+\subsection{Fixed inputs, budgets and comparison targets}
+We generate 90 calibration kicks and 120 fresh test kicks at previously unused seeds. The force generator comprises balanced blocks of zero spin, sustained spin and low-spin wake trajectories. Its drag, Magnus and wake laws differ from those used for inference (Appendix~\ref{app:reference}). The reference solver uses a 1 ms time step. We retain 55 and 71 direct entries for region calibration and test, respectively. Non-entry shots remain in the event-probability evaluation. Each trajectory is one statistical unit, with one inference seed per shot and method in each observation profile.
+
+The rounded profile contains centimetre quantization. The tracking profile uses the same shots and adds two errors to the exact coordinates before quantization: independent 6 mm standard deviation per coordinate per frame, and a shared 8 mm standard deviation per coordinate for each kick. Both profiles have exact frame times and release position. The tracking inference uses the corresponding noise model, so its result is conditional on this assumed observation specification. We evaluate other timing and error interactions separately.
+
+The late-frame and two-frame aerodynamic methods share the same model weights, parameter supports, solver and 8,192 proposals per model. Each model propagates up to 512 samples, with the actual count depending on positive-weight support. The methods share a 100 ms input cutoff, after which computation begins. The late-frame method receives the 100 ms position and the two-frame method receives both prescribed times. Each shot uses the same inference seed across methods and profiles. The gravity control uses both readings. Its deterministic gate position is the centre of a distance-ranked region calibrated on the same shots. It predicts direct entry with a binary probability. The aerodynamic forecasts use their maximum-mass grid cells as point estimates. The comparison evaluates the complete procedures, including their distinct point conventions.
+
+Calibration and test inputs are generated separately. The predictor reads only the input arrays. Its outputs are stored and hashed before computing scores against the corresponding references. The nominal 90\% target, a common target grid from 50 to 100\%, the three prediction methods and the family and boundary subgroups are fixed in the run configuration. Thresholds are learned once per method and profile using the calibration split.
+
+\subsection{Calibrated regions on the same goal grid}
+Let \(H_D(j)\) be the conditional mass in goal cell \(j\). Let \(j_1,\ldots,j_J\) rank cells by decreasing mass with a fixed tie order. For a cell with positive mass define the entry score
+\begin{equation}
+ S_D(j_k)=\sum_{\ell<k}H_D(j_\ell).
+ \label{eq:coverage-prefix}
+\end{equation}
+Assign score one to empty cells, including all cells when the location map is absent. For gravity, let \(d_j\) be the Euclidean distance from the cell centre to the ballistic crossing. Set \(S_D(j)=d_j/(L+d_j)\), where \(L\) is the goal diagonal. This monotone transform gives the same nested sets as a radius cutoff. An undefined ballistic crossing assigns score one to every cell.
+
+For a coverage target \(c\), sort the 55 scores of the true cells from the calibration entries and set \(q_c\) to order statistic \(\lceil(55+1)c\rceil\). If the rank exceeds 55, set \(q_c=1\). We include every cell with \(S_D(j)\le q_c\). At \(q_c=1\) the set is the whole opening. This fallback is visible in the mean area. The ranking device follows the split-calibration principle~\cite{lei}. An exchangeable calibration and test population admits a rank argument for marginal coverage. Here, the generator uses stratified blocks and the real tracking process is unknown. We report empirical coverage in the declared test population rather than treating the target as a guarantee.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Held-out comparison at a common 90\% calibration target. Region hits, area and point error refer to 71 direct entries. Event Brier scores refer to all 120 kicks per method and profile. Gravity uses two observations and a calibrated radius.}
+\label{tab:z09main}
+\begin{tabular}{@{}llrrrr@{}}\toprule
+Profile & Forecast & Hits & Area (m\(^2\)) & Mean error (m) & Brier\\\midrule
+\csname @@input\endcsname tables/coverage-main.tex
+\bottomrule\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{coverage-frontier.pdf}
+\caption{Coverage and mean area of nested goal regions on the 71 test direct entries. Each marker uses a threshold fitted on a separate calibration split. Open markers denote the 90\% calibration target. Both panels show the same synthetic trajectories with different coordinate errors. The full opening is \(17.86\ \mathrm{m^2}\). Lines connect operating points for readability.}
+\label{fig:frontier}
+\end{figure}
+
+\subsection{The gain depends on the measurement profile}
+For rounded inputs at the 90\% target, both readings cover 67/71 crossings in a mean area of \(0.381\ \mathrm{m^2}\). The late frame covers 64/71 in \(2.003\ \mathrm{m^2}\). The 95\% Wilson intervals are 86.4--97.8\% and 81.0--95.1\%, respectively. Equal targets permit different achieved coverage. At the separately calibrated 95\% operating point, both methods cover exactly 70/71 in this test. The mean areas are \(0.585\) and \(3.482\ \mathrm{m^2}\), respectively. Gravity also covers 70/71 at its 90\% target, with mean area \(1.222\ \mathrm{m^2}\). These descriptive comparisons match achieved coverage among the prespecified operating points. Methods can miss different kicks at the same achieved coverage.
+
+The two-frame point error is lower than the late-frame error by 3.80 cm on average. A paired 4,000-resample shot bootstrap gives a 95\% interval of 0.22--7.62 cm for the reduction. The corresponding interval for a reduction relative to gravity is \(-2.29\) to \(5.85\) cm. Gravity remains competitive for point estimation. The two-frame event Brier score is 0.018 against 0.070 for the late frame and 0.083 for the binary gravity forecast. A small region and a good point are different achievements.
+
+With tracking noise, the 90\% target gives 60/71 hits for two frames, 62/71 for the late frame and 69/71 for gravity. The two-frame area is smaller at this target, with lower observed coverage. At equal observed coverage of 67/71, the two-frame procedure at its 95\% target uses \(1.385\ \mathrm{m^2}\). The gravity radius at its 80\% target uses \(0.933\ \mathrm{m^2}\). These different calibration targets identify two operating points of equal test coverage. They do not imply that the two methods achieve the same coverage on future data. The two-frame mean point error exceeds the gravity error by 5.57 cm, with a paired 95\% interval of 1.17--10.25 cm. The intervals for the noisy two-frame versus late-frame point and event differences include zero.
+
+The area ordering of the two-frame model and gravity differs between these observed operating points. At \(h=50\) ms the curvature estimator magnifies millimetre-scale errors by \(h^{-2}\). A shared spatial bias persists in the second difference because the release coordinate is fixed separately. Even with its assumed likelihood supplied, the two-frame procedure must infer flight parameters from a noisier curvature signal. The gravity model keeps a fixed acceleration and avoids estimating transverse acceleration from those differences. Its relative advantage on the noisy test is consistent with that reduction in estimation variance. These tests use prescribed tracking errors.
+
+\subsection{Availability and computational cost}
+All 71 direct entries have a defined point under all three procedures in both profiles. All 120 event probabilities per method are defined. One noisy late-frame forecast falls below the diagnostic threshold of 25 effective samples. Region thresholds near one can still make a result too broad to guide action even when the sampler returns a valid point. For example, the noisy two-frame set reaches full-goal area at the 97.5\% calibration target. The tested distribution includes shots near the goal boundary. Appendix~\ref{app:operating} reports their small denominators separately.
+
+In the local Python run, the rounded two-frame prediction took 84 ms at the median and 94 ms at the 95th percentile. The noisy two-frame prediction took 121 and 131 ms. These figures include inference and gate-map construction on one host and exclude image capture, reconstruction, data transfer and movement. For an illustration of scale, 131 ms is about 44\% of the nominal 299 ms remaining after the last frame. Actual time available for action depends on each kick's crossing time and all processing stages. The timed runs use the test budget.

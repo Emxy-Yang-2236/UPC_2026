@@ -1,0 +1,226 @@
+{
+  "scope": "constant acceleration control; first forward plane root; local sensitivity",
+  "time_s": 0.405008361227395,
+  "point_m": [
+    2.4948244142247114,
+    1.920367056484425
+  ],
+  "launch_m_s": [
+    30.400000000000002,
+    9.4,
+    6.8999999999999995
+  ],
+  "acceleration_m_s2": [
+    -16.000000000000085,
+    -16.000000000000014,
+    -11.999999999999993
+  ],
+  "weights": [
+    -49.41237461654422,
+    28.756270920546058
+  ],
+  "position_jacobian": [
+    [
+      6.031702777162222,
+      -49.41237461654422,
+      -0.0,
+      -3.510239702469444,
+      28.756270920546058,
+      0.0
+    ],
+    [
+      4.213915141161806,
+      -0.0,
+      -49.41237461654422,
+      -2.452350982437257,
+      0.0,
+      28.756270920546058
+    ]
+  ],
+  "phase_derivative_m_s": [
+    -123.20400974913923,
+    -93.28303595291956
+  ],
+  "scenarios": [
+    {
+      "phase_bound_ms": 0.0,
+      "coordinate_bound_mm": 0.0,
+      "linear_axis_max_m": [
+        0.0,
+        0.0
+      ],
+      "trials": 1,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        8.881784197001252e-16,
+        3.1086244689504383e-15
+      ],
+      "tested_max_distance_m": 3.233018248352212e-15
+    },
+    {
+      "phase_bound_ms": 0.0,
+      "coordinate_bound_mm": 2.5,
+      "linear_axis_max_m": [
+        0.21927647004180487,
+        0.21208727915172337
+      ],
+      "trials": 64,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        0.22938941086981268,
+        0.22197754217287868
+      ],
+      "tested_max_distance_m": 0.31920766132458644
+    },
+    {
+      "phase_bound_ms": 0.0,
+      "coordinate_bound_mm": 5.0,
+      "linear_axis_max_m": [
+        0.43855294008360973,
+        0.42417455830344675
+      ],
+      "trials": 64,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        0.4817340643149506,
+        0.46642570770846103
+      ],
+      "tested_max_distance_m": 0.6705375824908993
+    },
+    {
+      "phase_bound_ms": 0.0,
+      "coordinate_bound_mm": 10.0,
+      "linear_axis_max_m": [
+        0.8771058801672195,
+        0.8483491166068935
+      ],
+      "trials": 64,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        1.0780670355059798,
+        1.0452232921759232
+      ],
+      "tested_max_distance_m": 1.5015725968303122
+    },
+    {
+      "phase_bound_ms": 1.0,
+      "coordinate_bound_mm": 0.0,
+      "linear_axis_max_m": [
+        0.12320400974913924,
+        0.09328303595291956
+      ],
+      "trials": 3,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        0.15669136456033206,
+        0.1186377474528244
+      ],
+      "tested_max_distance_m": 0.19653777969759154
+    },
+    {
+      "phase_bound_ms": 1.0,
+      "coordinate_bound_mm": 2.5,
+      "linear_axis_max_m": [
+        0.3424804797909441,
+        0.30537031510464296
+      ],
+      "trials": 192,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        0.39351261393581627,
+        0.3600897705992874
+      ],
+      "tested_max_distance_m": 0.533401181304322
+    },
+    {
+      "phase_bound_ms": 1.0,
+      "coordinate_bound_mm": 5.0,
+      "linear_axis_max_m": [
+        0.5617569498327489,
+        0.5174575942563663
+      ],
+      "trials": 192,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        0.6718217836967888,
+        0.6427476603584112
+      ],
+      "tested_max_distance_m": 0.9297682850827653
+    },
+    {
+      "phase_bound_ms": 1.0,
+      "coordinate_bound_mm": 10.0,
+      "linear_axis_max_m": [
+        1.0003098899163587,
+        0.941632152559813
+      ],
+      "trials": 192,
+      "no_crossing": 0,
+      "tested_axis_max_m": [
+        1.4437603567231645,
+        1.4203479764204283
+      ],
+      "tested_max_distance_m": 2.025298087138534
+    },
+    {
+      "phase_bound_ms": 3.0,
+      "coordinate_bound_mm": 0.0,
+      "linear_axis_max_m": [
+        0.3696120292474177,
+        0.2798491078587587
+      ],
+      "trials": 3,
+      "no_crossing": 1,
+      "tested_axis_max_m": [
+        0.23682897437749784,
+        0.17931336631439154
+      ],
+      "tested_max_distance_m": 0.29705428198175615
+    },
+    {
+      "phase_bound_ms": 3.0,
+      "coordinate_bound_mm": 2.5,
+      "linear_axis_max_m": [
+        0.5888884992892226,
+        0.4919363870104821
+      ],
+      "trials": 192,
+      "no_crossing": 64,
+      "tested_axis_max_m": [
+        0.41072825706242533,
+        0.34517898455029505
+      ],
+      "tested_max_distance_m": 0.536513031085649
+    },
+    {
+      "phase_bound_ms": 3.0,
+      "coordinate_bound_mm": 5.0,
+      "linear_axis_max_m": [
+        0.8081649693310274,
+        0.7040236661622055
+      ],
+      "trials": 192,
+      "no_crossing": 48,
+      "tested_axis_max_m": [
+        1.743181495694515,
+        1.4980497529732195
+      ],
+      "tested_max_distance_m": 2.2984418176919097
+    },
+    {
+      "phase_bound_ms": 3.0,
+      "coordinate_bound_mm": 10.0,
+      "linear_axis_max_m": [
+        1.2467179094146372,
+        1.128198224465652
+      ],
+      "trials": 192,
+      "no_crossing": 32,
+      "tested_axis_max_m": [
+        3.337242504868906,
+        2.9988213257585405
+      ],
+      "tested_max_distance_m": 4.486659880147803
+    }
+  ]
+}

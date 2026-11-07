@@ -60,3 +60,14 @@ python experiment/src/field_anchor_check.py --out scratch/Z07
 解压 [Z08 复现包](evidence/z08-replay.zip) 后，在包根运行 `python experiment/src/capture_feedback.py --out scratch/Z08`。本轮用 Python 3.10.11 和 NumPy 2.2.6，设置 `OPENBLAS_NUM_THREADS=1`。输出包含设定、独立合成参考、可用输入、评分前锁定的预测、逐脚评分和汇总。`python -I recheck_extensions.py` 可从交接包表格重算采集分母、名义命中和平均区域。
 
 预测器将不等间隔积分拆为不超过步长上限的子步。时钟情景使用离脚偏移的有界均匀先验，对 5 或 7 个 Gauss–Legendre 节点分配同一总提议预算，并按节点先验与读数似然合并事件分布。ESS 在归一化权重下计算，避免极小权重平方下溢。测试覆盖 5 ms 间隔的抛体解析解、迟到帧及缺帧、三帧预算、极小权重和 B03 官方复算。 [采集清单](field-acquisition.md) · [反馈表](evidence/z08-feedback.csv)
+
+## Z09 固定 100 ms 留出与事件误差
+
+在研究仓库根目录使用 Python 3.10.11 和 NumPy 2.2.6，指定全新输出路径。
+
+```sh
+python experiment/src/coverage_benchmark.py --out scratch/Z09-replay
+python experiment/src/event_sensitivity.py --out scratch/plane-sensitivity-replay.json
+```
+
+将结果与冻结汇总、复现档案和事件诊断逐项核对。复现档案保留两个误差情景的输入与真值、全部锁定预测、校准阈值和 720 条评分。墙钟时间和含计时值的文件哈希随机器与重跑而变。取整情景两种气动力方法在匹配操作点均覆盖 70/71，带跟踪误差时重力与两帧气动力方法均覆盖 67/71。 [完整实验说明](coverage-and-crossing.md) · [复现档案](evidence/z09-replay.zip) · [事件诊断](evidence/plane-sensitivity.json)

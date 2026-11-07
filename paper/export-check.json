@@ -1,18 +1,17 @@
 {
-  "pages": 15,
-  "abstract_words_whitespace": 234,
+  "pages": 24,
+  "requested_minimum_pages": 21,
+  "abstract_words_whitespace": 232,
   "all_pages_have_placeholder": true,
   "unresolved_reference_pages": [],
-  "sha256": "f49e2bdb2b19eb71308d283d019eae46b2ff89a50b1c6940a40c88afb413a503",
-  "bytes": 195291,
+  "sha256": "707208a31a4dc633babd793ea4465732f996b96698d8b53cbf3f9f27a31fddbb",
+  "bytes": 274553,
   "metadata": {
     "/Creator": "LaTeX with hyperref",
     "/Title": "Predicting Penalty Trajectories: What Two Early Positions Can Resolve",
     "/Producer": "xdvipdfmx (0.1)",
-    "/CreationDate": "D:20261107103058-00'00'"
+    "/CreationDate": "D:20261107121204-00'00'"
   },
-  "status": "review_draft_team_id_and_full_ai_appendix_pending",
   "portable_page_text_equal": true,
-  "font_count": 18,
-  "all_fonts_embedded": true
+  "status": "review_draft_team_id_and_full_ai_appendix_pending"
 }

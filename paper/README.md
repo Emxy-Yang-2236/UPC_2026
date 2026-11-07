@@ -2,17 +2,18 @@
 
 [阅读 PDF](manuscript.pdf) · [编辑 LaTeX](manuscript.tex) · [修订说明与人工依赖](../report/paper-revision.md)
 
-本稿以原九页初稿为基础，纳入截至 ee3a661 的 B01–B03、D02–D03 和 Z04–Z08 证据。主答案仍为题面假想射门在 100 ms 的两帧条件预测；新章节解释观测误差、影响因素、等预算比较及等待代价。论文不宣称现场验证已通过或保证获奖。
+本稿按 [历届获奖稿对照](../report/upc-award-strategy.md) 重排正文。主文集中于题面算例、物理不可辨识性和 [Z09 固定 100 ms 验证](../report/coverage-and-crossing.md)。附录给过线事件误差传播、完整的覆盖与面积数据、早期验证及现场采集条件。
 
 在仓库根目录生成新增图表，再编译：
 
 ```sh
 python paper/build_assets.py
+python paper/build_revision_assets.py
 cd paper
 tectonic manuscript.tex
 ```
 
-图表生成需要 NumPy、Matplotlib；已生成的四个表和两幅新增矢量图均随仓库交付，直接编译无需 Python。asset-sources.json 保存输入数据 SHA-256。原两幅图由 paper/figures/draw.py 从冻结门面及见证轨迹数据生成。
+图表生成需要 NumPy 和 Matplotlib。已生成的图表与正文分册随仓库交付，直接编译无需 Python。旧版图表输入见 asset-sources.json，新版基准与过线扰动的输入、锁和代码哈希见复现档案。原两幅图由 paper/figures/draw.py 从冻结门面及见证轨迹数据生成。
 
 关键结果复核：
 

@@ -34,3 +34,7 @@ paper-revision.md,section,整合论文的修改依据与人工依赖
 workspace-scan.md,validation,本轮远端及活动研究材料扫描状态
 upc-award-strategy.md,section,历届获奖论文对照及 B 题重组和验证方案
 evidence/upc-awarded-papers.csv,table,逐篇公开获奖稿及历年成绩公告来源索引
+coverage-and-crossing.md,section,固定100毫秒留出验证及联合误差诊断
+evidence/z09-summary.json,result,校准覆盖面积与逐脚配对及分组汇总
+evidence/z09-replay.zip,result,校准和测试输入真值锁定预测及逐脚结果
+evidence/plane-sensitivity.json,result,恒加速度对照门线事件导数及角点输出
