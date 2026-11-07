@@ -29,4 +29,4 @@ python design/start.py
 
 [论证提纲](outline.md) · [独立审阅记录](review.md) · [最终导出检查](submission-checklist.md) · [原始实验报告](../report/README.md)
 
-公开稿保留队号占位和 AI 披露缺口。提交前由队伍填实际 \TeamNumber，把经过覆盖核对的真实原始提问和完整输出放入 ai-verbatim.tex，重新编译、检查匿名性和每页队号，以实际队号加 B 命名。该私有附录和 private/ 中的部分交互记录不上传。只写使用概述不满足完整披露要求。
+队号为 720，正式附件名为 `720B.pdf`。队内补齐原稿注明的私有附录后重新编译，并检查匿名性和每页队号。仓库中的可编辑源文件和审阅 PDF 沿用上面的固定入口。
