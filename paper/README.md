@@ -2,12 +2,14 @@
 
 [阅读 PDF](manuscript.pdf) · [编辑 LaTeX 源文件](manuscript.tex) · [查阅独立实验报告](../report/README.md)
 
-从研究仓库根目录编译。TeX 从报告的 `evidence/` 读取已经核对的主图。
+从研究仓库根目录编译。两幅矢量图已随 TeX 放在 `paper/figures/`，队员可直接编译。
 
 ```sh
 cd paper
 tectonic manuscript.tex
 ```
+
+需要调整图形时，在仓库根目录运行 `python3 paper/figures/draw.py`（需要 NumPy、Matplotlib），再编译 TeX。门面概率图读取冻结的 [300 格概率表](../report/evidence/grid.csv)，成对轨迹图读取[观测与过线位置](../report/evidence/measurements.json)。
 
 写作者从报告提交 `b3e15a6b2aa9be5bf83a1b83975dd3621624c8db` 独立起稿；完成独立审阅后的对齐报告为 `10bb233a0e907b7c58ecf36009263d52b49c2847`。官方样例、合成盲测和职业比赛实测在正文中分别标明。[实验后续方向与待解决问题](../report/next-steps.md) · [审阅记录](review.md) · [本轮导出核对](submission-checklist.md)
 
