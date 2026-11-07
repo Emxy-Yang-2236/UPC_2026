@@ -1,6 +1,6 @@
 # B 题实验工作区
 
-从[当前方案](../design/README.md)接手。首个结果是 [B01 有效力轨迹对及 MATLAB 复核](runs/B01/README.md)。整批试验按 V1 数值门槛、V2 开发、V3 区域校准、V4 合成盲测、V5 官方样例的顺序运行。
+从[当前方案](../design/README.md)接手。[首轮盲测、官方预测与精度](results/README.md)。首个结果是 [B01 有效力轨迹对及 MATLAB 复核](runs/B01/README.md)。整批试验按 V1 数值门槛、V2 开发、V3 区域校准、V4 合成盲测、V5 官方样例的顺序运行。
 
 ```sh
 python3 -m venv .venv

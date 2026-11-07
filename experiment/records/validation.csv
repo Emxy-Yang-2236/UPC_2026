@@ -1,2 +1,6 @@
 id,claim_ids,method,criterion,result,artifact_paths,status
 V01,C1,SciPy DOP853+RK45 与独立 MATLAB ode45,早期残差<1e-6 m 且门面差≤0.003 m 时间差≤0.0002 s,两条轨迹通过且 MATLAB 最大门面差 1.32e-13 m,experiment/runs/B01/pair.json;experiment/runs/B01/matlab.json,passed
+V02,C2;C3,独立 DOP853 和真空解析并检查首事件,位置差≤3 mm 时间差≤0.2 ms 事件相同,4/4 通过,experiment/runs/B02/solver_checks.json,passed
+V03,C2;C3,门柱边界、帧掩码、证据归一化等结构性对照,全部为 true,6/6 通过,experiment/runs/B02/structural_checks.json,passed
+V04,C3,保存预测后按独立生成器逐脚揭盲并评分,记录真实门内分母和所有预报失败,48 脚中 33 脚门内；两帧预报无缺失,experiment/runs/B02/blind_lock.json;experiment/runs/B02/blind_scores.csv,passed
+V05,C2,固定先验敏感性、两种子与格网移动,区分名义格与稳健热点,两个种子同格；移动半格后改变位置,experiment/runs/B02/official.json,completed
