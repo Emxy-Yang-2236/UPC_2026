@@ -1,6 +1,6 @@
 {
   "format_version": 2,
   "title": "UPC 2026 B — 两帧预测点球",
-  "stage": "model",
+  "stage": "compute",
   "paper_path": "paper/manuscript.md"
 }

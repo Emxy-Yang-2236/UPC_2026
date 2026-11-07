@@ -1,20 +1,3 @@
-# Evidence-to-paper plan
+# B 题拟稿顺序
 
-Status: working outline. Replace the entries with actual research before treating this as a manuscript.
-
-## Argument map
-
-| Problem requirement | Answer/claim and conditions | Supporting artifact/source | Main figure/table | Limitation |
-| --- | --- | --- | --- | --- |
-| Fill from the actual problem | Use verified or explicitly conditional claims | Point to actual evidence | Include only useful figures | State material limits |
-
-## Suggested chapter responsibilities
-
-1. Problem and scope: explain the question, outputs and definitions that affect the answer.
-2. Assumptions and model: justify simplifications, define variables, derive the actual governing relations.
-3. Methods: describe the calculations or measurements actually performed, including inputs and reproducibility details.
-4. Results and validation: answer each question with evidence, distinguish baseline and extensions, and show checks appropriate to the model.
-5. Discussion: interpret mechanisms, tradeoffs, uncertainty and applicability.
-6. Conclusion: answer the problem directly within the established limits.
-
-Write the abstract last. Adapt this organization to the problem; a numerical-methods study and an open design comparison need not have identical sections. No section authorizes inventing missing research.
+实验报告冻结后，依次写两帧预测目标、横弯的物理判据、门线概率方法、独立盲测、官方样例和局限。摘要从已核实的数表取值，末尾讨论可用一段说明门将的时空可达性。按 template.tex 排版，使用 review.md 与 submission-checklist.md 收尾。
