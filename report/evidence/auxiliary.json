@@ -1,0 +1,71 @@
+{
+  "issia": {
+    "annotation_rows": 2465,
+    "at_least_two_annotating_cameras": 1801,
+    "contiguous_multiview_segments": 79,
+    "forecast_horizon_s": 0.12,
+    "fps": 25,
+    "input_offsets_frames": [
+      0,
+      2
+    ],
+    "issued": 61,
+    "lost_before_target": 14,
+    "lower_error_segments": {
+      "constant_velocity": 44,
+      "persistence": 2,
+      "tie": 1
+    },
+    "median_error_m": {
+      "constant_velocity": 0.16218937710515413,
+      "persistence": 0.9957910738244052
+    },
+    "scored": 47,
+    "short_before_second_input": 18,
+    "target_offset_frames": 5,
+    "usable_frames": 1689,
+    "usable_frames_by_cameras_used": {
+      "2": 1686,
+      "3": 3
+    }
+  },
+  "sources": {
+    "ISSIA-3D.csv": {
+      "bytes": 451850,
+      "sha256": "7f4b33068498d537186f6541a232c0959a23ed0af5bc3bd1ec924ffe8270ddc4",
+      "url": "https://github.com/mguti97/SoccerNet-v3D/releases/download/v1.0.0/ISSIA-3D.csv"
+    },
+    "statsbomb_3869685.json": {
+      "bytes": 3757121,
+      "sha256": "a0b0036d50c10a4c8879d1ee9f24a7502ec2cfb264a61951c8d500dfc897ec35",
+      "url": "https://raw.githubusercontent.com/hudl/open-data/0bb2d94a146808c2297936b99b6da8e9b2a05138/data/events/3869685.json"
+    }
+  },
+  "statsbomb": {
+    "before_line_x_provider_scale": [
+      118.8
+    ],
+    "endpoint_at_x120_by_outcome": {
+      "Goal": 9,
+      "Off T": 1
+    },
+    "endpoint_before_x120_by_outcome": {
+      "Saved": 1
+    },
+    "finite_3d_end_location": 11,
+    "match_id": 3869685,
+    "penalties": 11,
+    "penalties_by_outcome": {
+      "Goal": 9,
+      "Off T": 1,
+      "Saved": 1
+    },
+    "penalties_by_period": {
+      "1": 1,
+      "2": 1,
+      "4": 1,
+      "5": 8
+    },
+    "total_events": 4407
+  }
+}

@@ -20,4 +20,21 @@ HEAD 应为 `4cb0292f4e7ca656ce8ca4cfca3699ab5266b57c`。新结果在 `scratch/r
 python3 experiment/src/plot_blind.py scratch/replay/blind_scores.csv scratch/replay/blind.png
 ```
 
-**冷启动记录。** 2026-11-07，本次实验端在空目录解压 ZIP 后核对完整性，仅使用报告中的命令、源包和本机既有依赖复核。13 个包内文件通过校验。标准库复算返回 30/33、29/33、0.357216 m² 和 0.04379675 m 条件下界；从离线源码重新运行时改用 2 个工作进程，三组锁定预测、逐脚盲测、校准分位数、官方概率与轨迹、两张主图与冻结结果逐字节一致。此检查在同一台机器的全新目录完成，其他操作系统未实测。
+**B03 历史冷启动记录（初版 13 个文件）。** 2026-11-07，实验端在空目录解压 ZIP 后核对完整性，仅使用报告中的命令、源包和本机既有依赖复核。13 个包内文件通过校验。标准库复算返回 30/33、29/33、0.357216 m² 和 0.04379675 m 条件下界；从离线源码重新运行时改用 2 个工作进程，三组锁定预测、逐脚盲测、校准分位数、官方概率与轨迹、两张主图与冻结结果逐字节一致。此检查在同一台机器的全新目录完成，其他操作系统未实测。
+
+## 实测重放与绘图
+
+在独立报告根目录执行 `python3 -I recheck_field.py`，标准库会从 303 个原生帧重建三个门线参照和三个加速度下界，并核对每个有点预测的欧氏误差。应得到 `compatible_two_frame_cases=0`、晚帧唯一误差 0.8486902239 m、全族加速度上界 102.6478632 m/s²。图中的歧义时刻与交点可用 `python3 plot_ambiguity.py` 从包内冻结数值重画。[实测复核入口](recheck_field.py) · [歧义图脚本](plot_ambiguity.py)
+
+[实测运行归档](evidence/field-replay.zip) 来自提交 `6afc4b8a007c4ee65979ebb1d84e6980a398a664`。从报告根执行以下命令。D02 及其输入核验全程可离线运行；D03 如无两份对应 SHA-256 的本地缓存，最后一条命令需联网下载。原始 IDSSE 及本包相应衍生数据沿用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)，来源和改动见[文献](references.md)。
+```sh
+python3 -m zipfile -e evidence/field-replay.zip replay-field
+cd replay-field
+python3 experiment/src/empirical_penalties.py --out scratch/D02
+python3 experiment/src/check_empirical.py --run scratch/D02 --masking
+python3 experiment/src/check_auxiliary_tracks.py --output scratch/D03.json
+```
+
+D02 的 `inputs.json`、`predictions.json`、`lock.json`、`support.csv`、`reference.csv`、`scores.csv`、`summary.json` 可与归档中的 `experiment/runs/D02/` 比较；软件版本变化时锁中的环境字段可不同。D03 应与包内 [auxiliary.json](evidence/auxiliary.json) 一致。两种实验的输入接口、时钟和目标各自定义，故保留各自的评分表。
+
+**本次实测扩充的验收。** 2026-11-07，独立上下文只读 ZIP 解包，运行两个标准库复核，得到官方区域 0.357216 m²、合成命中 30/33、现场加速度上界 102.647863 m/s² 与唯一末帧点误差 0.848690 m。实验端另外在空目录离线重放 D02，预测与评分七个文件逐字节相同，隐藏帧扰动检验通过 3/3；D03 由公开来源重取后与包内聚合逐字节一致。随后增加了末章的迭代方向；最终包的完整性另以 SHA256SUMS 核对。

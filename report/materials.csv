@@ -6,3 +6,14 @@ evidence/blind.csv,table,盲测逐脚四个掩码的评分与分母
 evidence/grid.csv,table,官方样例的全部格心概率和预测区
 evidence/goal.png,figure,官方两帧条件入门分布
 evidence/blind.png,figure,留出射门位置误差及区域覆盖与面积
+plot_ambiguity.py,code,从两条积分轨迹的已核对记录重画分辨阈值与过线图
+evidence/ambiguity.png,figure,可行轨迹对在三个额外观测时刻的可分辨性及过线差异
+field.md,section,原生时钟实测方法与逐脚结果及辅助数据范围
+recheck_field.py,validation,独立复算原生过线和逐脚物理不相容界
+evidence/field/frames.csv,input,三脚共303个原生帧的公开衍生数据
+evidence/field/reference.csv,table,三个过线参考及各自插值帧
+evidence/field/scores.csv,table,18条观测掩码模型结果含失配和无门面位置的情况
+evidence/field/support.csv,validation,三个个案的早段加速度必要下界及全模型保守上界
+evidence/auxiliary.json,result,ISSIA先见帧外推及StatsBomb事件筛查的聚合数据和下载哈希
+evidence/field-replay.zip,code,固定原生实测输入与程序以及辅助实验的复现源包
+next-steps.md,section,报告结尾：依证据排序的迭代方向、待解问题和验收判据
