@@ -2,7 +2,7 @@
 import math
 import numpy as np
 from flight import cell_edges, cell_ids, cell_geometry
-from predict import MASKS, ranking, region
+from predict import MASKS, ranking, region, prefix_masses
 
 
 def truth_cell(q,edges):
@@ -15,16 +15,22 @@ def calibration(predictions,truth,cfg):
     result={}
     for mask in MASKS:
         scores=[]
+        observed=[]
         for row in truth:
             if row["event"]!="in": continue
             hist=np.array(lookup[row["id"]][mask]["hist"])
             cid=truth_cell(row["yz"],edges)
+            observed.append((hist,cid))
             if hist[cid]<=0: scores.append(1.); continue
             order=ranking(hist)
             index=int(np.flatnonzero(order==cid)[0])
-            scores.append(float(hist[order[:index]].sum()))
+            scores.append(float(prefix_masses(hist,order)[index]))
         k=math.ceil(cfg["study"]["coverage"]*(len(scores)+1))
-        result[mask]={"n":len(scores),"rank":k,"level":float(sorted(scores)[k-1]) if k<=len(scores) else 1.}
+        level=float(sorted(scores)[k-1]) if k<=len(scores) else 1.
+        included=sum(bool(region(hist,level,True)[cid]) for hist,cid in observed)
+        if included<min(k,len(scores)):
+            raise ValueError(f"{mask}: selected calibration rank is not included")
+        result[mask]={"n":len(scores),"rank":k,"level":level,"calibration_hits":included}
     return result
 
 

@@ -90,11 +90,16 @@ def ranking(hist):
     return np.argsort(-hist,kind="stable")
 
 
+def prefix_masses(hist, order):
+    """Mass accumulated just before each cell is added to the nested region."""
+    return np.r_[0., np.cumsum(hist[order])[:-1]]
+
+
 def region(hist, threshold=.9, calibrated=False):
     if calibrated and threshold>=1: return np.ones(len(hist),bool)
     if hist.sum()==0: return np.zeros(len(hist),bool)
     order=ranking(hist)
-    prev=np.r_[0., np.cumsum(hist[order])[:-1]]
+    prev=prefix_masses(hist,order)
     selected=np.zeros(len(hist),bool)
     selected[order]=(prev<=threshold if calibrated else prev<threshold)
     return selected
