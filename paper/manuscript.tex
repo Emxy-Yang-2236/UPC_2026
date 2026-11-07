@@ -1,0 +1,279 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=0.94in,top=0.86in,bottom=0.86in,headheight=15pt,headsep=16pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,microtype,fancyhdr}
+\usepackage[font=small,labelfont=bf,labelsep=period]{caption}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{../report/evidence/}{figures/}}
+\providecommand{\TeamNumber}{[pending]}
+\hypersetup{pdftitle={Predicting a Penalty Kick's Goal Crossing from Two Early Positions},pdfauthor={}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small Team \TeamNumber}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancypagestyle{cover}{\fancyhf{}\fancyhead[R]{\small Team \TeamNumber}\renewcommand{\headrulewidth}{0pt}}
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{2pt plus 0.5pt minus 0.5pt}
+\setlength{\textfloatsep}{11pt}
+\setlength{\intextsep}{9pt}
+\setlength{\emergencystretch}{1em}
+\raggedbottom
+\newcommand{\vv}[1]{\boldsymbol{#1}}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+
+\begin{document}
+\thispagestyle{cover}
+\vspace*{0.50in}
+\begin{center}
+{\large Problem B\par}
+\vspace{0.32in}
+{\LARGE\bfseries Predicting a Penalty Kick's Goal Crossing\\[3pt] from Two Early Positions\par}
+\end{center}
+\vspace{0.32in}
+\begin{abstract}
+Two ball positions taken 50 and 100 ms after a penalty kick constrain its direction and curvature. We weight flights under three aerodynamic models by their agreement with the recorded coordinates, then predict the first event and the crossing position conditional on direct entry. For the official kick, assuming centimetre rounding and horizontal wind up to 3 m/s, the most probable goal cell is centred 2.562 m toward positive \(y\) and 2.074 m above the ground. Six cells covering \(0.3572\ \mathrm{m^2}\) contain 90.52\% of the conditional probability. Two admissible flights reproduce both displayed coordinate triples to numerical precision and cross 8.76 cm apart. On 48 held-out synthetic kicks, the two-frame forecast had a median position error of 0.133 m on 33 direct entries. Its nominal 90\% region contained 30 of those entries. At their specified sampling budgets, the two-frame forecast reduced mean region area by \(2.722\ \mathrm{m^2}\) and lowered the direct-entry Brier score by 0.0556 relative to the 100 ms frame alone. In three professional penalties, 40 and 80 ms after the first live tracking frame, all three pairs violated a necessary acceleration bound. Only one last-frame forecast yielded a position, with 0.849 m error. A field application must therefore establish the release time and whether the tracking error and launch assumptions fit the measurement system.
+\end{abstract}
+\clearpage
+
+\section{What the first 100 milliseconds constrain}
+
+At 100 ms the ball in the official example has flown 2.96 m toward a goal plane 11 m from the penalty spot. The two measured positions give its mean velocity over the latest 50 ms. Projecting that short chord another 8.04 m requires assumptions about forces during the rest of the flight. The task is to give the most likely entry point, quantify the uncertainty in both coordinates, and test the prediction method~\cite{upc}.
+
+Take \(x\) toward the goal, \(y\) across its face from the centre, and \(z\) upward from the ground. The ball centre starts at \(\vv r_0=(0,0,0.11)\) m. The two prescribed positions, in metres, are
+\begin{equation}
+ \vv r(0.050\,\mathrm{s})=(1.50,0.45,0.44),\qquad
+ \vv r(0.100\,\mathrm{s})=(2.96,0.86,0.74).
+ \label{eq:data}
+\end{equation}
+We treat release position and times as known and each subsequent coordinate as rounded to the nearest centimetre. A reading \(q\) accepts the half-open interval \([q-\epsilon,q+\epsilon)\) with \(\epsilon=0.005\) m. This model describes display rounding. Tracking error or uncertain release time requires a separate measurement model.
+
+We follow each flight to its first crossing of \(x=11\) m or its first descent to the ball radius. A plane crossing is a direct entry \(G\) if the centre satisfies \(-3.66<Y<3.66\) and \(0<Z<2.44\) m. The other outcomes are a crossing outside the opening, earlier ground contact, and a flight still unresolved at 1.25 s. A forecast assigns probability to all four events. Its entry map is the joint distribution of \(Q=(Y,Z)\) conditional on \(G\). A ground-first trajectory has no direct-entry point.
+
+\subsection*{A geometric test for drag alone}
+
+The official horizontal interval velocities are \((30.0,9.0)\) and \((29.2,8.2)\) m/s. Drag in still air preserves horizontal heading. With constant horizontal wind \(\vv w\), drag preserves that heading in the air frame. Consequently the horizontal displacements \(\vv p_i\) from release obey
+\begin{equation}
+ \det(\vv p_1-t_1\vv w,\vv p_2-t_2\vv w)=0
+ \ \Longrightarrow\
+ \norm{\vv w}\ge
+ \frac{|\det(\vv p_1,\vv p_2)|}{\norm{t_2\vv p_1-t_1\vv p_2}} .
+ \label{eq:wind}
+\end{equation}
+Here the determinant is the signed area spanned by two planar vectors. Collinearity alone requires at least 14.849 m/s of wind for the displayed values. At fixed wind the determinant is linear in each input coordinate separately, so its extrema over the rounding boxes occur at corners. Allowing all four horizontal coordinates to vary gives a lower bound of 4.353 m/s (the infimum for half-open rounding cells). Even this exceeds our assumed 3 m/s cap. The observations thereby exclude a drag-only flight under these assumptions while leaving multiple lateral-force histories possible.
+
+In still air, each observed point constrains the straight line through the origin to a range of slopes. For the positive coordinates here that range is
+\[
+ \left[(y_i-\epsilon)/(x_i+\epsilon),\ (y_i+\epsilon)/(x_i-\epsilon)\right].
+\]
+The closures of the two intervals first touch at \(\epsilon=7.279\) mm. An instrument with a 5 mm coordinate bound can therefore distinguish this geometrical signature in still air. If the bound is 1 cm, the same positions are compatible with a straight horizontal projection.
+\clearpage
+
+\section{Forecasting the first event and its location}
+
+For position \(\vv r\), velocity \(\vv v=\dot{\vv r}\), air-relative velocity \(\vv u=\vv v-\vv w\), and speed \(U=\norm{\vv u}\), we propagate three flight models with acceleration
+\begin{equation}
+\begin{aligned}
+ \vv a_{\mathrm D}&=\vv g-\kappa U\vv u,\\
+ \vv a_{\mathrm S}&=\vv a_{\mathrm D}+\vv\beta\times\vv u,\\
+ \vv a_{\mathrm E}&=\vv g-K C_D U\vv u+K C_L U^2\vv n .
+\end{aligned}
+\label{eq:acc}
+\end{equation}
+Model D has quadratic drag. Model S adds an effective transverse force with a constant vector coefficient \(\vv\beta\). In E, \(K=\rho\pi R^2/(2m)\), and \(\vv n\) points along \(\vv\omega\times\vv u\), with zero lift when the cross product vanishes. We use \(g=9.81\ \mathrm{m/s^2}\) downward, \(R=0.11\) m, \(m=0.43\) kg and \(\rho=1.20\ \mathrm{kg/m^3}\). In SI units our coefficients are
+\begin{equation}
+\begin{aligned}
+ C_D&=0.155+\frac{0.346}{1+\exp[(U_c-12.19)/1.309]}+\delta,\quad
+ U_c=\min(29.9,\max(9.3,U)),\\
+ C_L&=0.38\tanh\!\left(5R\norm{\vv\omega\times\vv u}/U^2\right).
+\end{aligned}
+\label{eq:coeff}
+\end{equation}
+The baseline drag transition comes from a fit to wind-tunnel data for a nonspinning Teamgeist ball used in trajectory analysis~\cite{goff2010}. We clip its input to the range of initial speeds in a separate 29-flight study~\cite{goff2017}. The offset \(\delta\), the saturating lift law and the model mixture are scenario choices.
+
+Prior model probabilities are \(0.2,0.4,0.4\) for D, S and E. Each trajectory draws a constant horizontal wind uniformly from the disk of radius 3 m/s. Independent launch velocity components are uniform on \([18,38]\), \([-12,12]\) and \([1.5,11]\) m/s. For D and S, \(\kappa\) is uniform on \([0.006,0.024]\ \mathrm{m^{-1}}\). S draws each component of \(\vv\beta\) uniformly within \(\pm0.8\ \mathrm{s^{-1}}\). E draws each component of \(\vv\omega\) uniformly within \(\pm65\ \mathrm{rad/s}\) and \(\delta\) uniformly on \([-0.04,0.27]\). These ranges specify the population of possible flights before seeing a kick.
+
+To find flights in narrow rounding boxes, we first draw the wind and aerodynamic parameters. Starting from a gravity-based estimate of launch velocity, we use three corrections based on the latest visible position to centre a local uniform proposal. At time \(t\) its half-width per axis is \(0.007\,\mathrm{m}/t\). We mix the local proposal with 2\% draws from the original velocity prior. Each surviving flight receives the ratio of prior to proposal density if every visible coordinate fits its interval. Other draws receive zero weight. The mean weight over \emph{all} proposals for a model estimates its evidence. Multiplying by the prior model probabilities and normalizing gives posterior model probabilities. Before propagating to the goal, systematic resampling caps the number of weighted trajectories at 512 per model for each test kick and 8,192 per model per seed for the official case. We estimate evidence before resampling. The official runs never reached the cap.
+
+We integrate with fourth-order Runge--Kutta steps of 25 ms through the official observations and at most 12.5 ms thereafter. Linear interpolation orders plane and ground events within a step. Four checks, including independent DOP853 integrations in SciPy~\cite{scipy}, gave maximum discrepancies of 0.171 mm in position and 0.038 ms in time. We sum weights by first event, then normalize the direct-entry weights on a \(30\times10\) equal-area grid. The highest-mass cell supplies the point forecast. Ranking cells by mass and accumulating at least 90\% gives the raw joint region. Zero observation support leaves the forecast undefined. Zero entry weight leaves its conditional map undefined.
+\clearpage
+
+\section{Where the official kick crosses}
+
+For each model we made 131,072 proposals per seed and combined two independently seeded runs. Of 3,469 positive-weight trajectories, all reached the plane inside the goal. The resulting estimated direct-entry probability is 1 for this sample. The fitted weights for D, S and E were \(0,0.346,0.654\). The zero for D also follows independently from the wind bound in Eq.~\eqref{eq:wind}. There is no published crossing measurement for this example against which to score the forecast.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\linewidth]{goal.png}
+\caption{Official kick at \(x=11\) m. Colour gives the probability per \(0.244\ \mathrm{m}\times0.244\ \mathrm{m}\) cell conditional on direct entry. The six outlines enclose the raw 90\% region. The cross marks the modal cell centre. The circles locate two admissible flights constructed in Section~\ref{sec:ambig}.}
+\label{fig:goal}
+\end{figure}
+
+The cell centred at \(\mathbf{(2.562,2.074)}\) \textbf{m} holds 29.14\% of the conditional mass (Fig.~\ref{fig:goal}). Its centre lies 1.098 m inwards from the positive-\(y\) post and 0.366 m below the bar. The six highest-mass cells happen to form the rectangle
+\begin{equation}
+ 2.196\le Y\le2.928\ \mathrm{m},\qquad 1.708\le Z\le2.196\ \mathrm{m}.
+ \label{eq:region}
+\end{equation}
+Their union covers \(0.3572\ \mathrm{m^2}\) and carries 90.52\% probability. The interval bounds describe the edges of a \emph{joint} region. The median arrival is 0.399 s after release, with 5th and 95th percentiles of 0.392 and 0.407 s.
+
+Both seeds picked the same base-grid cell. It also remained the mode when E supplied between 10\% and 90\% of the combined S/E prior. A finer grid moved the centre to \((2.501,2.013)\) m and shifting the original grid by half a cell moved it to \((2.684,1.952)\) m. Thus the reported digits locate a specified cell. The extent in Eq.~\eqref{eq:region} describes the spatial precision supported by the chosen model and grid.
+
+Two simple fits to the same positions illustrate the role of continued curvature. A least-squares launch velocity under gravity alone gives \((3.217,1.957)\) m. An exact constant-acceleration fit using the origin and both frames gives \((2.495,1.920)\) m. The spread reflects different force laws on the remaining eight metres. It does not set a probability level for the actual crossing.
+\clearpage
+
+\section{Two flights with the same early positions}
+\label{sec:ambig}
+
+Even exact positions at both observation times leave a physical ambiguity. To construct an example, we set wind to zero in S and fixed \(\beta_x\) at either \(-0.5\) or \(+0.5\ \mathrm{s^{-1}}\). In each case we solved the six coordinate equations at 50 and 100 ms for six unknowns, the three launch velocity components, \(\kappa,\beta_y,\beta_z\). Both solutions lie within the stated priors. Their largest early-coordinate residual was below \(5\times10^{-13}\) m, and an independent integration with MATLAB \texttt{ode45} reproduced both crossings~\cite{matlab}.
+
+Both fitted drag coefficients are \(0.02007\ \mathrm{m^{-1}}\) to the displayed precision. The corresponding \((\beta_y,\beta_z)\) pairs are \((-0.206,-0.463)\) and \((0.085,-0.251)\ \mathrm{s^{-1}}\). The two flights cross at \(Q_A=(2.57378,2.00251)\) m and \(Q_B=(2.62831,1.93396)\) m. At a given instant, the component of \(\vv\beta\) parallel to \(\vv u\) contributes no transverse force. Gravity changes the direction of \(\vv u\) during flight. Different choices of \(\vv\beta\), compensated by small changes to the launch velocity, can therefore remain indistinguishable early and separate later. Both flights supply the same input to any point predictor, which must return the same \(\widehat Q\) for both. The triangle inequality gives
+\begin{equation}
+ \max\{\norm{\widehat Q-Q_A},\norm{\widehat Q-Q_B}\}
+ \ \ge\ \tfrac12\norm{Q_A-Q_B}=0.0438\ \mathrm m .
+ \label{eq:witness}
+\end{equation}
+This is a worst-case lower bound witnessed by two specific trajectories. A mean error or a population coverage percentage would require probabilities for a population of kicks.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.96\linewidth]{ambiguity.png}
+\caption{Two solutions fitted to the official readings. Left, the largest absolute coordinate difference at three possible extra observation times. The dashed line is twice the assumed coordinate-error bound. Right, the \(Y,Z\) crossings of the same two flights, magnified from Fig.~\ref{fig:goal}.}
+\label{fig:ambig}
+\end{figure}
+
+At 150, 200 and 250 ms the largest single-axis differences are 1.35, 5.30 and 12.96 mm (Fig.~\ref{fig:ambig}). With exact centimetre rounding, the two synthetic heights already give different readings at 200 ms, 1.26 and 1.25 m. If the instrument guarantees only a bounded error, two readings may coincide whenever their \(\pm5\) mm boxes overlap. Of the three candidate times, only 250 ms guarantees discrimination for every error within those bounds. Both conclusions concern this particular pair.
+\clearpage
+
+\section{Does the 50 ms frame improve the forecast?}
+
+We generated synthetic truth with a separate, adaptive trajectory solver and a different speed-dependent drag law. The generator included spin-free flight, stable spin with decaying lift, and low-spin flight with a time-varying wake. Slowly spinning balls can experience unsteady forces~\cite{mizota}. Wake amplitude and period were simulation inputs. The forecasting models contained no time-varying wake. We randomly ordered one kick of each family within blocks of three and split whole kicks into development (9), calibration (36) and blind test (48). At the same 100 ms decision time, four versions saw the release alone, release plus either frame, or release plus both. We froze the forecasts before scoring against the endpoints. Each model used 2,048 proposals for a single frame and 16,384 for both.
+
+\begin{table}[htbp]
+\centering
+\caption{Blind test at 100 ms. Point errors and region statistics use the same 33 direct entries. A hit means the true cell was selected. Areas are means in \(\mathrm{m^2}\). The Brier score averages \((P(G)-\mathbf{1}_G)^2\) over all 48 kicks, including ten outside crossings and five earlier ground contacts.}
+\label{tab:blind}
+\small
+\setlength{\tabcolsep}{4.7pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{Point error (m)} & & \multicolumn{2}{c}{Raw 90\%} & \multicolumn{2}{c}{Calibrated}\\
+\cmidrule(lr){2-3}\cmidrule(lr){5-6}\cmidrule(l){7-8}
+Positions supplied & Median & Mean & Brier & Hits & Area & Hits & Area\\
+\midrule
+Release only & 2.347 & 2.404 & 0.2898 & 23/33 & 11.431 & 33/33 & 17.861\\
+Release + 50 ms & 0.127 & 0.259 & 0.1153 & 32/33 & 3.704 & 28/33 & 2.087\\
+Release + 100 ms & 0.131 & 0.216 & 0.1057 & 33/33 & 3.022 & 27/33 & 1.290\\
+Release + both & 0.133 & 0.181 & 0.0501 & 30/33 & 0.299 & 29/33 & 0.220\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For calibration we scored each of 19 direct entries in the calibration set by the cumulative mass ahead of its true cell in the descending cell order. For each input choice the cutoff was the \(\lceil0.90(19+1)\rceil=18\)th ordered score. A calibrated region includes cells whose preceding mass is at most that cutoff. The two-frame cutoff was 0.8104. Calibration reduced its mean test area to \(0.220\ \mathrm{m^2}\) and included 29/33 entries. Raw 90\% probability content and empirical coverage address different questions. The raw region included 30/33 true crossings, with a descriptive Wilson 95\% interval of 76.4--96.9\%~\cite{wilson}.
+
+The clearest differences between the two tested configurations were in area and event prediction (Table~\ref{tab:blind}). The paired mean differences (both minus late) were \(-2.722\ \mathrm{m^2}\) for raw area and \(-0.0556\) for Brier score. Their 95\% intervals from 2,000 whole-kick bootstrap resamples were \([-2.979,-2.466]\ \mathrm{m^2}\) and \([-0.0988,-0.0086]\). The mean point-error difference was \(-0.034\) m with interval \([-0.082,0.010]\) m, which includes zero. The two-frame configuration used eight times as many proposals as the late-frame configuration. Without an equal-budget comparison, the paired differences also include the effect of Monte Carlo precision. For the nine stable-spin entries the mean point error fell from 0.492 to 0.311 m, while for the eight wake entries it rose from 0.131 to 0.180 m. The mix of flight types affects the apparent gain.
+
+The two-frame gravity fit had a smaller median error of 0.104 m, a larger mean of 0.203 m, and Brier score 0.125. It returned a point for all 33 entries. A constant-acceleration fit gave a mean of 0.258 m for 32 and a Brier score of 0.146 over all 48. These controls show how far simple kinematics carry the prediction, particularly for a typical entry.
+\clearpage
+
+\section{Three penalties on a match-tracking clock}
+
+We retained all three executed penalties found in seven matches of the IDSSE v1 elite-soccer dataset~\cite{bassek}. All three were recorded as goals. The provider's ball positions are sampled at 25 Hz. We translated the longitudinal coordinate by 41.50 m into the penalty-spot frame and took the first live frame after a dead-ball interval as an exact anchor. The next two native frames occur at \(+40\) and \(+80\) ms. Both forecasts, including the one using only the \(+80\) ms frame, were issued at \(+80\) ms. We kept the frozen aerodynamic priors and 5 mm coordinate half-width. The reference \(Q\) came from interpolation between later tracking frames bracketing the goal plane, at least 0.32 s after the forecast cutoff. The inputs were isolated by time and predictions locked before scoring. The three crossing locations were already known from data screening, making this a retrospective comparison.
+
+\begin{table}[htbp]
+\centering
+\caption{All match penalties. The later crossing is a reference from the same tracking system. The measured displacement or second difference in the third column determines the minimum acceleration required under the frozen input assumptions. Here \(\Delta^2 x=x_2-2x_1+x_0\).}
+\label{tab:field}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Fixture & Reference \(Q\) (m) & Binding observation (m) & Minimum \((\mathrm{m/s^2})\)\\
+\midrule
+Cologne--Bayern & \((2.750,0.160)\) & \(z_1-z_0=-0.030\) & 106.25\\
+D\"usseldorf--Regensburg & \((2.919,1.179)\) & \(\Delta^2x=0.510\) & 309.38\\
+D\"usseldorf--Kaiserslautern & \((3.070,0.466)\) & \(\Delta^2x=1.100\) & 678.13\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A physical certificate for three rejected records}
+
+In constant wind the drag dissipates air-relative kinetic energy and the transverse acceleration does no work in the air frame. Hence \(\dot U\le g\), giving \(U\le\sqrt{38^2+12^2+11^2}+3+9.81(0.080)=45.125\) m/s over the first 80 ms. In Eq.~\eqref{eq:acc} drag and lift are orthogonal. Bounding their combined magnitude in quadrature, then adding \(g\), bounds the total acceleration by 58.681, 89.170 and 102.648 \(\mathrm{m/s^2}\) for D, S and E, respectively. For E we used \(C_D\le0.771\) and \(C_L\le0.38\). Write \(A_*=102.648\ \mathrm{m/s^2}\) for the common ceiling.
+
+For any axis with observed coordinates \(q_0,q_1,q_2\), equally spaced by \(h=0.040\) s, the exact second difference integrates acceleration against a triangular kernel of area \(h^2\). An exact anchor and two later errors of magnitude at most \(\epsilon\) give the necessary conditions
+\begin{equation}
+ |q_2-2q_1+q_0|\le A_*h^2+3\epsilon,\qquad
+ z_1-z_0\ge v_{z,\min}h-\tfrac12 A_*h^2-\epsilon .
+ \label{eq:support}
+\end{equation}
+The second inequality uses the upward launch prior \(v_{z,\min}=1.5\) m/s. In Regensburg's match, successive \(x\)-increments of 0.71 and 1.22 m require at least \((0.510-0.015)/h^2=309.38\ \mathrm{m/s^2}\). The Kaiserslautern record repeats its anchor, then advances 1.10 m. The Cologne record violates the vertical inequality by only 2.9 mm, making its rejection sensitive to the launch assumption. All three requirements exceed \(A_*\) (Table~\ref{tab:field}). The bound explains why enlarging the sampling budget leaves zero of three two-frame cases physically compatible.
+\clearpage
+
+\section{Interpretation and next measurements}
+
+After removing the \(+40\) ms frame, only the Regensburg record yielded positive-weight samples. Neither seed yielded any for the other two records. The modal centre \((2.074,1.098)\) m missed the tracked crossing by 0.849 m. Its raw region covered \(4.941\ \mathrm{m^2}\) and contained the reference. A second seed chose the same centre with area \(4.584\ \mathrm{m^2}\). With this same late frame, gravity and straight-line fits gave errors of 0.809 and 1.219 m. With both frames, gravity gave 0.853 m error for Regensburg and reached the ground first for the other two. One scored map from three attempts supplies no estimate of field coverage.
+
+The Regensburg anchor lay about 7 cm horizontally from the spot. The other two were already 0.71 and 1.47 m downfield. None of the three had an independently verified release time within 10 ms or a verified direct crossing as its first event. Consequently zero of three qualify for a strict release-synchronized test. Table~\ref{tab:field} gives accelerations that fitting the records would \emph{require}. Tracking processing, timing error and initialization during flight could each contribute.
+
+A separate short-horizon test was possible on ISSIA-3D, a multi-camera reconstruction of one match sequence~\cite{issia}. Of 79 continuous tracking segments, 61 supplied two positions 80 ms apart and 47 retained the ball for another 120 ms. Constant-velocity extrapolation then gave a median three-dimensional error of 0.162 m, compared with 0.996 m for holding the last position. The targets were future tracking frames in ordinary play. These segments contribute no release-timed penalty crossings.
+
+A field test should first obtain synchronized multi-view footage with independent contact-time annotations. Register clock alignment, coordinate calibration, lost frames and contacts before the goal plane. To score a kick, require both early observations by the decision time and an identifiable first event. Retain interceptions before a natural crossing as contacts or censored outcomes.
+
+Use separate calibration sequences to estimate timing bias, per-axis errors and their cross-frame dependence. A revised model could draw one timing offset for each kick and distinguish release from an in-flight initial state. Reserve the existing cases for development. Freeze the model before evaluating new, held-out matches. Report availability among all eligible kicks, entry error, region coverage and area on the same scored entries, and Brier scores on confirmed first events. Reporting area reveals the cost of accepting more inputs by widening a region.
+
+For a goalkeeper, the official median crossing leaves 299 ms at the original decision and only 149 ms after a 250 ms frame. Compare a third position, measured spin or measured wind on the same held-out shots, recording forecast error and remaining action time. Translating these gains into save probability requires starting position, movement-onset delay and time-dependent reach.
+
+\section*{Conclusion}
+
+The official two-frame forecast places the crossing near the upper positive-\(y\) side of the goal, within the six-cell region of Eq.~\eqref{eq:region} with conditional probability 90.52\%. Within one force law, indistinguishable inputs still impose a 4.38 cm worst-case point-error floor. The physical constraints that sharpened the synthetic forecasts also exposed three match records for which the assumed launch state and coordinate accuracy precluded a two-frame prediction.
+\clearpage
+
+\begin{thebibliography}{9}\small
+\setlength{\itemsep}{4pt}
+\bibitem{upc}
+University Physics Competition, 2026 contest, Problem B.
+\href{https://uphysicsc.com/2026contest.html}{Official problem statement}.
+\bibitem{goff2010}
+J.~E. Goff and M.~J. Carr\'e, Soccer ball lift coefficients via trajectory analysis.
+\emph{European Journal of Physics} \textbf{31}, 775--784 (2010).
+DOI \doi{10.1088/0143-0807/31/4/007}.
+\bibitem{goff2017}
+J.~E. Goff, J. Kelley, C. Hobson, K. Seo, T. Asai and S. Choppin,
+Creating drag and lift curves from soccer trajectories.
+\emph{European Journal of Physics} \textbf{38}, 044003 (2017).
+DOI \doi{10.1088/1361-6404/aa6fcd}.
+\bibitem{scipy}
+P. Virtanen et al., SciPy 1.0: fundamental algorithms for scientific computing in Python.
+\emph{Nature Methods} \textbf{17}, 261--272 (2020).
+DOI \doi{10.1038/s41592-019-0686-2}.
+\bibitem{matlab}
+L.~F. Shampine and M.~W. Reichelt, The MATLAB ODE Suite.
+\emph{SIAM Journal on Scientific Computing} \textbf{18}, 1--22 (1997).
+DOI \doi{10.1137/S1064827594276424}.
+\bibitem{mizota}
+T. Mizota et al., The strange flight behaviour of slowly spinning soccer balls.
+\emph{Scientific Reports} \textbf{3}, 1871 (2013).
+DOI \doi{10.1038/srep01871}.
+\bibitem{wilson}
+E.~B. Wilson, Probable inference, the law of succession, and statistical inference.
+\emph{Journal of the American Statistical Association} \textbf{22}, 209--212 (1927).
+DOI \doi{10.1080/01621459.1927.10502953}.
+\bibitem{bassek}
+M. Bassek, R. Rein, H. Weber and D. Memmert, An integrated dataset of spatiotemporal and event data in elite soccer.
+\emph{Scientific Data} \textbf{12}, 195 (2025).
+DOI \doi{10.1038/s41597-025-04505-y}. IDSSE v1 data, CC BY 4.0,
+DOI \doi{10.6084/m9.figshare.28196177.v1}.
+\bibitem{issia}
+M. Guti\'errez-P\'erez and A. Agudo, SoccerNet-v3D: Leveraging sports broadcast replays for 3D scene understanding.
+\emph{IEEE/CVF CVPR Workshops} (2025). DOI \doi{10.1109/CVPRW67362.2025.00595}.
+\href{https://github.com/mguti97/SoccerNet-v3D/releases/tag/v1.0.0}{ISSIA-3D annotations, release 1.0.0}.
+\end{thebibliography}
+
+\section*{Report on the Use of AI}
+OpenAI Codex assisted with the physical analysis, numerical implementation, evidence checks, and drafting and review of the English manuscript.
+\IfFileExists{ai-verbatim.tex}
+  {\input{ai-verbatim.tex}}
+  {This public draft contains the disclosure only. The complete original prompts and outputs are to be appended to the submission copy from the team's interaction records.}
+\end{document}

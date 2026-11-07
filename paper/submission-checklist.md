@@ -1,46 +1,16 @@
-# UPC submission review
+# B 题初稿导出检查
 
-Copy into the research project. Mark each item PASS / FAIL / PENDING with evidence, reviewer and date. Recheck current rules; this is not an automatic compliance certificate.
+2026-11-07。研究及写作交接按 skill 0.4.0 执行。本文是队内审阅稿。队号在正式提交版中私下填写；官方从 11 月 6 日 18:00 MST 起计 48 小时，截止为北京时间 11 月 9 日 09:00。[2026 B 题与提交安排](https://uphysicsc.com/2026contest.html) · [官方规则第 5、6 节](https://www.uphysicsc.com/contestrules.html)
 
-## Contest facts
+| 项目 | 本轮核验 |
+| --- | --- |
+| 题目与证据 | 一般预报、测试、二维不确定度和官方算例均有作答。独立复算查到官方区域 0.357216 m²、仿真 30/33、原生末帧唯一误差 0.848690 m。[研究报告](../report/README.md) |
+| 研究完整性 | 设计及报告交接通过；项目审计 `integrity_ok=true`。严格研究就绪标志仍为 false，V06 待独立离脚和首次事件真值，历史 V07a 的校准边界失败由 V07b 修正并保留。 |
+| 文稿范围 | 英文全文；扑救决策保留在讨论的一段。报告末章给出后续测时、误差模型和新增信息的验收顺序。[后续研究](../report/next-steps.md) |
+| 首页、每页页眉 | 首页含队号占位、题号 B、标题与摘要。最终 PDF 文字抽取后按空白计为 224 词，低于 300 词上限。正文从第 2 页开始。每页能检出相同的队号占位。实际队号待队伍填写。 |
+| 实际导出 | 9 页 Letter 尺寸。用 Tectonic 0.17.0 编译，逐页渲染查看，核对公式、两幅图、表、引用及页边。PDF 元数据与正文不含队员或学校信息。 |
+| 可移植性 | 从只含 TeX 和引用图的源码包另用空目录编译；PDF 的页数和逐页提取文本一致。 |
+| AI 披露 | 文末写明系统与用途。逐字原始提问、完整输出及跨会话覆盖需在队内核对、嵌入提交版。公开附件仅含进度说明。 |
+| 正式文件与发送 | 经队伍核对后，以实际队号加 B 命名最终文件；此轮未代发邮件。 |
 
-- Official rules URL and verification date:
-- Team number / selected problem:
-- Deadline with time zone / planned submission time:
-- Final file path, version and SHA-256:
-
-## Research and manuscript
-
-| Check | Status | Evidence / unresolved action |
-| --- | --- | --- |
-| Every problem requirement has a supported or explicitly conditional answer | PENDING | |
-| Assumptions, parameter provenance, model validity and governing physics are justified | PENDING | |
-| Main numerical results pass relevant independent checks; uncertainty is correctly described | PENDING | |
-| Main-text methods and algorithms explain the results without relying on code appendices | PENDING | |
-| Abstract, figures, tables and conclusion agree with accepted data | PENDING | |
-| Important reviewer findings are resolved or claims are narrowed | PENDING | |
-
-## Actual exported file
-
-| Check | Status | Evidence / unresolved action |
-| --- | --- | --- |
-| English manuscript; no student, institution or other identifying information, including PDF metadata | PENDING | |
-| Team number at the top of every page | PENDING | |
-| First page contains only team number, A/B, title and abstract of at most the current word limit | PENDING | |
-| Body starts on the next page | PENDING | |
-| Units, significant figures, symbols, captions and citations are consistent | PENDING | |
-| Every page rendered and inspected; equations, labels, references and links readable at final size | PENDING | |
-| AI usage checked against actual use; required original inputs and full outputs included at the end | PENDING | |
-| Correct file type and team-number/problem-letter filename | PENDING | |
-| Attachment opens and is the exact reviewed final version | PENDING | |
-| Submission prepared with correct destination and team number in subject and message | PENDING | |
-
-## Release decision
-
-- Research completeness / physical validation:
-- Manuscript and visual review:
-- Current-rule verification:
-- AI record coverage and any gaps:
-- Remaining blockers / final status:
-
-Preparing this packet does not authorize sending it. Record a delivery confirmation only after an actual authorized submission.
+本轮公开初稿的 SHA-256 为 `744652c18ec638f4e4202f005a1b2293a0ea307bd5cea449167c6a068af956d3`。[本轮 PDF](manuscript.pdf) · [对应 TeX](manuscript.tex)

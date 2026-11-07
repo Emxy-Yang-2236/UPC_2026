@@ -1,21 +1,27 @@
-# Manuscript review
+# B 题英文初稿审阅记录
 
-- Original problem / manuscript version:
-- Reviewer and scope: independent context or author self-check:
-- Evidence and representative reproduction inspected:
+## 报告能否独立支撑论文
 
-| ID | Location | Finding and supporting evidence | Impact | Required correction | Status / verification |
-| --- | --- | --- | --- | --- | --- |
-| | | | Blocking / Important / Editorial | | Open / Resolved / Claim narrowed |
+2026-11-07，独立上下文仅获整体报告 ZIP，未接触原仓库和此前对话。审阅者运行两项包内标准库复算，直接从门面表求和、从原生帧定位三个门线交点，并提供了带单位的英文摘要样本与门面图注。它核对出 0.357216 m²、六格质量 0.90516、合成 30/33、真实三脚双帧失配和单一末帧预报误差 0.848690 m。实验负责人区分了历史冷启动的 13 项、独立审阅时的 23 项，以及加入迭代末章后的 24 项，并在最后的空目录 ZIP 再核全部哈希和两项复算。[实验复现记录](../report/reproduction.md)
 
-## Read without the authors
+| 审阅发现 | 对论证的影响 | 采用的处理 |
+| --- | --- | --- |
+| 40 ms 的现场帧和首次活球标记不提供离脚 ±10 ms 真值 | 实际比赛下 50/100 ms 的误差与覆盖率仍未知 | 将 D02 标为按原生时钟的回顾检验，按 0/3 和 1/3 分别报告 |
+| 门线参考与早期读数来自同一跟踪系统 | 不能排除跟踪系统的共同偏差 | 说明参考来自较晚帧，列出独立标定、同步与首次事件的后续工作 |
+| 众数受格网影响，门内格质量和命中比例有不同分母 | 可能将 (2.562,2.074) m 误读为厘米级实测精度 | 并列名义格、区域面积、盲测分母与实测失配 |
 
-- Can each problem question be answered directly from the paper?
-- What is the main physical insight, and which evidence supports it?
-- Which assumption or counterexample could change the answer?
-- Can one central result be reproduced from the stated method?
-- Are uncertainty, validity and unresolved limitations explicit?
+[官方算例与盲测](../report/results.md) · [职业比赛原生时钟检验](../report/field.md) · [迭代计划](../report/next-steps.md)
 
-## Revisions checked
+## 初稿独立审阅与修订
 
-State what was actually re-derived, rerun or rendered after corrections. List unresolved blockers; a complete checklist is not a medal prediction.
+另一独立上下文仅阅读赛事题面、TeX、初稿 PDF 与最小报告附件。直接从 300 格门面、192 行盲测表、303 帧真实轨迹复算六格质量、逐脚分母、门线插值及误差；核对 ISSIA 聚合和九项引文。以下修订已写入最终 TeX，并重新编译和逐页渲染。
+
+| 核对点 | 处理及复验 |
+| --- | --- |
+| 新增观测何时区分两条轨迹 | 确定性厘米舍入在 200 ms 得到高度 1.26/1.25 m；若只知每轴误差至多 5 mm，则受检的第三帧里仅 250 ms 保证分开。 |
+| 两帧与晚帧的比较 | 补每模型的系统重采样上限及证据权重顺序。双帧/晚帧用 16,384/2,048 次提议，面积与 Brier 差描述预设流程；等预算对照列为下一项实验。 |
+| 三次零支持的数值意义 | 双帧有 3 个解析证书。仅晚帧的另外两脚报告两次抽样均无命中，未声称解析排除。 |
+| 几何风界与取整 | 半开取整单元对应 4.353206974 m/s 的下确界。把斜率区间相切写明为闭包相切，3 m/s 排除结论不变。 |
+| 摘要、方法与版面 | 摘要明示精确拟合显示值；补明 Teamgeist 阻力基线来自风洞。最终稿全部九页有队号占位，两个图、两张表、九项引文与链接已检查。源码包在独立空目录重建并逐页比对文字。 |
+
+待队伍完成的提交事项及文件哈希见[初稿导出核对](submission-checklist.md)。

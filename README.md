@@ -13,3 +13,5 @@ python3 design/start.py
 写作交接使用 [UPC skill 0.4.0 分支版本](https://github.com/Emxy-Yang-2236/UPC-skills/tree/08f45a8bb6a7b55e58395c2d2d67274faae7c522)。[比赛规则与写作入口](contest-rules.md) · [首次独立积分结果](experiment/runs/B01/README.md)
 
 B01–B03 的[官方样例和合成盲测](experiment/results/README.md)，以及 D01–D03 的[三脚实测与辅助数据检验](report/field.md) 已完成。[整体实验报告](report/README.md)可单独交给写作者，末章列有[后续迭代方向和待解决问题](report/next-steps.md)。
+
+队员可直接[阅读英文论文初稿](paper/manuscript.pdf)或[编辑与编译 TeX](paper/README.md)。审阅后对齐的报告提交为 `10bb233a0e907b7c58ecf36009263d52b49c2847`。
