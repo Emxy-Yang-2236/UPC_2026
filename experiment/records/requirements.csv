@@ -1,4 +1,4 @@
 id,question,status
-B1,仅凭起点与两帧给出门线事件及门内热点,active
-B2,在独立整脚射门上检验误差及联合区覆盖,active
-B3,在官方样例上给出条件预测与不确定性,active
+B1,仅凭起点与两帧给出门线事件及门内热点,answered
+B2,在独立整脚射门上检验误差及联合区覆盖,answered
+B3,在官方样例上给出条件预测与不确定性,answered
