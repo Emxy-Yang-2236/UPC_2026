@@ -66,7 +66,7 @@ We infer the goal-plane crossing of a penalty from ball positions at 50 and 100 
 
 Two admissible flights sharing both displayed coordinates cross 0.922 m apart. For these observations, half their separation, about 0.461 m, is a lower bound on the worst-case error of any single point estimate under the stated force and measurement assumptions.
 
-At a common 100 ms input cutoff, we compared prespecified calibration targets. Among targets yielding 70/71 hits on the rounded synthetic test, two readings gave a mean region area of \(0.585\ \mathrm{m^2}\), compared with \(3.482\ \mathrm{m^2}\) for the late reading and \(1.222\ \mathrm{m^2}\) for gravity. With tracking noise, gravity used less area at 67/71 observed hits. A second noisy test gave 343/368 hits overall but 90/110 for stable-spin entries. Across eight independent synthetic calibration batches, aerodynamics covered more test kicks than gravity in two batches and fewer in six, with corresponding differences in region area. Three match records failed the two-frame launch checks.
+At a common 100 ms input cutoff, we compared prespecified calibration targets. Among targets yielding 70/71 hits on the rounded synthetic test, two readings gave a mean region area of \(0.585\ \mathrm{m^2}\), compared with \(3.482\ \mathrm{m^2}\) for the late reading and \(1.222\ \mathrm{m^2}\) for gravity. With tracking noise, gravity used less area at 67/71 observed hits. A second noisy test gave 343/368 hits overall but 90/110 for stable-spin entries. Across eight independent synthetic calibration batches, aerodynamics covered more test kicks than gravity in two batches and fewer in six, with corresponding differences in region area. The three match records lacked independently verified release times and served as retrospective input diagnostics. Prediction accuracy in real matches remains unquantified.
 
 \end{abstract}
 \end{minipage}
@@ -318,7 +318,7 @@ Adding the tracking errors enlarged the region from six to 18 cells in both time
 \section{From a crossing forecast to a decision time}
 With an exact frame clock the prescribed kick leaves a median of 299 ms for computation and movement after the last reading. Under the shared \(\pm1\) ms phase prior, the corresponding estimate is 294 ms (central 90\%, 282--306 ms). In a separate synthetic test, shifting the two observations from 50/100 to 100/150 ms reduced mean point error from 0.182 to 0.126 m and left 50 ms less time to act. Keeping all three frames at the later deadline gave more low-ESS forecasts (Appendix~\ref{sec:waiting}). To translate either forecast into a save probability, one would also need the goalkeeper's initial position, movement onset and reach.
 
-Match tracking poses a different obstacle. Three penalties recorded at 25 Hz had later crossing references, but none had an independently verified release time. The nominal force and measurement assumptions could not explain both early frames in any case. At Regensburg the single \(+80\) ms aerodynamic forecast missed the later crossing reference by 0.849 m, compared with 0.809 m for gravity on the same input. The two-frame record failed the acceleration check. The single-frame comparison cannot estimate field accuracy or calibrate the synthetic two-frame errors (Appendix~\ref{app:field}).
+The three 25 Hz match records yielded zero eligible cases for field validation because release timing could not be verified. In a retrospective check anchored to the first live-ball frame, none of the three pairs of readings was compatible with the nominal launch model. Allowing the anchor to occur in flight recovered a forecast for one kick (Appendix~\ref{app:field}).
 
 The forecast describes an uninterrupted flight under specified aerodynamic priors. Ground rebounds, interventions and collisions with the posts or crossbar could change the outcome near the goal edges, and the mix of forces in actual matches may differ from the synthetic population. The grid, measurement model and decision time therefore belong alongside any quoted point and region.
 
@@ -425,11 +425,13 @@ Integrating over the same simulated \(\pm3\) ms release offset increased the num
 
 
 \reserveheadroom
-\section{Compatibility with 25 Hz match tracking}
+\section{Retrospective checks on 25 Hz match tracking}
 \label{app:field}
 
-\subsection{Reference crossings on the match clock}
-The seven matches in the IDSSE v1 elite-soccer dataset contained three executed penalties, all recorded as goals~\cite{bassek}. We translated the longitudinal coordinate by 41.50 m into the penalty-spot frame. We treated the first live frame after a dead-ball interval as an exact anchor and evaluated forecasts at \(+80\) ms using the original priors and a 5 mm coordinate bound. The inputs were either the \(+80\) ms frame alone or the pair at \(+40\) and \(+80\) ms. Reference crossings were interpolated from later frames in the same system, at least 0.32 s after the cutoff. We locked the forecasts before scoring, but had seen the crossings while screening the data.
+\subsection{Eligibility and the retrospective protocol}
+The seven matches in IDSSE v1 contained three penalties, all recorded as goals~\cite{bassek}. Our field-validation protocol requires release timing verified to within 10 ms, two early inputs available by the prediction cutoff, and a verifiable first event. Release timing and the first event remained unverified for all three, so zero qualified.
+
+For the retrospective check we shifted the longitudinal coordinate by 41.50 m and treated the first live frame after a dead-ball interval as an exact anchor. Forecasts at \(+80\) ms used the original priors, a 5 mm coordinate bound, and either the \(+80\) ms frame alone or both the \(+40\) and \(+80\) ms frames. Crossing references came from interpolation of later frames in the same tracking feed, at least 0.32 s after the cutoff. We locked the forecasts before scoring, having seen the crossings during screening.
 
 \begin{table}[htbp]
 \centering
@@ -469,16 +471,16 @@ Using only the \(+80\) ms position, neither seed gave positive weight for Cologn
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{field-diagnostics.pdf}
-\caption{\textbf{Testing the launch assumptions against three match records.} A compares the required minimum accelerations with the common model cap. B locates the three later crossing references near the positive-\(Y\) post. The cross marks the only available late-frame aerodynamic forecast. The records leave release timing and the first event unverified.}
+\caption{\textbf{Tracking diagnostics for three match penalties.} A compares the minimum accelerations implied by the early frames under the launch assumptions with the model cap. B shows the later crossing references from the same tracking feed. The cross marks the aerodynamic forecast for one kick using only its \(+80\) ms frame. It lies 0.849 m from that kick's reference.}
 \label{fig:field}
 \end{figure}
 
 
 \section{Evidence needed for a field test}
 \enlargethispage{\baselineskip}
-Regensburg's anchor lay about 7 cm horizontally from the penalty spot. The other anchors were already 0.71 and 1.47 m downfield. None of the three kicks had an independently timed release or a confirmed first event. ISSIA-3D~\cite{issia} provides a different check on track quality. Of 79 ordinary-play segments, 47 supplied two positions 80 ms apart and a position 120 ms later. Constant-velocity extrapolation gave a median three-dimensional error of 0.162 m on those 47, compared with 0.996 m for holding the last position.
+Regensburg's anchor lay about 7 cm horizontally from the penalty spot. The other anchors were already 0.71 and 1.47 m downfield. ISSIA-3D~\cite{issia} provides a different check on track quality. Of 79 ordinary-play segments, 47 supplied two positions 80 ms apart and a position 120 ms later. Constant-velocity extrapolation gave a median three-dimensional error of 0.162 m on those 47, compared with 0.996 m for holding the last position.
 
-A field test needs synchronized views of release, calibrated early positions and an independent crossing reference on the same kick. Surface markers can supply spin and deflection together~\cite{griffiths}. Record goalkeeper contacts, rebounds, lost frames and the time when each observation becomes available. Estimate timing and spatial errors on separate calibration kicks. On held-out matches, report forecast availability, first-event scores and, among direct entries, point error, coverage and area. Our ball-centre equations omit impacts and deformation. Field tests should also measure wind, ball properties, spin and processing time.
+A field test needs synchronized release views, calibrated early positions and an independent crossing reference. Surface markers can track spin and deflection~\cite{griffiths}. Record frame availability, wind, ball properties, processing time, goalkeeper contacts and rebounds. The ball-centre equations omit impacts and deformation. Estimate timing and position errors on separate calibration kicks. For held-out matches, report forecast availability, first-event scores and, for direct entries, point error, coverage and area.
 
 \input{sections/stable-spin.tex}
 
