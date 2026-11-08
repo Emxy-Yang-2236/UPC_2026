@@ -1,4 +1,6 @@
 path,role,description
+two-round-revision.md,section,两轮改稿和复核结果
+evidence/revision-controls.json,result,锁定测试的概率对照与联合观测条件推断
 recheck.py,code,从交接表独立重算的标准库入口
 evidence/b03-source.bundle,code,可离线克隆的精确 B03 代码和固定配置
 evidence/measurements.json,validation,模型摘要及原始数值核验和环境信息
@@ -39,3 +41,15 @@ evidence/z09-summary.json,result,校准覆盖面积与逐脚配对及分组汇�
 evidence/z09-replay.zip,result,校准和测试输入真值锁定预测及逐脚结果
 evidence/plane-sensitivity.json,result,恒加速度对照门线事件导数及角点输出
 visual-revision.md,section,新版图表证据映射与数据处理核验
+stable-spin.md,section,Z10 稳定旋转球的复验和三个机制对照
+evidence/z10-summary.json,result,Z10 逐组分母及校准与曲率的配对结果
+evidence/z10-replay.zip,code,Z10 原始读数与真值锁定预测逐脚评分及可离线重放代码
+recheck_spin.py,validation,标准库从冻结格分布重新计算 Z10 阈值与盲测指标
+cross_spin_calibration.py,code,Z09 与 Z10 冻结预测的交叉阈值诊断
+evidence/z10-cross-calibration.json,table,Z10b 两套阈值在两批稳定旋转留出上的面积与命中
+evidence/z10-validation.json,validation,两次完整重跑的逐文件摘要和独立标准库核验计数
+review-response.md,section,针对 bfd0c04 的 7 项主要及 11 项次要审稿意见，逐项对应到最新版论文
+evidence/review-geometry.json,validation,横弯力界、精确中心拟合、时钟对照与三脚现场记录
+evidence/review-inference.json,result,重放 B03 原始加权轨迹所得的参数分布与共享相位气动到时积分
+evidence/review-rounded-pair.json,validation,两脚相同取整读数的物理见证、事件与独立求解器核对
+evidence/review-replay.zip,code,本轮可离线独立复算的源代码、配置、冻结输入与数值基准

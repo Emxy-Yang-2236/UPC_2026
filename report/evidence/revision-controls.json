@@ -1,0 +1,277 @@
+{
+  "retrospective": {
+    "Z09/rounded": {
+      "calibration_kicks": 90,
+      "fit": {
+        "center_m": 0.1524876037977137,
+        "scale_m": 0.6181906763173467,
+        "intercept": 0.55155302794087,
+        "slope": 3.1100303461849874
+      },
+      "shots": 120,
+      "entries": 71,
+      "brier_aero_binary_soft": [
+        0.018001271236725222,
+        0.08333333333333333,
+        0.05071487863106721
+      ],
+      "brier_aero_minus_soft_interval95": [
+        -0.05282798675160222,
+        -0.015402455684112122
+      ],
+      "mean_point_error_aero_centroid_gravity_m": [
+        0.14414159597737844,
+        0.18649100473817593
+      ],
+      "centroid_minus_gravity_interval95_m": [
+        -0.0833896135997323,
+        -0.0024984304162390643
+      ]
+    },
+    "Z09/tracking": {
+      "calibration_kicks": 90,
+      "fit": {
+        "center_m": 0.14834720446432492,
+        "scale_m": 0.6280252416412119,
+        "intercept": 0.5578296625789172,
+        "slope": 3.0449486450337604
+      },
+      "shots": 120,
+      "entries": 71,
+      "brier_aero_binary_soft": [
+        0.07795015437052387,
+        0.075,
+        0.05184646613077133
+      ],
+      "brier_aero_minus_soft_interval95": [
+        0.0033079528879057145,
+        0.05120566306573203
+      ],
+      "mean_point_error_aero_centroid_gravity_m": [
+        0.3219836557175915,
+        0.19901702087182252
+      ],
+      "centroid_minus_gravity_interval95_m": [
+        0.07662987235320173,
+        0.16715603114818822
+      ]
+    },
+    "Z10/rounded": {
+      "calibration_kicks": 300,
+      "fit": {
+        "center_m": 0.11304230262237212,
+        "scale_m": 0.6723107278773023,
+        "intercept": 0.8392196337471601,
+        "slope": 4.179933260523915
+      },
+      "shots": 600,
+      "entries": 368,
+      "brier_aero_binary_soft": [
+        0.03259259452224125,
+        0.08666666666666667,
+        0.06601173478401111
+      ],
+      "brier_aero_minus_soft_interval95": [
+        -0.046541357483817845,
+        -0.02038356710380931
+      ],
+      "mean_point_error_aero_centroid_gravity_m": [
+        0.15739974024653483,
+        0.1980098893544227
+      ],
+      "centroid_minus_gravity_interval95_m": [
+        -0.05995313710143356,
+        -0.021091124176847956
+      ]
+    },
+    "Z10/tracking": {
+      "calibration_kicks": 300,
+      "fit": {
+        "center_m": 0.10718296779936098,
+        "scale_m": 0.6765679424081277,
+        "intercept": 0.8291148947585321,
+        "slope": 4.179647892161415
+      },
+      "shots": 600,
+      "entries": 368,
+      "brier_aero_binary_soft": [
+        0.06376001503777433,
+        0.09333333333333334,
+        0.06713474811388553
+      ],
+      "brier_aero_minus_soft_interval95": [
+        -0.015678135812235375,
+        0.008989236143458071
+      ],
+      "mean_point_error_aero_centroid_gravity_m": [
+        0.3031337470448095,
+        0.21145642201594625
+      ],
+      "centroid_minus_gravity_interval95_m": [
+        0.0667773537508748,
+        0.11673975585464529
+      ]
+    }
+  },
+  "prescribed_scenarios": [
+    {
+      "phase_halfwidth_ms": 0.0,
+      "tracking": false,
+      "p_direct": 1.0,
+      "area_m2": 0.3572159999999999,
+      "region_cells": 6,
+      "mass": 0.9051599884692999,
+      "centroid_yz_m": [
+        2.603498991063707,
+        1.971096569616604
+      ],
+      "seed_centroid_yz_m": [
+        [
+          2.605688706846109,
+          1.967348156816852
+        ],
+        [
+          2.6013727272727274,
+          1.9747363636363633
+        ]
+      ],
+      "median_and_central90_ms": [
+        392.2124844365584,
+        399.1329454709543,
+        407.2188137276491
+      ],
+      "mixture_ess": 3468.999999999769,
+      "model_ess": [
+        0.0,
+        1200.0,
+        2269.000000000001
+      ]
+    },
+    {
+      "phase_halfwidth_ms": 1.0,
+      "tracking": false,
+      "p_direct": 1.0,
+      "area_m2": 0.3572159999999999,
+      "region_cells": 6,
+      "mass": 0.9138060508981162,
+      "centroid_yz_m": [
+        2.604720825154776,
+        1.9846368867055824
+      ],
+      "seed_centroid_yz_m": [
+        [
+          2.606893443558233,
+          1.9857825387275594
+        ],
+        [
+          2.6027206298118912,
+          1.983582155771112
+        ]
+      ],
+      "median_and_central90_ms": [
+        382.97556591264635,
+        394.4589166313345,
+        406.1714909865787
+      ],
+      "mixture_ess": 1948.6659380266035,
+      "model_ess": [
+        0.0,
+        626.6171745455006,
+        1322.0948926821366
+      ]
+    },
+    {
+      "phase_halfwidth_ms": 0.0,
+      "tracking": true,
+      "p_direct": 0.9340514558950946,
+      "area_m2": 1.0716479999999997,
+      "region_cells": 18,
+      "mass": 0.9101187937440682,
+      "centroid_yz_m": [
+        2.833991553444439,
+        1.8969338528969093
+      ],
+      "seed_centroid_yz_m": [
+        [
+          2.8388988963822013,
+          1.8939989029564137
+        ],
+        [
+          2.829124976909912,
+          1.8998444215471226
+        ]
+      ],
+      "median_and_central90_ms": [
+        383.12313743983646,
+        397.68215209091244,
+        411.22574111600716
+      ],
+      "mixture_ess": 13297.262236106852,
+      "model_ess": [
+        9385.337804683837,
+        2897.186491835271,
+        4592.1558740402
+      ]
+    },
+    {
+      "phase_halfwidth_ms": 1.0,
+      "tracking": true,
+      "p_direct": 0.9327249602012656,
+      "area_m2": 1.0716479999999997,
+      "region_cells": 18,
+      "mass": 0.9078338794114145,
+      "centroid_yz_m": [
+        2.836954828224587,
+        1.8982882848435862
+      ],
+      "seed_centroid_yz_m": [
+        [
+          2.847516486608151,
+          1.8970456132662046
+        ],
+        [
+          2.826463462779313,
+          1.8995226858413559
+        ]
+      ],
+      "median_and_central90_ms": [
+        382.3202998447841,
+        396.2823945689049,
+        410.27340734145076
+      ],
+      "mixture_ess": 8585.88707945457,
+      "model_ess": [
+        6195.759058430006,
+        1869.1816086932831,
+        2983.14587743558
+      ]
+    }
+  ],
+  "settings": {
+    "seeds": [
+      8111,
+      8117
+    ],
+    "proposals_per_model_per_seed": 131072,
+    "propagation_cap_per_model_per_seed": 8192,
+    "phase_nodes": 12,
+    "tracking_independent_sigma_mm": 6,
+    "tracking_shared_sigma_mm": 8,
+    "nominal_proposal_halfwidth_mm": 7.0,
+    "tracking_proposal_halfwidth_mm": 25
+  },
+  "input_sha256": {
+    "design/settings.json": "5fdd59e015d750183ab4856760f835b96a475f6e921f2c65fb7dd94befc7758d",
+    "report/evidence/z09-replay.zip": "25d19713589fb417608440b0892492767a21c5edbbe4944010a9ab4cb2c739c7",
+    "report/evidence/z10-replay.zip": "27ff1f8664b42adc5f3d35da6c81bc6cb2e20ba1e9c2bf24294deac6cfa96967",
+    "experiment/src/flight.py": "1282669dafd362dc938b9ba92a71044757fc5c4ce201332f7189d723a9d03498",
+    "experiment/src/predict.py": "304a117964f58f9a7c6571422593c9b0d8b9a6e451dba26ee780c05c230eee37",
+    "experiment/src/observation_layer.py": "dff71884518465187203171906ed771b483dce3e9f89bacb7f42aa480fae97ad",
+    "experiment/src/revision_controls.py": "af41ce165055d0b77e03525ca45d1927e2ea379806cc161f99898409b8e44c2e"
+  },
+  "environment": {
+    "python": "3.10.11",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3"
+  }
+}

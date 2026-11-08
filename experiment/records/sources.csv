@@ -8,3 +8,5 @@ S6,assumption,design/settings.json,assumed
 S7,data,experiment/data/raw/idsse-penalties/README.md,verified
 S8,data,experiment/runs/D03/README.md#ISSIA-3D,verified
 S9,data,experiment/runs/D03/README.md#StatsBomb,verified
+S10,literature,https://doi.org/10.1088/0957-0233/16/10/022,verified
+S11,literature,https://doi.org/10.1007/BF02844207,verified

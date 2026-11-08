@@ -17,3 +17,5 @@ python3 -m venv .venv
 实测接续包含 [D02 原生帧预测与门线核验](runs/D02/README.md) 和 [D03 其他公开数据的辅助实验](runs/D03/README.md)。两者用各自的公开数据复现，合成盲测指标单独保留。
 
 采集条件仿真使用相同的预测器，按照每帧曝光和坐标可用时刻选择输入，并在给定时间误差范围内传播离脚偏移。从仓库根运行 `python experiment/src/capture_feedback.py --out scratch/Z08-replay`（需要 NumPy），`feedback.csv` 汇总帧率、延迟、丢帧和噪声的影响。 [采集清单](../report/field-acquisition.md) · [冻结反馈](runs/Z08/feedback.csv)
+
+Z10 在 300 脚校准和 600 脚独立合成射门上检验稳定旋转组。按[已冻结设计](../design/stable-spin.md)运行 `python experiment/src/stable_spin.py --out scratch/Z10-replay --workers 4`。每脚种子与工作进程数无关。用 `--stage prepare`、`--stage forecast`、`--stage score` 可在同一新目录分段运行。输入、校准与留出预测、阈值均有单独校验值，每个阶段只读其获准的数据。 [Z10 运行文件](runs/Z10/)

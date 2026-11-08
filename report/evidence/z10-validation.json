@@ -1,0 +1,44 @@
+{
+  "sha256_locks_match": true,
+  "calibration_groups_checked": 12,
+  "blind_score_rows_checked": 7848,
+  "blind_summary_groups_checked": 56,
+  "direct_entries": {
+    "cal": {
+      "wake": 62,
+      "no_spin": 63,
+      "stable_spin": 55
+    },
+    "blind": {
+      "no_spin": 127,
+      "stable_spin": 110,
+      "wake": 131
+    }
+  },
+  "predictor_checkpoint": "ecbb08da3f0e2a40801e04ebacddec92ab617f24",
+  "cutoff_checkpoint": "7b91d575f0fe434fdf7e66b8b031d56bd3a5d100",
+  "offline_runs": {
+    "original_cpu_workers": 5,
+    "independent_directory_cpu_workers": 4,
+    "byte_identical_science_files": {
+      "blind-inputs.json": "42774b96b353d1387829785989b87849bd96df0e16d9f7df278dd8f5a37d8f85",
+      "blind-predictions.json.gz": "67e0c4c038f2b35e32500fdec90b5b551aa96a9c483ecf4905a1b7f74e05f479",
+      "blind-truth.json": "ac91bba3cd81002d6ad2681a0f2fbf46def31dc15d04959834e534b3a75fd956",
+      "cal-inputs.json": "7f573c2348e83b5040d8b0b05a2f2f2a37b0aac589273acaf86c04571f5b3e88",
+      "cal-predictions.json.gz": "ea962c5bd3cf7bf96b90c0ba01f475dbd809a4d2093240fe884b3cc5bad44f7f",
+      "cal-truth.json": "93532f41dbdab518d33514a92d521c3a22dbffae3fd1d8f7dbe91b0cfc66ca1e",
+      "curvature.csv": "a320cfd729d96b332b09a79306cfe65203470f1707fc5f3820ac39c1114697d6",
+      "inputs-lock.json": "f1930aab6061ebde9388c54973000ea4ad164eec939bebddc95401a2154c4244",
+      "predictions-lock.json": "482164a488cb9d9dc475163207d0f9185f3d09798b2fce0615dbf6f71a7c9683",
+      "reference-checks.json": "2300fb2fd5a585a57198bfbc7bf996d8d588c65a014eda484bfd1bb19d0bff27",
+      "repeat.csv": "3466d8407f38f3d80c30410202b92b66e202adb26e9a658f28ec66873134204e",
+      "scores.csv": "d776ce484ae03657e7913fdeca925c129d76d911ae4537d5e92fa46b141e43c4",
+      "summary.json": "47dbd9f72efd7a8b8fba1f8f70f921f91fdd6b14f521a8a9b19d53b18c1790b3",
+      "thresholds-lock.json": "baa912bd6b27adc62b96f5cc0d736d52fea1b3ab7e2299e7af070d19b0aed698",
+      "thresholds.json": "b0f88feb604470d8adec0f5466bd3cd17fb9376e971b8ae38263419fb7192d7c"
+    }
+  },
+  "replay_archive_sha256": "27ff1f8664b42adc5f3d35da6c81bc6cb2e20ba1e9c2bf24294deac6cfa96967",
+  "independent_checker_sha256": "caf1aa1f2ad0f14e8eb8639766e59eb42043128caabca0e09306b30d01bddc49",
+  "same_checker_output_for_archive_and_directory": true
+}

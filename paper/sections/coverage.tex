@@ -1,28 +1,28 @@
-\section{Does the second reading help at 100 ms?}
+\section{Testing the two-frame forecast at 100 ms}
 \label{sec:coverage}
 
-\subsection{Fixed inputs, budgets and comparison targets}
-We generate 90 calibration kicks and 120 fresh test kicks at previously unused seeds. The force generator comprises balanced blocks of zero spin, sustained spin and low-spin wake trajectories. Its drag, Magnus and wake laws differ from those used for inference (Appendix~\ref{app:reference}). The reference solver uses a 1 ms time step. We retain 55 and 71 direct entries for region calibration and test, respectively. Non-entry shots remain in the event-probability evaluation. Each trajectory is one statistical unit, with one inference seed per shot and method in each observation profile.
+\subsection{Paired forecasts at a common deadline}
+At the common 100 ms input cutoff, one aerodynamic predictor also receives the 50 ms reading. Both use the same priors, force laws and solver, with 8,192 proposals and up to 512 propagated trajectories per model. Each predicts its modal cell centre. The gravity control uses both readings to compute a continuous crossing and a binary direct-entry probability.
 
-The rounded profile contains centimetre quantization. The tracking profile uses the same shots and adds two errors to the exact coordinates before quantization: independent 6 mm standard deviation per coordinate per frame, and a shared 8 mm standard deviation per coordinate for each kick. Both profiles have exact frame times and release position. The tracking inference uses the corresponding noise model, so its result is conditional on this assumed observation specification. We evaluate other timing and error interactions separately.
+Z09 generated 90 calibration kicks and 120 test kicks with fresh seeds. A 1 ms reference solver used different force laws and balanced blocks of zero-spin, stable-spin and low-spin wake flights (Appendix~\ref{app:reference}). We calibrated regions on 55 direct entries. We scored locations on the 71 test entries and events on all 120 kicks.
 
-The late-frame and two-frame aerodynamic methods share the same model weights, parameter supports, solver and 8,192 proposals per model. Each model propagates up to 512 samples, with the actual count depending on positive-weight support. The methods share a 100 ms input cutoff, after which computation begins. The late-frame method receives the 100 ms position and the two-frame method receives both prescribed times. Each shot uses the same inference seed across methods and profiles. The gravity control uses both readings. Its deterministic gate position is the centre of a distance-ranked region calibrated on the same shots. It predicts direct entry with a binary probability. The aerodynamic forecasts use their maximum-mass grid cells as point estimates. The comparison evaluates the complete procedures, including their distinct point conventions.
+We rounded each kick's exact coordinates to the nearest centimetre. For a second set of readings, we first added independent Gaussian errors in each frame (6 mm standard deviation per coordinate) and a Gaussian bias shared by both frames (8 mm standard deviation per coordinate). Release position and frame times were exact in both sets. For noisy readings the predictor used the same error model as the generator. Appendix~\ref{app:event} treats timing errors separately.
 
-Calibration and test inputs are generated separately. The predictor reads only the input arrays. Its outputs are stored and hashed before computing scores against the corresponding references. The nominal 90\% target, a common target grid from 50 to 100\%, the three prediction methods and the family and boundary subgroups are fixed in the run configuration. Thresholds are learned once per method and profile using the calibration split.
+We prespecified the methods, 50--100\% coverage targets (90\% for the primary comparison), and subgroups by spin and distance to the goal edge. Methods and profiles share one inference seed per kick. Predictions used only inputs and were hashed before reference scoring.
 
-\subsection{Calibrated regions on the same goal grid}
-Let \(H_D(j)\) be the conditional mass in goal cell \(j\). Let \(j_1,\ldots,j_J\) rank cells by decreasing mass with a fixed tie order. For a cell with positive mass define the entry score
+\subsection{Calibrating regions on the goal grid}
+For each method and measurement condition, calibration sets a threshold for including cells. In the aerodynamic forecasts, rank the grid cells \(j_1,\ldots,j_J\) by decreasing probability \(H_D(j)\) conditional on direct entry, breaking ties in a fixed order. The score of an occupied cell is the mass of the cells ahead of it,
 \begin{equation}
  S_D(j_k)=\sum_{\ell<k}H_D(j_\ell).
  \label{eq:coverage-prefix}
 \end{equation}
-Assign score one to empty cells, including all cells when the location map is absent. For gravity, let \(d_j\) be the Euclidean distance from the cell centre to the ballistic crossing. Set \(S_D(j)=d_j/(L+d_j)\), where \(L\) is the goal diagonal. This monotone transform gives the same nested sets as a radius cutoff. An undefined ballistic crossing assigns score one to every cell.
+An empty cell scores one. For gravity, a cell whose centre lies distance \(d_j\) from the ballistic crossing scores \(d_j/(L+d_j)\), where \(L\) is the goal diagonal. Thresholding this score amounts to choosing a radius about the crossing.
 
-For a coverage target \(c\), sort the 55 scores of the true cells from the calibration entries and set \(q_c\) to order statistic \(\lceil(55+1)c\rceil\). If the rank exceeds 55, set \(q_c=1\). We include every cell with \(S_D(j)\le q_c\). At \(q_c=1\) the set is the whole opening. This fallback is visible in the mean area. The ranking device follows the split-calibration principle~\cite{lei}. An exchangeable calibration and test population admits a rank argument for marginal coverage. Here, the generator uses stratified blocks and the real tracking process is unknown. We report empirical coverage in the declared test population rather than treating the target as a guarantee.
+For a target coverage \(c\) and \(n\) calibration entries, sort the scores of their true cells and take the \(\lceil(n+1)c\rceil\)-th smallest as \(q_c\). Include all cells with \(S_D(j)\le q_c\). If the rank exceeds \(n\), set \(q_c=1\). Z09 assigns score one to all cells for an unavailable prediction, so \(q_c=1\) yields the whole goal even in this case. Z10 counts unavailable regions as misses of zero area. All reported direct entries in these tests had usable forecasts for the main methods. Split calibration gives marginal coverage for exchangeable direct entries~\cite{lei}. Here the balanced family blocks define a synthetic test population with empirical hit rates. Paired bootstrap intervals resample test kicks with the fitted cutoffs fixed.
 
 \begin{table}[htbp]
 \centering\small
-\caption{Held-out comparison at a common 90\% calibration target. Region hits, area and point error refer to 71 direct entries. Event Brier scores refer to all 120 kicks per method and profile. Gravity uses two observations and a calibrated radius.}
+\caption{Forecasts at the 90\% calibration target. Hits, mean area and mean point error use the 71 direct entries. The Brier score for direct entry uses all 120 test kicks. The gravity control uses both readings and a calibrated radius.}
 \label{tab:z09main}
 \begin{tabular}{@{}llrrrr@{}}\toprule
 Profile & Forecast & Hits & Area (m\(^2\)) & Mean error (m) & Brier\\\midrule
@@ -32,26 +32,83 @@ Profile & Forecast & Hits & Area (m\(^2\)) & Mean error (m) & Brier\\\midrule
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{coverage-frontier.pdf}
-\caption{\textbf{Region size at equal realized coverage depends on measurement error.} A and B show held-out hits and mean area (log scale) for each independently calibrated target. Open markers indicate the 90\% target. C and D give selected operating points with the same number of hits within each profile. The late-frame curve has no sampled point at 67/71. All panels use the same 71 synthetic direct entries. The whole goal opening is \(17.86\ \mathrm{m^2}\).}
+\caption{\textbf{Mean region area at equal observed hit counts.} A and B plot hits against mean area on a log scale for the same 71 entries. Open markers denote the primary 90\% calibration target. In C and D, targets from the prespecified grid were matched after scoring. C uses 95\% for the two aerodynamic methods and 90\% for gravity. D uses 95\% for two-frame aerodynamics and 80\% for gravity. No late-frame point matched 67/71.}
 \label{fig:frontier}
 \end{figure}
 
-\subsection{The gain depends on the measurement profile}
-For rounded inputs at the 90\% target, both readings cover 67/71 crossings in a mean area of \(0.381\ \mathrm{m^2}\). The late frame covers 64/71 in \(2.003\ \mathrm{m^2}\). The 95\% Wilson intervals are 86.4--97.8\% and 81.0--95.1\%, respectively. Equal targets permit different achieved coverage. At the separately calibrated 95\% operating point, both methods cover exactly 70/71 in this test. The mean areas are \(0.585\) and \(3.482\ \mathrm{m^2}\), respectively. Gravity also covers 70/71 at its 90\% target, with mean area \(1.222\ \mathrm{m^2}\). These descriptive comparisons match achieved coverage among the prespecified operating points. Methods can miss different kicks at the same achieved coverage.
+\subsection{The early frame narrows the region under centimetre rounding}
+At the 90\% target, two frames covered 67/71 entries in \(0.381\ \mathrm{m^2}\) on average, compared with 64/71 in \(2.003\ \mathrm{m^2}\) using the late frame alone (Table~\ref{tab:z09main}). The respective 95\% Wilson intervals for coverage were 86.4--97.8\% and 81.0--95.1\%. At their 95\% targets, both methods covered 70/71 entries. The two-frame region averaged \(0.585\ \mathrm{m^2}\), compared with \(3.482\ \mathrm{m^2}\) for the late frame. Gravity covered 70/71 in \(1.222\ \mathrm{m^2}\) at its 90\% target (Fig.~\ref{fig:frontier}). Equal counts can include different kicks.
 
-The two-frame point error is lower than the late-frame error by 3.80 cm on average. A paired 4,000-resample shot bootstrap gives a 95\% interval of 0.22--7.62 cm for the reduction. The corresponding interval for a reduction relative to gravity is \(-2.29\) to \(5.85\) cm. Gravity remains competitive for point estimation. The two-frame event Brier score is 0.018 against 0.070 for the late frame and 0.083 for the binary gravity forecast. A small region and a good point are different achievements.
+Adding the early frame lowered point error on 13 entries, left it unchanged on 54 and raised it on four (Fig.~\ref{fig:paired-error}). The mean reduction was 3.80 cm (95\% interval 0.22--7.62 cm from 4,000 paired resamples of kicks). The mean reduction relative to gravity had a 95\% interval of \(-2.29\) to \(5.85\) cm. The Brier score for direct entry was 0.018 with both frames, 0.070 with the late frame and 0.083 for the binary gravity forecast.
 
-With tracking noise, the 90\% target gives 60/71 hits for two frames, 62/71 for the late frame and 69/71 for gravity. The two-frame area is smaller at this target, with lower observed coverage. At equal observed coverage of 67/71, the two-frame procedure at its 95\% target uses \(1.385\ \mathrm{m^2}\). The gravity radius at its 80\% target uses \(0.933\ \mathrm{m^2}\). These different calibration targets identify two operating points of equal test coverage. They do not imply that the two methods achieve the same coverage on future data. The two-frame mean point error exceeds the gravity error by 5.57 cm, with a paired 95\% interval of 1.17--10.25 cm. The intervals for the noisy two-frame versus late-frame point and event differences include zero.
+\subsection{Tracking error changes which forecast is more precise}
+At the same 90\% target, the two-frame region was the smallest but covered only 60/71 noisy crossings, compared with 62/71 for the late frame and 69/71 for gravity. All eleven misses by the two-frame forecast came from the stable-spin group (12/23 hits). It covered 24/24 in each of the zero-spin and wake groups. Gravity covered 21/23 stable-spin entries (Table~\ref{tab:subgroup}).
 
-The area ordering of the two-frame model and gravity differs between these observed operating points. At \(h=50\) ms the curvature estimator magnifies millimetre-scale errors by \(h^{-2}\). A shared spatial bias persists in the second difference because the release coordinate is fixed separately. Even with its assumed likelihood supplied, the two-frame procedure must infer flight parameters from a noisier curvature signal. The gravity model keeps a fixed acceleration and avoids estimating transverse acceleration from those differences. Its relative advantage on the noisy test is consistent with that reduction in estimation variance. These tests use prescribed tracking errors.
+At 67/71 observed hits, gravity used \(0.933\ \mathrm{m^2}\) at its 80\% target and two-frame aerodynamics used \(1.385\ \mathrm{m^2}\) at its 95\% target. These two targets yielded equal coverage on this particular test sample. For the 71 direct entries, the aerodynamic grid centre had a mean point error 5.57 cm larger than the continuous gravity forecast (paired 95\% interval 1.17--10.25 cm). The intervals for both the point-error and Brier-score differences between two-frame and late-frame aerodynamics included zero.
+
+Estimating acceleration from the readings divides the second position difference by \(h^2\), with \(h=50\) ms. A bias shared by the two frames survives in that difference when the release position is fixed independently (Eq.~\eqref{eq:noise}). Gravity fixes the acceleration. Its relative precision here is consistent with the difficulty of estimating transverse curvature from noisy readings, even when the noise model is known.
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{paired-error.pdf}
-\caption{\textbf{The point-error comparison changes when tracking error is added.} A counts the direct-entry kicks on which two-frame aerodynamics gives a smaller, equal or larger Euclidean point error than the indicated reference. B gives two-frame error minus reference error and its paired 95\% shot-bootstrap interval. Negative differences favour the two-frame aerodynamic estimate. Each row contains the same 71 kicks.}
+\caption{\textbf{Point errors on the same 71 direct-entry kicks.} A counts kicks on which two-frame aerodynamics has a smaller, equal or larger error than each comparison method. B shows the mean paired difference and its 95\% shot-bootstrap interval. Negative values favour two-frame aerodynamics.}
 \label{fig:paired-error}
 \end{figure}
 
-\subsection{Availability and computational cost}
-All 71 direct entries have a defined point under all three procedures in both profiles. All 120 event probabilities per method are defined. One noisy late-frame forecast falls below the diagnostic threshold of 25 effective samples. Region thresholds near one can still make a result too broad to guide action even when the sampler returns a valid point. For example, the noisy two-frame set reaches full-goal area at the 97.5\% calibration target. The tested distribution includes shots near the goal boundary. Appendix~\ref{app:operating} reports their small denominators separately.
+\subsection{Forecast availability and computation time}
+Each method produced a point for all 71 direct entries and an event probability for all 120 kicks under both measurement conditions. Only one run, a noisy late-frame forecast, fell below 25 effective samples. Even with a defined point, the noisy two-frame region filled the entire goal at its 97.5\% target. Appendix~\ref{app:operating} gives the counts near the goal edge.
 
-In the local Python run, the rounded two-frame prediction took 84 ms at the median and 94 ms at the 95th percentile. The noisy two-frame prediction took 121 and 131 ms. These figures include inference and gate-map construction on one host and exclude image capture, reconstruction, data transfer and movement. For an illustration of scale, 131 ms is about 44\% of the nominal 299 ms remaining after the last frame. Actual time available for action depends on each kick's crossing time and all processing stages. The timed runs use the test budget.
+In the local Python run, two-frame inference and goal-map construction took 84 ms at the median and 94 ms at the 95th percentile with rounding alone. With tracking errors the times were 121 and 131 ms. At the test sampling budget, 131 ms is about 44\% of the nominal 299 ms remaining after the last reading. Capture, reconstruction, transfer and goalkeeper movement require additional time, and the crossing time varies by kick.
+
+\subsection{Stable spin in an independent test}
+\label{sec:stable-spin}
+The 12/23 aerodynamic hits on noisy stable-spin entries in Z09 prompted a second test (Z10). We drew 300 new calibration kicks and 600 new test kicks, balanced by the same three spin families, and used DOP853 to generate the reference positions and first events. Each predictor saw only the 50 and 100 ms readings. We locked the forecasts, fitted a 90\% threshold for each method on the 180 calibration entries pooled across families (rank 163), then scored the held-out crossings.
+
+With tracking errors, two-frame aerodynamics covered 343/368 direct entries overall (93.2\%) and 90/110 with stable spin (81.8\%). The stable-spin group accounted for 20 of the 25 misses (Fig.~\ref{fig:stable-spin}A). Gravity covered 77/110 stable-spin entries. Aerodynamics alone covered 31 and gravity alone covered 18, a paired difference of \(+11.8\) percentage points (95\% interval 0.0 to \(+23.6\)). The \emph{post hoc} threshold exchange in Table~\ref{tab:crosscut} keeps each map and gravity forecast fixed. On Z10, switching from the Z09 cutoffs to the Z10 cutoffs expands the mean aerodynamic region from 0.875 to \(1.019\ \mathrm{m^2}\) and shrinks gravity's from 1.148 to \(0.845\ \mathrm{m^2}\). The coverage ranking reverses as these operating points change.
+
+\begin{table}[htbp]\centering\small
+\caption{Noisy stable-spin entries. Each row applies both methods' previously fitted cutoffs from the named batch to the same test entries. This threshold exchange reuses the two synthetic tests.}
+\label{tab:crosscut}
+\begin{tabular}{@{}llrrrr@{}}\toprule
+Test & Cutoffs & \multicolumn{2}{c}{Hits} & \multicolumn{2}{c}{Mean area (m\textsuperscript{2})}\\
+ & from & Aero & Gravity & Aero & Gravity\\\midrule
+\csname @@input\endcsname tables/threshold-exchange.tex
+\bottomrule\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{stable-spin.pdf}
+\caption{\textbf{Two-frame regions under tracking noise in Z10.} A shows coverage and 95\% Wilson intervals for 127 zero-spin, 110 stable-spin and 131 low-spin wake entries. Each method uses its own pooled cutoff. The dotted line marks the 90\% calibration target. B gives mean areas and hits on the 110 stable-spin entries. The first three bars apply a pooled cutoff, a two-frame curvature split at twice the per-axis noise scale (Appendix~\ref{app:stable-spin}), or the largest family cutoff. Gravity uses its own pooled radius.}
+\label{fig:stable-spin}
+\end{figure}
+
+Cleaner measurements improved the point forecast. In the stable-spin group, rounding alone lowered mean point error from 0.421 to 0.258 m. In the low-spin wake group, however, the smaller regions under rounding covered fewer entries (Table~\ref{tab:z10profiles}). Both profiles use the same 90\% target with separately fitted cutoffs, so their point accuracy and regional coverage can move in different directions.
+
+\begin{table}[htbp]\centering\small
+\caption{Two-frame aerodynamics on the same Z10 entries under two observation profiles. Each profile uses a matching likelihood and its own pooled 90\% cutoff. No-spin hits are 126/127 under both profiles. Area and error average all 368 entries.}
+\label{tab:z10profiles}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+Profile & All hits & Stable spin & Low-spin wake & Area (m\textsuperscript{2}) & Error (m)\\\midrule
+\csname @@input\endcsname tables/spin-profiles.tex
+\bottomrule\end{tabular}
+\end{table}
+
+Keeping the noisy observations and halving the prior ranges for S and E gave a stable-spin mean error of 0.379 m, with 94/110 hits in \(0.579\ \mathrm{m^2}\) after calibration. Applying the largest family cutoff to the original forecasts covered 105/110 stable-spin entries in \(1.843\ \mathrm{m^2}\). That rule uses family labels in calibration and the same cutoff for every test kick. It changes the region while retaining each original point and event probability.
+
+\subsection{Comparing the point and event decisions separately}
+We reanalysed the frozen Z09 and Z10 tests to check sensitivity to how each method summarizes the forecast. For points, we replaced the aerodynamic modal cell by the probability-weighted centroid of the same grid. This minimizes expected squared distance for the discrete map. We score both methods by mean Euclidean distance to the observed crossing. The deterministic ballistic point remains its continuous crossing. For events, we used the signed margin
+\[
+ m_b=\min(3.66-|Y_b|,\ Z_b-R,\ 2.44-Z_b)
+\]
+from the gravity-only fit, extrapolated to the plane. All fitted downfield velocities were positive in these batches. Under gravity alone, the height is concave in time and the ball starts at \(R\). Thus \(m_b>0\) is the ballistic condition for direct entry away from equality. We fitted a monotone logistic probability against the standardized margin using only each study's calibration kicks, with a unit ridge penalty on the slope. The fitted probability changes the event score only.
+
+\begin{table}[htbp]\centering\small
+\caption{Retrospective comparison on locked synthetic tests. Point error averages the 71 Z09 or 368 Z10 direct entries. Brier scores use all 120 or 600 kicks, respectively. Each logistic fit uses only its study and profile's calibration data.}
+\label{tab:decision-controls}
+\begin{tabular}{@{}llrrrrr@{}}\toprule
+ & & \multicolumn{2}{c}{Mean Euclidean error (m)} & \multicolumn{3}{c}{Event Brier score}\\
+Test & Profile & Aero centroid & Gravity & Aero & Gravity binary & Gravity logistic\\\midrule
+\csname @@input\endcsname tables/decision-controls.tex
+\bottomrule\end{tabular}
+\end{table}
+
+The centroid lowers mean point error relative to gravity under rounding and raises it under tracking errors in both batches (Table~\ref{tab:decision-controls}). The logistic probability improves gravity's Brier score over its binary prediction in every row. Aerodynamics still scores better under rounding. With tracking errors, the logistic forecast scores better on Z09. On Z10 the difference (aerodynamics minus logistic gravity) has a paired 95\% test-kick bootstrap interval of \([-0.0157,+0.0090]\), with calibration held fixed. These controls reuse the existing test kicks. The prescribed-kick answer uses the highest-probability cell.

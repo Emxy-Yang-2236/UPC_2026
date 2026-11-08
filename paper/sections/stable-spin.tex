@@ -1,0 +1,34 @@
+\section{Why two-frame forecasts miss some stable-spin entries}
+\label{app:stable-spin}
+
+In Z10, both the nominal aerodynamic forecast and gravity gave points and regions for all 368 direct entries. With tracking errors, their Brier scores for direct entry were 0.064 and 0.093 over all 600 test kicks. Among the 110 stable-spin entries, the 95\% Wilson intervals for coverage were 73.6--87.9\% for aerodynamics and 60.9--77.8\% for gravity. We calculated paired 95\% intervals by resampling whole kicks 4,000 times with the calibration set fixed. The generator balanced the families before flight. Restricting comparisons to direct entries can leave different launch conditions in each family.
+
+\subsection{What the two readings tell us about acceleration}
+For an exact release point and equally spaced observations, write \(\widehat{\vv a}=(\vv r_2-2\vv r_1+\vv r_0)/h^2\), with \(h=0.050\) s. Approximating rounding to step \(q\) by independent uniform errors gives the per-axis variance
+\[
+ \sigma_a^2=\frac{5(\sigma_e^2+q^2/12)+\sigma_b^2}{h^4}.
+\]
+The independent errors have squared coefficients \(1+4=5\), and the shared frame bias has coefficient \(1-2=-1\). The resulting standard deviation is 2.58 m/s\(^2\) for centimetre rounding alone and 6.76 m/s\(^2\) with the added tracking errors. Across all 200 stable-spin kicks, the observed root-mean-square errors in the second difference, pooled over the \(y,z\) components, were 2.56 and 6.47 m/s\(^2\). The aerodynamic point forecast on the 110 direct entries improved by 16.3 cm on average (95\% interval 12.7--20.0 cm) when using rounding alone, with a likelihood and proposal width matched to each observation condition.
+
+With release and the noisy 100 ms position fixed, a change \(\delta\vv a\) in the second difference changes a constant-acceleration trajectory at a fixed time \(t\) by \(t(t-2h)\,\delta\vv a/2\). At 0.40 s, 1 m/s\(^2\) corresponds to 6 cm. We substituted the exact simulated second differences on \emph{all three axes} and solved again for the first plane crossing or ground contact. The forward acceleration can change the crossing time. Of the 110 true entries, 104 had plane crossings in both fits. For these the mean crossing error fell by 45.2 cm (95\% interval 38.4--52.8 cm). Five had a crossing only after substitution and one only before. This sensitivity calculation requires exact positions available to the simulator.
+
+\subsection{Changing the prior and fitting its threshold}
+We multiplied the component half-widths of both \(\vv\beta\) in S and \(\vv\omega\) in E by 0.5 or 1.5. A separate test changed only the D/S/E prior weights from 0.20/0.40/0.40 to 0.02/0.49/0.49. Table~\ref{tab:spin-priors} shows which effects survive when every prior uses the same threshold. Halving both ranges improved the true cell's mean rank from 11.92 to 6.31 and reduced mean point error by 4.17 cm (95\% interval 2.15--6.28 cm). After refitting the cutoff, the corresponding hit-rate difference was \(+3.6\) percentage points (95\% interval \(-3.6\) to \(+10.9\)). The joint change leaves the individual contributions of S and E unresolved.
+
+\begin{table}[htbp]\centering\small
+\caption{Aerodynamic priors on the same 110 noisy stable-spin entries. The two hit columns use each prior's own pooled 90\% cutoff and the nominal prior's cutoff (0.8594). Areas use each prior's own cutoff. Rank one denotes the most probable goal cell.}
+\label{tab:spin-priors}
+\begin{tabular}{@{}lrrrrr@{}}\toprule
+ & \multicolumn{2}{c}{Hits out of 110} & Mean area & Mean error & Mean rank\\
+Prior & Own cutoff & Nominal cutoff & (m\(^2\)) & (m) & of true cell\\\midrule
+Nominal & 90 & 90 & 1.019 & 0.421 & 11.92\\
+Half-widths \(\times 0.5\) & 94 & 99 & 0.579 & 0.379 & 6.31\\
+Half-widths \(\times 1.5\) & 82 & 68 & 1.315 & 0.452 & 15.25\\
+Higher S/E weights & 101 & 94 & 1.592 & 0.405 & 11.65\\\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Applying alternative cutoffs to a fixed forecast}
+The stable-spin calibration entries gave the largest family cutoff (0.9698, rank 51 of 55). A rule that knows each test kick's true family could use its corresponding cutoff. The maximum rule in Fig.~\ref{fig:stable-spin}B applies 0.9698 to every kick. These rules agree on stable-spin entries. Across all 368 entries, using the maximum raised mean area from \(1.003\) to \(1.839\ \mathrm{m^2}\). We also assigned each kick to one of two calibration groups by comparing the measured signal \(\norm{(\widehat a_y,\widehat a_z+g)}/\sigma_a\) with a prespecified boundary of 2. This rule uses only the two readings. Relative to pooling, it gained seven stable-spin hits and lost seventeen, covering 80/110 in \(1.001\ \mathrm{m^2}\) on average.
+
+In the post hoc threshold exchange, the 55 pooled Z09 calibration entries gave cutoffs of 0.8214 for aerodynamic prefix mass and 0.0800 for the gravity distance score. The 180 pooled Z10 entries gave 0.8594 and 0.0687, respectively. The aerodynamic cutoff rose, admitting more cells, and the gravity radius shrank. On the original 23 stable-spin entries the counts changed from 12 and 21 to 14 and 19. On the 110 newer entries the threshold source alone determined which model covered more kicks (Sec.~\ref{sec:stable-spin}).

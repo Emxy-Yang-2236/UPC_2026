@@ -2,6 +2,7 @@
 import csv
 import hashlib
 import json
+import sys
 from collections import defaultdict
 from io import BytesIO
 from pathlib import Path
@@ -15,7 +16,10 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import FancyBboxPatch, Rectangle
 from matplotlib.ticker import MaxNLocator, PercentFormatter
 
+from flight_schematic import flight_figure
+
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "experiment/src"))
 PAPER = ROOT / "paper"
 FIGURES = PAPER / "figures"
 EVIDENCE = "report/evidence/"
@@ -79,36 +83,11 @@ def grid(ax, axis="y"):
 
 
 def draw_geometry(v, settings):
-    source = "design/settings.json"
-    o = settings["official"]
-    coords = np.array([o["r0"], *o["xyz"]])
-    times = np.r_[0, o["times"]] * 1000
-    fig, ax = plt.subplots(figsize=(WIDTH, 2.36), layout="constrained")
-    gate = o["gate"]
-    half = o["half_width"]
-    ax.add_patch(Rectangle((0, -half), gate, 2 * half, fc=PALE, ec=FAINT))
-    ax.axhline(0, c=FAINT, ls="--", lw=.9)
-    ax.plot([gate, gate], [-half, half], c=INK, lw=2)
-    ax.plot(*coords[:, :2].T, c=TEAL, lw=1.3, marker="o", ms=5)
-    for i, ((x, y, z), t) in enumerate(zip(coords, times)):
-        title = "Release anchor" if i == 0 else f"{t:.0f} ms"
-        ax.annotate(f"{title}\n$z={z:.2f}$ m", (x, y),
-                    xytext=[(0, -20), (0, 16), (22, -24)][i],
-                    textcoords="offset points", ha="center",
-                    va="bottom" if i == 1 else "top", color=TEAL)
-    ax.annotate("", xy=(gate, 2.65), xytext=(coords[-1, 0], 2.65),
-                arrowprops={"arrowstyle": "<->", "color": SLATE})
-    ax.text((gate + coords[-1, 0]) / 2, 3.05,
-            f"{gate - coords[-1, 0]:.2f} m beyond last observation", ha="center")
-    ax.text(gate + .28, .05, "Goal\nplane", va="center")
-    ax.set(xlim=(-.9, 12.45), ylim=(-4.1, 4.05), xlabel="Downfield position $x$ (m)",
-           ylabel="Lateral position $y$ (m)", yticks=[-half, 0, half],
-           xticks=[0, 2, 4, 6, 8, gate])
-    ax.spines["left"].set_visible(False)
-    v.save(fig, "problem-geometry", [source], {
-        "observations_xyz_m": coords.tolist(), "time_ms": times.tolist(),
-        "gate_x_m": gate, "half_width_m": half, "height_m": o["height"],
-    })
+    source = "experiment/runs/B01/pair.json"
+    force_case = "experiment/src/reference.py"
+    v.read(force_case)
+    fig, plotted = flight_figure(settings["official"], v.json(source))
+    v.save(fig, "problem-geometry", ["design/settings.json", source, force_case], plotted)
 
 
 def draw_pipeline(v, settings):
@@ -220,42 +199,92 @@ def draw_goal(v, official, grid_rows):
     })
 
 
-def draw_witness(v, pair):
-    source = "experiment/runs/B01/pair.json"
-    fig, (goal, early) = plt.subplots(1, 2, figsize=(WIDTH, 2.73), layout="constrained",
-                                      gridspec_kw={"width_ratios": [1, 1.28]})
+def draw_witness(v, settings, pair, rounded, grid_rows):
+    from flight import advance
+
+    pair_source = "experiment/runs/B01/pair.json"
+    rounded_source = EVIDENCE + "review-rounded-pair.json"
+    inference_source = EVIDENCE + "review-inference.json"
+    solver_source = "experiment/src/flight.py"
+    candidates = v.json(inference_source)["rounded_pair_candidates"]
+    v.read(solver_source)
+    official = settings["official"]
+    display = np.array(official["xyz"])
+    readings = np.array(official["times"])
+    fig, (flight, offsets, goal) = plt.subplots(
+        1, 3, figsize=(WIDTH, 2.90), layout="constrained",
+        gridspec_kw={"width_ratios": [1.05, 1.15, 1]})
+    positions = []
+    paths = []
+    colors = (TEAL, OCHRE)
+    marks = ("o", "s")
+    for color, marker, draw, checked in zip(colors, marks, candidates, rounded["verified_flights"]):
+        assert draw["pooled_model_index"] == checked["pooled_model_index"]
+        time = np.unique(np.r_[np.linspace(0, checked["arrival_s"], 401), readings])
+        pos = np.array([official["r0"]], dtype=float)
+        vel = np.array([draw["v0_m_s"]])
+        nuisance = (np.array([draw["wind_m_s"]]), np.array([draw["kappa_m_inv"]]),
+                    np.array([draw["beta_s_inv"]]))
+        path = [pos[0].copy()]
+        for step in np.diff(time):
+            dr, vel = advance(vel, nuisance, "S", step, settings)
+            pos += dr
+            path.append(pos[0].copy())
+        path = np.array(path)
+        early = path[np.searchsorted(time, readings)]
+        crossing = np.r_[official["gate"], checked["goal_yz_m"]]
+        assert np.max(np.abs(early - checked["early_m"])) < 1e-7
+        assert np.max(np.abs(path[-1] - crossing)) < 1e-7
+        delta = 1000 * (early - display)
+        assert np.max(np.abs(delta)) < 5
+        flight.plot(path[:, 0], path[:, 2], c=color, lw=1.35)
+        flight.scatter(early[:, 0], early[:, 2], marker=marker, c=color, s=14)
+        offsets.scatter(np.arange(6) + (-.10 if marker == "o" else .10), delta.ravel(),
+                        marker=marker, c=color, s=18, zorder=4)
+        goal.scatter(*crossing[1:], marker=marker, c=color, s=24, zorder=4)
+        paths.append({"t_s": time.tolist(), "xyz_m": path.tolist(), "display_offset_mm": delta.tolist()})
+        positions.append(crossing[1:].tolist())
+
+    flight.axvline(official["gate"], c=SLATE, lw=.8, ls=":")
+    flight.set(xlabel="$x$ (m)", ylabel="$z$ (m)", xticks=[0, 3, 7, 11], ylim=(0, 2.52))
+    panel(flight, "A   Flight profile")
+    grid(flight)
+    offsets.axhspan(-5, 5, color=PALE)
+    offsets.axhline(0, c=SLATE, lw=.6)
+    offsets.axvline(2.5, c=SLATE, lw=.65, ls=":")
+    offsets.set(xticks=range(6), xticklabels=list("xyzxyz"), xlim=(-.48, 5.48),
+                ylim=(-6, 6.6), yticks=[-5, 0, 5], ylabel="Offset (mm)", xlabel="50 ms             100 ms")
+    panel(offsets, "B   Rounding bins")
+    grid(offsets)
+
     yz = np.array([shot["goal_yz_m"] for shot in pair["shots"]])
-    midpoint = yz.mean(axis=0)
     separation = np.linalg.norm(yz[0] - yz[1])
+    rounded_yz = np.array(positions)
+    rounded_gap = np.linalg.norm(rounded_yz[0] - rounded_yz[1])
     assert np.isclose(separation, pair["goal_separation_m"])
-    goal.plot(*yz.T, color=SLATE, ls="--", lw=1)
-    for (y, z), mark, color, label in zip(yz, ("o", "s"), (TEAL, OCHRE), ("A", "B")):
-        goal.scatter(y, z, marker=mark, color=color, s=36)
-        goal.annotate(label, (y, z), xytext=(6, 1), textcoords="offset points", color=color)
-    goal.annotate(f"{100 * separation:.2f} cm", midpoint, xytext=(9, 3),
-                  textcoords="offset points", fontweight="bold")
+    assert np.isclose(rounded_gap, rounded["verified_separation_m"])
+    selected = [[float(row["y_m"]), float(row["z_m"])] for row in grid_rows if row["in_raw_90"] == "1"]
+    dy = 2 * official["half_width"] / settings["study"]["grid"][0]
+    dz = official["height"] / settings["study"]["grid"][1]
+    for y, z in selected:
+        goal.add_patch(Rectangle((y - dy/2, z - dz/2), dy, dz, fc=PALE, ec="#bfced0", lw=.55))
+    goal.plot(*rounded_yz.T, color=SLATE, lw=.8, ls="--")
+    goal.plot(*yz.T, color=SLATE, marker=".", lw=1.35, ms=4)
+    goal.text(2.69, 2.28, f"{rounded_gap*100:.1f} cm", ha="center", fontsize=8)
     goal.set(xlabel="$Y$ (m)", ylabel="$Z$ (m)", aspect="equal",
-             xlim=(2.55, 2.69), ylim=(1.91, 2.035))
-    panel(goal, "A   Two crossings")
+             xlim=(2.13, 3.02), ylim=(1.53, 2.43), xticks=[2.2, 2.6, 3.0], yticks=[1.6, 1.9, 2.2])
+    panel(goal, "C   Goal plane")
     grid(goal, "both")
-    frames = pair["third_frames"]
-    times = np.array([f["t_s"] for f in frames]) * 1000
-    offsets = np.array([f["max_coordinate_difference_m"] for f in frames]) * 1000
-    threshold = 2000 * pair["hard_coordinate_error_m"]
-    early.axhspan(threshold, 15.5, color=PALE)
-    early.axhline(threshold, color=SLATE, ls="--", lw=.9)
-    early.text(times[0], threshold + .54, f"{threshold:g} mm separation criterion", color=SLATE)
-    early.plot(times, offsets, "o", color=TEAL, ms=5)
-    for t, d in zip(times, offsets):
-        early.annotate(f"{d:.2f}", (t, d), xytext=(0, 5), ha="center", textcoords="offset points")
-    early.set(xlim=(134, 265), ylim=(0, 15.5), xticks=times,
-              xlabel="Candidate observation time (ms)", ylabel="Largest coordinate gap (mm)")
-    panel(early, "B   Third-reading separation")
-    grid(early)
-    v.save(fig, "witness-path", [source], {
-        "goal_yz_m": yz.tolist(), "goal_separation_cm": 100 * separation,
-        "third_frame_ms": times.tolist(), "max_coordinate_difference_mm": offsets.tolist(),
-        "disjoint_if_larger_than_mm": threshold,
+    fig.legend(handles=[Line2D([], [], color=c, marker=m, label=f"Rounded flight {i}")
+                        for i, (c, m) in enumerate(zip(colors, marks), 1)] +
+                       [Line2D([], [], color=SLATE, marker=".", label="Exact-centre pair"),
+                        Rectangle((0, 0), 1, 1, fc=PALE, ec="#bfced0", label="Six-cell posterior region")],
+               loc="outside lower center", ncol=4, columnspacing=1.0)
+    v.save(fig, "witness-path", [pair_source, rounded_source, inference_source, EVIDENCE + "grid.csv",
+                                "design/settings.json", solver_source], {
+        "rounded_flights": paths, "rounded_goal_yz_m": positions, "rounded_separation_m": float(rounded_gap),
+        "raw90_cell_centres_yz_m": selected, "goal_yz_m": yz.tolist(),
+        "goal_separation_cm": 100 * separation, "display_bin_half_width_mm": 5,
     })
 
 
@@ -274,7 +303,7 @@ def draw_factors(v, rows):
              "phase_minus5ms", "phase_plus5ms", "tracking_noise", "zero_wind", "half_spin_beta",
              "half_spin_omega", "spin_model_S", "spin_model_E", "mass_410g", "mass_450g"]
     by_scenario = {r["scenario"]: r for r in rows}
-    fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 4.34), sharey=True, layout="constrained")
+    fig, axes = plt.subplots(1, 2, figsize=(WIDTH, 4.50), sharey=True, layout="constrained")
     nominal_area = float(by_scenario["reference"]["region90_m2"])
     axes[1].axvline(nominal_area, color=SLATE, ls="--", lw=1)
     plotted = []
@@ -296,12 +325,17 @@ def draw_factors(v, rows):
                            clip_on=False)
     axes[0].set(yticks=np.arange(len(order)), yticklabels=[labels[key] for key in order],
                 ylim=(len(order) - .25, -.75), xlim=(0, 27), xlabel="Conditional mean shift (cm)")
-    axes[1].set(xlim=(0, 1.17), xlabel="Nominal region area (m²)")
+    axes[1].set(xlim=(0, 1.17), xlabel="90% region area (m²)")
     for ax, title in zip(axes, ("A   Forecast displacement", "B   Size of the region")):
         panel(ax, title)
         grid(ax, "x")
-        ax.axhspan(.5, 7.5, color=PALE, zorder=-1)
+        ax.axhspan(.5, 7.5, color="#e8f2f5", zorder=-1)
+        ax.axhspan(7.5, len(order)-.5, color="#f8f0e5", zorder=-1)
+        ax.axhline(7.5, color=SLATE, linewidth=.6)
         ax.tick_params(axis="y", length=0)
+    fig.legend(handles=[Rectangle((0, 0), 1, 1, color="#e8f2f5", label="Measurement assumptions"),
+                        Rectangle((0, 0), 1, 1, color="#f8f0e5", label="Force assumptions")],
+               loc="outside lower center", ncol=2)
     v.save(fig, "sensitivity", [EVIDENCE + "z05-factors.csv"], plotted)
 
 
@@ -587,6 +621,54 @@ def draw_field(v, support, references, scores):
             "late_forecast": {"event_id": late["event_id"], "yz_m": forecast, "error_m": error}})
 
 
+def draw_stable_spin(v, data):
+    """Compare family-specific coverage, then show the area cost on stable-spin kicks."""
+    groups = {(r["method"], r["calibration"], r["family"]): r for r in data["groups"]
+              if r["profile"] == "tracking"}
+    fig, (coverage, cost) = plt.subplots(1, 2, figsize=(WIDTH, 2.65))
+    fig.subplots_adjust(left=.155, right=.885, bottom=.23, top=.81, wspace=.93)
+    families = ("no_spin", "stable_spin", "wake")
+    labels = ("Zero spin", "Stable spin", "Low-spin wake")
+    plotted = {"family_coverage": [], "stable_spin_area": []}
+    for label, method, color, marker, offset in [
+        ("Two-frame aero", "nominal", TEAL, "o", -.10),
+        ("Gravity", "gravity", OCHRE, "^", .10),
+    ]:
+        for i, family in enumerate(families):
+            row = groups[method, "pooled", family]
+            hit, n = row["hits"], row["goals"]
+            rate = 100*hit/n
+            lo, hi = 100*np.asarray(row["wilson95"])
+            coverage.errorbar(rate, i+offset, xerr=[[max(0.,rate-lo)], [max(0.,hi-rate)]],
+                              marker=marker, color=color, ms=4, lw=1, capsize=2,
+                              label=label if i == 0 else None)
+            plotted["family_coverage"].append([method, family, hit, n, lo/100., hi/100.])
+    coverage.set(yticks=range(3), yticklabels=labels, ylim=(2.45,-.45),
+                 xlim=(min(50, int(min(r[-2] for r in plotted["family_coverage"])*10)*10),102),
+                 xlabel="Observed coverage (%)")
+    coverage.axvline(90, color=SLATE, ls=":", lw=.85, zorder=0)
+    coverage.legend(loc="upper left", bbox_to_anchor=(-.03,-.29), ncol=2, fontsize=7.6,
+                    handlelength=1.3, columnspacing=1.1, borderaxespad=0.)
+    panel(coverage, "A   Coverage by spin family")
+    rows = [("Pooled", "nominal", "pooled"), ("Curvature split", "nominal", "observable"),
+            ("Family maximum", "nominal", "worst_family"), ("Gravity", "gravity", "pooled")]
+    max_area = max(groups[m, rule, "stable_spin"]["mean_area_m2"] for _,m,rule in rows)
+    for i, (label, method, rule) in enumerate(rows):
+        r = groups[method, rule, "stable_spin"]
+        area = r["mean_area_m2"]
+        cost.barh(i, area, color=OCHRE if method == "gravity" else TEAL, height=.50)
+        cost.annotate(f"{r['hits']}/{r['goals']}", (area, i), xytext=(4, 0),
+                      textcoords="offset points", va="center", ha="left", fontsize=7.7, clip_on=False)
+        plotted["stable_spin_area"].append([method, rule, r["hits"], r["goals"], area])
+    cost.set(yticks=range(len(rows)), yticklabels=[r[0] for r in rows], ylim=(3.55,-.55),
+             xlim=(0, max_area*1.18), xlabel="Mean region area (m²)")
+    panel(cost, "B   Area for stable spin")
+    for ax in (coverage, cost):
+        ax.tick_params(axis="y",length=0)
+        grid(ax, "x")
+    v.save(fig, "stable-spin", [EVIDENCE+"z10-summary.json"], plotted)
+
+
 def main():
     FIGURES.mkdir(exist_ok=True)
     v = Visuals()
@@ -594,8 +676,10 @@ def main():
     draw_geometry(v, cfg)
     draw_pipeline(v, cfg)
     measurements = v.json(EVIDENCE + "measurements.json")
-    draw_goal(v, measurements["official"], v.rows(EVIDENCE + "grid.csv"))
-    draw_witness(v, v.json("experiment/runs/B01/pair.json"))
+    grid_rows = v.rows(EVIDENCE + "grid.csv")
+    draw_goal(v, measurements["official"], grid_rows)
+    draw_witness(v, cfg, v.json("experiment/runs/B01/pair.json"),
+                 v.json(EVIDENCE + "review-rounded-pair.json"), grid_rows)
     draw_factors(v, v.rows(EVIDENCE + "z05-factors.csv"))
     summary = v.json(EVIDENCE + "z09-summary.json")
     scores, ids = coverage_data(v, summary)
@@ -606,6 +690,7 @@ def main():
     draw_field(v, v.rows(EVIDENCE + "field/support.csv"), v.rows(EVIDENCE + "field/reference.csv"),
                v.rows(EVIDENCE + "field/scores.csv"))
     draw_event(v, v.json(EVIDENCE + "plane-sensitivity.json"))
+    draw_stable_spin(v, v.json(EVIDENCE + "z10-summary.json"))
     ledger = {"sources_sha256": v.sources, "figures": v.figures}
     (PAPER / "visual-data.json").write_text(json.dumps(ledger, ensure_ascii=True, indent=2) + "\n",
                                            encoding="utf-8", newline="\n")

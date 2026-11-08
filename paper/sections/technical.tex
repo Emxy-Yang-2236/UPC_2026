@@ -1,24 +1,22 @@
-\section{Timing and coordinate errors at the crossing event}
+\section{How timing and coordinate errors move the crossing}
 \label{app:event}
 
-\subsection{Closed-form control and event projection}
-With a fixed launch position and readings at \(h\) and \(2h\), the constant-acceleration interpolant uses
+\subsection{From a position error to a goal-plane error}
+A position error can change both where and when the ball crosses the goal plane. We can separate these effects in the constant-acceleration fit. For a fixed release position and readings at \(h\) and \(2h\), its acceleration and launch velocity are
 \begin{equation}
  \widehat{\vv a}=\frac{\vv r_2-2\vv r_1+\vv r_0}{h^2},
  \qquad
  \widehat{\vv v}_0=\frac{\vv r_1-\vv r_0}{h}
                          -\frac{h}{2}\widehat{\vv a}.
 \end{equation}
-For the prescribed readings this yields \((30.4,9.4,6.9)\) m/s and
-\((-16,-16,-12)\) m/s\(^2\). This is a kinematic diagnostic. It assumes constant acceleration beyond the observations. Write \(X=11-x_0\), \(D=v_{0x}^2+2a_x X\), and assume a positive, transversal first forward root. A numerically stable evaluation is
+The prescribed readings give \(\vv v_0=(30.4,9.4,6.9)\) m/s and \(\vv a=(-16,-16,-12)\) m/s\(^2\). Extrapolate with this acceleration and write \(X=11-x_0\), \(D=v_{0x}^2+2a_xX\). For a first forward crossing with \(D>0\), the positive root has the numerically stable form
 \begin{equation}
  T=\frac{2X}{v_{0x}+\sqrt{D}},\quad
  \dot{x}(T)=\sqrt{D}.
 \end{equation}
-The nominal values are \(T=0.4050\) s and \((Y,Z)=(2.495,1.920)\) m. Equation~\eqref{eq:region} is obtained from the aerodynamic inference rather than this control.
+The control crosses at \(T=0.4050\) s and \((Y,Z)=(2.495,1.920)\) m. The aerodynamic forecast appears in Eq.~\eqref{eq:region}.
 
-Suppose an input perturbation changes the interpolated curve at fixed \(T\) by
-\(\delta\vv r(T)\). Differentiating the event condition \(x(T)=11\) gives
+Let \(\delta\vv r(T)\) be the change in position at the original crossing time. Requiring the perturbed trajectory to satisfy \(x=11\) m at its own crossing gives
 \begin{equation}
  \delta T=-\frac{\delta x(T)}{\dot{x}(T)},\qquad
  \delta Q=P\,\delta\vv r(T),\qquad
@@ -28,21 +26,33 @@ Suppose an input perturbation changes the interpolated curve at fixed \(T\) by
  \end{pmatrix}.
  \label{eq:event-project}
 \end{equation}
-This expression converts longitudinal errors into lateral and vertical errors by the local slope of the path. A perturbation parallel to the local velocity changes the time to first order and cancels out of \(Q\). Near \(\dot x(T)=0\) the derivative can grow without bound, and when the forward root disappears the linearized location is undefined.
+The local slopes convert longitudinal error into a shift across the goal. An error parallel to the velocity changes only the arrival time to first order, since \(P\vv v(T)=0\). The slopes can diverge as \(\dot x(T)\) approaches zero. If the forward crossing disappears, its location derivative is undefined.
 
-Let \(s=T/h\), \(\lambda_1=s(2-s)\), and \(\lambda_2=s(s-1)/2\). These are the Lagrange weights of the two observed positions when the launch anchor is fixed. With spatial errors \(\vv e_i\) and a shared true time shift \(\tau\) relative to the time labels, the first-order event shift is
+The Lagrange weights of the two readings are \(\lambda_1=s(2-s)\) and \(\lambda_2=s(s-1)/2\), where \(s=T/h\). Let \(\vv e_i\) be the spatial error in reading \(i\). A common time offset \(\tau>0\) means that we fit the readings at their labelled times \(h,2h\) although both were taken \(\tau\) later. To first order, the combined shift is
 \begin{equation}
  \delta Q=P\left[\lambda_1\vv e_1+\lambda_2\vv e_2+
         \bigl(\lambda_1\vv v(h)+\lambda_2\vv v(2h)\bigr)\tau\right].
  \label{eq:timing-spatial}
 \end{equation}
-At the nominal root the weights are \(-49.41\) and \(28.76\). Independent 5 mm per-axis bounds contribute first-order shifts of at most 0.439 m in \(Y\) and 0.424 m in \(Z\). A common 1 ms offset contributes \((-0.123,-0.093)\) m for positive offset under the stated sign convention. Central differences at \(1\,\mu\)s reproduce the timing derivative to within \(2\times10^{-5}\) m/s. The large values characterize extrapolation by an unconstrained quadratic. The main model restricts curvature through force and launch ranges.
+At the nominal crossing the weights are \(-49.41\) and \(28.76\). Allowing independent errors of up to 5 mm in each coordinate gives linear bounds of 0.439 m in \(Y\) and 0.424 m in \(Z\). A common \(+1\) ms offset shifts \((Y,Z)\) by \((-0.123,-0.093)\) m to first order. Central differences with a \(1\,\mu\)s step reproduce the timing derivative to within \(2\times10^{-5}\) m/s. The large weights arise from extending an unconstrained quadratic well beyond the observations. The aerodynamic predictor restricts curvature through its force and launch bounds.
 
-\subsection{Joint perturbations and loss of a forward root}
-For each timing bound and spatial bound, evaluate both phase endpoints and zero phase, and the corners of the six-coordinate box. A zero bound uses one value rather than repeating identical inputs. Refit the polynomial and solve the forward plane event for each case. Ground and goal-edge events are disabled in this diagnostic to isolate the existence of a forward plane root. The maximum shift is taken over tested roots only. A nonlinear map can attain its extrema away from the sampled corners, so this maximum is a scenario statistic.
+With the same positions reassigned to times \(h+\tau,2h+\tau\) and the quadratic refitted, \(dT/d\tau=-26.52\) at zero. The exact forward roots for \(\tau=-1,0,+1\) ms are respectively 439.2, 405.0 and 383.1 ms. Holding the time labels fixed and instead generating later positions, as in Eq.~\eqref{eq:timing-spatial}, reverses the local derivative. This timing sensitivity belongs to the unconstrained quadratic. The aerodynamic timing interval in Sec.~\ref{sec:measurement} weights physically admissible flights.
+
+\subsection{Covariance near a smooth crossing}
+Let \(\Sigma_e\) be the covariance of noise drawn independently in each frame, \(\Sigma_b\) that of a bias shared by the frames, and \(\sigma_\tau^2\) the timing variance. Assume independence among these sources. With \(w=\lambda_1\vv v(h)+\lambda_2\vv v(2h)\), Eq.~\eqref{eq:timing-spatial} gives
+\begin{equation}
+ \operatorname{Cov}(\delta Q)=
+ P\left[(\lambda_1^2+\lambda_2^2)\Sigma_e+
+        (\lambda_1+\lambda_2)^2\Sigma_b+
+        \sigma_\tau^2 ww^\top\right]P^\top.
+\end{equation}
+Timing uncertainty acts along a single direction, \(Pw\). The bias coefficient changes if the release shares the frames' translation. This covariance describes measurement uncertainty near a smooth crossing. Model discrepancy and sampling error contribute separately.
+
+\subsection{Joint perturbations and loss of a forward crossing}
+We combined both timing limits and zero offset with every corner of the six-coordinate error box, counting a zero bound once. For each combination we refitted the quadratic and solved for its first forward plane crossing, ignoring the ground and goal edges. The largest displacement among sampled crossings need not bound the full box, whose interior may contain larger shifts.
 
 \begin{table}[htbp]\centering\small
-\caption{Joint timing and position stress test for the quadratic control. First-order maxima are coordinatewise sums of absolute derivative contributions. The sampled maximum is a Euclidean shift at a forward plane root. Counts include all selected timing and spatial combinations.}
+\caption{Joint perturbations of the quadratic control. The two linear bounds sum the absolute derivative contributions in each coordinate. The sampled shift is the largest Euclidean displacement among forward crossings. The last column counts trials with no forward root among all tested combinations.}
 \label{tab:plane-sens}
 \begin{tabular}{@{}rrrrrr@{}}\toprule
 Phase bound & Spatial bound & First-order \(Y\) & First-order \(Z\) & Sampled shift & No root\\
@@ -51,30 +61,20 @@ Phase bound & Spatial bound & First-order \(Y\) & First-order \(Z\) & Sampled sh
 \bottomrule\end{tabular}
 \end{table}
 
-The quadratic can lose its plane crossing at a 3 ms timing bound. At 1 ms and 5 mm, all 192 combinations cross and the largest sampled displacement is 0.930 m. The corresponding coordinatewise linear bounds are 0.562 and 0.517 m. Larger perturbations change the root substantially, making the local derivative a poor global description. The different failure counts across spatial bounds reflect the changing discrete corners, not a monotone probability of failure. This is a reason to carry event uncertainty through the solver when propagating input uncertainty. A fixed-time error band alone cannot represent event loss.
+With bounds of 1 ms and 5 mm, all 192 combinations crossed the plane. The largest sampled displacement was 0.930 m, while the separate linear bounds in \(Y\) and \(Z\) were 0.562 and 0.517 m (Table~\ref{tab:plane-sens}). At 3 ms and 5 mm, 48/192 combinations lost the forward root. Widening a box changes the corners sampled, so the failure fraction can rise or fall. Propagating each perturbation to its own crossing captures both large shifts and the loss of the event.
 
 \begin{figure}[htbp]\centering
 \includegraphics[width=\linewidth]{event-sensitivity.pdf}
-\caption{\textbf{Input perturbations can move or remove the forward crossing.} A measures the maximum displacement among sampled corners with a root in the quadratic control. B reports the fraction of enumerated combinations without a root. These are deterministic trial fractions for the stated timing endpoints and position corners. The diagnostic considers the plane alone.}
+\caption{\textbf{A perturbation can shift or remove the plane crossing.} A gives the largest displacement among sampled quadratic fits with a forward root. B gives the fraction of tested combinations with no root. Each timing and coordinate combination is a deterministic trial.}
 \label{fig:event-shift}
 \end{figure}
 
-\subsection{Covariance propagation for correlated measurements}
-Under independent coordinate noise with covariance \(\Sigma_e\) in each frame, a shared bias covariance \(\Sigma_b\), and an independent phase variance \(\sigma_\tau^2\), write \(w=\lambda_1\vv v(h)+\lambda_2\vv v(2h)\). The first-order covariance is
-\begin{equation}
- \operatorname{Cov}(\delta Q)=
- P\left[(\lambda_1^2+\lambda_2^2)\Sigma_e+
-        (\lambda_1+\lambda_2)^2\Sigma_b+
-        \sigma_\tau^2 ww^\top\right]P^\top.
-\end{equation}
-The timing contribution is rank one. Its direction depends on the trajectory and event geometry. If a common coordinate translation were applied to release and frames alike, its effect would differ because the launch position would also change. The model uses an independently specified launch position. This formula separates local measurement amplification from model discrepancy and Monte Carlo variability. It is valid for a smooth forward crossing away from event switches.
-
-\section{Operating points, subgroups and timing records}
+\section{Coverage by subgroup and computation time}
 \label{app:operating}
-The operating points below report sample counts instead of treating calibration targets as test guarantees. Mean area includes every true direct entry. At a target of one the entire rectangular opening is returned by construction.
+Mean region area includes all 71 direct entries among the 120 test kicks. A calibration target of 100\% returns the full opening by construction.
 
 \begin{table}[htbp]\centering\small
-\caption{Selected calibration targets and realized results from the 120-kick holdout. Rounded and tracking profiles share the 71 true direct entries.}
+\caption{Observed hits and mean area at selected calibration targets. Both measurement conditions use the same 71 direct entries.}
 \label{tab:coverage-full}
 \begin{tabular}{@{}llrrr@{}}\toprule
 Profile & Forecast & Target (\%) & Hits & Mean area (m\(^2\))\\\midrule
@@ -83,7 +83,7 @@ Profile & Forecast & Target (\%) & Hits & Mean area (m\(^2\))\\\midrule
 \end{table}
 
 \begin{table}[htbp]\centering\small
-\caption{Hits at the 90\% calibration target by generator family and distance to the opening edge. The two edge strata partition direct entries. The three family strata form a separate partition. They are descriptive and were not separately calibrated.}
+\caption{Hits at the 90\% target, by generator family and distance to the edge of the opening. Each grouping partitions the 71 entries. All subgroups use the threshold fitted for that method and measurement condition.}
 \label{tab:subgroup}
 \begin{tabular}{@{}llrrrr@{}}\toprule
 Profile & Stratum & Entries & 100 ms & 50 + 100 ms & Gravity\\\midrule
@@ -91,10 +91,10 @@ Profile & Stratum & Entries & 100 ms & 50 + 100 ms & Gravity\\\midrule
 \bottomrule\end{tabular}
 \end{table}
 
-Near-edge means the minimum distance from the true direct entry to any of the four edges is below 0.244 m, the nominal cell width. The strata expose whether a successful overall average masks failures near the physical decision boundary. Family is available for evaluation only. The predictor never receives the synthetic truth label.
+We classify a crossing as near-edge if its distance to the nearest of the four goal edges is below one nominal cell width (0.244 m). The generator family labels are used only to score subgroups. Each kick contributed one inference seed per measurement condition. We matched differences by kick and resampled 4,000 times, using all kicks for event scores and direct entries for point error, area and hits. The intervals describe the sampled mixture of kick families, balanced before outcomes were known. Field calibration would require independently timed releases, reference crossings and a protocol for intervening contacts.
 
 \begin{table}[htbp]\centering\small
-\caption{Numerical availability and wall-clock timing in a single local run. Runtime includes inference and construction of the predicted region ranking inputs. The ballistic timing covers its trajectory result. Threshold application is omitted in both. Times are descriptive for this host and software environment.}
+\caption{Availability and elapsed time in one local run. Aerodynamic timings cover inference and preparation of the goal-cell masses for ranking. Gravity timings cover the ballistic solution. Both exclude application of the calibrated threshold.}
 \label{tab:runtime}
 \begin{tabular}{@{}llrrrrr@{}}\toprule
 Profile & Forecast & Points & Events & ESS \(<25\) & Median (ms) & 95th (ms)\\\midrule
@@ -102,38 +102,43 @@ Profile & Forecast & Points & Events & ESS \(<25\) & Median (ms) & 95th (ms)\\\m
 \bottomrule\end{tabular}
 \end{table}
 
-The benchmark has one seed for each shot and profile. Paired intervals use 4,000 resamples of differences matched by shot ID. Event intervals use all shots. Position, area and hit intervals use the true direct entries. The test is balanced by generator family before observing outcomes. Intervals are descriptive of the sampled mixture. An independent field calibration would need known release, independent reference crossings, and an explicit protocol for intervening contacts.
-
-\section{Implementation and physical checks}
+\clearpage
+\section{Forecast algorithm and physical checks}
 \label{app:algorithm}
-\subsection{A callable forecast contract}
-The general method accepts the release point, a list of observed positions and timestamps, a camera-error model, and documented parameter supports. Input indices must be valid and coordinates finite. The solver advances each hypothesis from release to the last observation, rejecting a path that contacts the ground before the observations. Integrate surviving hypotheses until the earliest goal-plane crossing, descending ground contact, or horizon. The goal-plane coordinates are attached to an entry only when they lie in the open goal rectangle.
+\subsection{From observations to first-event probabilities}
+The inputs are the release point, observed positions and times, the camera-error model and the parameter ranges. Each observation must have a valid time index and finite coordinates.
 
 \begin{enumerate}
-\item For each force family, sample wind and spin parameters. Form a launch-velocity proposal around the inversion of the last observation. Keep a 2\% prior draw to provide support away from the local proposal.
-\item Evaluate the observation likelihood at all supplied times and assign importance weights as in Eq.~\eqref{eq:weights}. If including a timing nuisance, distribute the fixed budget over quadrature nodes and combine their masses with the node weights.
-\item Carry posterior mass to first events. For each crossing through the goal, assign its weight to a fixed cell. Normalize the event masses using the total weight and normalize goal-cell masses using the entry weight.
-\item Return the event vector, modal cell, raw region and effective sample size. Report an unavailable event distribution when total mass is zero. If total mass is positive but entry mass is zero, report the event distribution and mark the conditional point and map undefined.
+\item Draw wind and aerodynamic parameters for each force law. Propose launch velocities by inverting the latest observed position, mixing in 2\% draws from the launch prior to retain support elsewhere. With only the release point, sample directly from that prior.
+\item Propagate each trajectory through the available observations. A trajectory that reaches the goal plane or touches down before the last reading receives zero weight. Use the observation likelihood at all supplied times in Eq.~\eqref{eq:weights}. If release timing is uncertain, divide the fixed budget among quadrature nodes and combine posterior masses with their quadrature weights.
+\item Propagate the surviving trajectories to the first forward crossing, descending ground contact or time horizon. Normalize each event mass by the total weight. A crossing in the open goal rectangle contributes to its goal cell. Divide each cell mass by the total direct-entry weight.
+\item Return the event probabilities, modal cell, raw region and effective sample size. Zero total weight leaves the event distribution undefined. If only the direct-entry weight is zero, the event probabilities remain available and the conditional point and map are undefined.
 \end{enumerate}
 
-This separation avoids conflating a missed goal with an unsupported forecast. A boundary case can have a computed event vector and very little entry mass, so a conditional point should be accompanied by the unconditional entry probability. The physical support test and the numerical ESS warning answer separate questions.
+Report the unconditional entry probability alongside the conditional point, especially near the goal boundary where entry mass may be small. Geometric bounds can exclude a flight under the stated assumptions. A low effective sample size flags uncertainty in the numerical approximation.
 
-\subsection{Model assumptions and checks}
+\subsection{A bound on the force needed to turn the horizontal flight}
+\label{app:bend}
+Put \(L=2h\), \(\vv a_*=(\vv p_2-2\vv p_1)/h^2\) and let \(\vv n\) be the left unit normal to the chord \(\vv p_2-L\vv w\) in the air frame. Integrating by parts gives \(\vv n\cdot\vv a_*=\int_0^L \min(t,L-t)\,\vv n\cdot\ddot{\vv p}(t)\,dt/h^2\). The second difference therefore measures a time-weighted net acceleration. To minimize its inward magnitude over a wind disk of radius \(W\), rotate the chord by the largest possible angle to the left. Its heading is then \(\arg(\vv p_2)+\arcsin(LW/\|\vv p_2\|)\), with \(\vv n\cdot\vv p_2=-LW\). For these positive coordinates and negative acceleration components the inward projection decreases as this angle increases. Over the rounding box it is smallest when \(x_1\) is largest, \(y_1\) smallest, \(x_2\) smallest and \(y_2\) largest. The limiting points in the closed box are \((1.505,0.445)\) and \((2.955,0.865)\) m.
+
+To separate the non-drag force from the net acceleration, write \(d(t)=\vv n\cdot[\vv p(t)-t\vv w]\), \(A=-\vv n\cdot\vv a_*=2d(h)/h^2\) and \(b(t)=A t(L-t)/2\). The horizontal equation is \(d''+c(t)d'=\ell_n(t)\), with \(c\) the drag rate and \(\ell_n\) the projected non-drag acceleration. The difference \(d-b\) vanishes at \(0,h,L\). Rolle's theorem applied first to \(d-b\), then to \(e^{\int_0^t c}(d-b)'\), gives a time \(s\) such that \(-\ell_n(s)=A[1-c(s)(h-s)]\). Over the first 100 ms, \(\dot U\le g\) gives \(U\le\lVert(38,12,11)\rVert+3+0.1g<45.33\ \mathrm{m/s}\). With the coefficients from Sec.~\ref{sec:forces}, \(c\le\max(\kappa_{\max},K C_{D,\max})U<1.854\ \mathrm{s^{-1}}\). The peak inward non-drag component must therefore reach at least \((1-1.854h)A\), about \(8.09\ \mathrm{m/s^2}\) at the displayed centres and \(0.97\ \mathrm{m/s^2}\) allowing rounding.
+
+\subsection{Assumptions, limits and solver checks}
 \begin{table}[htbp]\centering\small
-\caption{Roles of inputs in the nominal prediction. Changes to scenario choices require a fresh forecast.}
+\caption{Inputs used in the nominal forecast and in the tracking-error test. A change to an assumed range or error model requires a new forecast.}
 \label{tab:assumptions}
 \begin{tabular}{@{}p{.31\linewidth}p{.24\linewidth}p{.36\linewidth}@{}}\toprule
 Quantity & Role & Interpretation\\\midrule
-Release, frame times, and opening & Given by the problem & Geometry and information budget\\
-Ball mass, radius and air density & Nominal physical inputs & Set acceleration through the area-to-mass factor\\
-Empirical drag curve & Literature-guided law & Limited range, with clipping and an offset prior\\
-Wind and lift/spin bounds & Scenario and prior choices & Control admissible continuations and model weights\\
-5 mm coordinate interval & Nominal rounding assumption & Relates reported positions to continuous paths\\
-Cell resolution and RK4 steps & Numerical choices & Check stability before quoting modal coordinates\\
-6 mm noise and 8 mm bias & Synthetic test parameters & Specify a noisy measurement regime\\
+Release, frame times and opening & Given by the problem & Fix the observations and geometry\\
+Ball mass, radius and air density & Nominal physical inputs & Set the factor \(\rho\pi R^2/(2m)\)\\
+Empirical drag curve & Literature-based fit & Limited speed range, with clipping and an offset prior\\
+Wind and lift or spin bounds & Scenario choices & Restrict admissible flights and affect model weights\\
+5 mm coordinate half-width & Rounding assumption & Links continuous positions to displayed readings\\
+Cell width and RK4 steps & Numerical choices & Affect the modal cell and integration accuracy\\
+6 mm noise and 8 mm bias & Synthetic test settings & Specify independent and shared tracking errors\\
 \bottomrule\end{tabular}
 \end{table}
 
-In the no-drag, no-lift limit, \(x(t)=v_{0x}t\), \(y(t)=v_{0y}t\), and \(z(t)=R+v_{0z}t-gt^2/2\). This gives closed-form plane and ground times and checks event ordering in the integrator. Under still-air drag without lift, both horizontal acceleration components are proportional to the corresponding velocity components, so the horizontal heading remains fixed. The constant-wind criterion in Eq.~\eqref{eq:wind} generalizes this relation in the wind frame. These limits check geometry and force signs independently of the posterior sampling.
+Under gravity alone, \(x(t)=v_{0x}t\), \(y(t)=v_{0y}t\) and \(z(t)=R+v_{0z}t-gt^2/2\). The analytic plane and ground times check event ordering. In still air, drag alone preserves horizontal heading because the horizontal acceleration is proportional to the horizontal velocity. Equation~\eqref{eq:wind} extends this property to the frame of a constant wind. These limits check the geometry and force signs independently of posterior sampling.
 
-For numerical cross-checks, the existing RK4 comparisons against adaptive DOP853 cover vacuum, drag with ground contact, effective lift and the speed-dependent empirical law. The largest reported event-position difference is 0.171 mm and the largest event-time difference is 0.038 ms. These four checks establish local numerical agreement under specified force laws. A finer solver cannot identify unknown wind, spin, or release-time error. The witness pair uses its own high-accuracy integration and a separate MATLAB replay.
+Four RK4 comparisons with adaptive DOP853 cover vacuum flight, drag with ground contact, effective transverse lift and the empirical force law. The solvers agreed to within 0.171 mm in event position and 0.038 ms in event time on these cases. The original exact-centre pair in Sec.~\ref{sec:ambig} also has a MATLAB replay. Independent adaptive integrations verify the two rounded-coordinate witnesses. The observations still limit what can be inferred about wind, spin and release time.

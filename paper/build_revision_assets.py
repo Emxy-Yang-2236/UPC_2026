@@ -44,10 +44,54 @@ def sensitivity_table(result):
     write_table('plane-sensitivity.tex',rows)
 
 
+def spin_tables(evidence):
+    exchange = json.loads((evidence / 'z10-cross-calibration.json').read_text())
+    lookup = {(r['test'], r['calibration'], r['method']): r for r in exchange}
+    rows = []
+    for test in ('Z09', 'Z10'):
+        for calibration in ('Z09', 'Z10'):
+            aero, gravity = (lookup[test, calibration, m] for m in ('aero', 'gravity'))
+            rows.append([test, calibration, *[f"{r['hits']}/{r['goals']}" for r in (aero, gravity)],
+                         *[f"{r['mean_area_m2']:.3f}" for r in (aero, gravity)]])
+    write_table('threshold-exchange.tex', rows)
+
+    summary = json.loads((evidence / 'z10-summary.json').read_text())
+    lookup = {(r['profile'], r['family']): r for r in summary['groups']
+              if r['method'] == 'nominal' and r['calibration'] == 'pooled'}
+    rows = []
+    for profile, label in [('rounded', 'Rounding'), ('tracking', 'Tracking + rounding')]:
+        groups = [lookup[profile, f] for f in ('all', 'stable_spin', 'wake')]
+        all_kicks = groups[0]
+        rows.append([label, *[f"{r['hits']}/{r['goals']}" for r in groups],
+                     f"{all_kicks['mean_area_m2']:.3f}", f"{all_kicks['mean_point_error_m']:.3f}"])
+    write_table('spin-profiles.tex', rows)
+
+
+def control_tables(evidence):
+    data = json.loads((evidence / 'revision-controls.json').read_text())
+    rows = []
+    for r in data['prescribed_scenarios']:
+        rows.append(['Tracking + rounding' if r['tracking'] else 'Rounding',
+                     r'Uniform $\pm1$ ms' if r['phase_halfwidth_ms'] else 'Exact',
+                     str(r['region_cells']), f"{r['area_m2']:.3f}", f"{100*r['p_direct']:.1f}",
+                     f"{r['median_and_central90_ms'][1]:.1f}"])
+    write_table('joint-observation.tex', rows)
+    rows = []
+    for key, r in data['retrospective'].items():
+        study, profile = key.split('/')
+        metrics = r['mean_point_error_aero_centroid_gravity_m'] + r['brier_aero_binary_soft']
+        rows.append([study, 'Rounding' if profile == 'rounded' else 'Tracking',
+                     *[f"{value:.3f}" for value in metrics]])
+    write_table('decision-controls.tex', rows)
+
+
 def main():
     TABLES.mkdir(exist_ok=True)
-    coverage_assets(json.loads((ROOT/'report/evidence/z09-summary.json').read_text()))
-    sensitivity_table(json.loads((ROOT/'report/evidence/plane-sensitivity.json').read_text()))
+    evidence = ROOT / 'report/evidence'
+    coverage_assets(json.loads((evidence / 'z09-summary.json').read_text()))
+    sensitivity_table(json.loads((evidence / 'plane-sensitivity.json').read_text()))
+    spin_tables(evidence)
+    control_tables(evidence)
 
 
 if __name__=='__main__':

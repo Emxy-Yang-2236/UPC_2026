@@ -2,5 +2,6 @@
   "report/evidence/z05-factors.csv": "851e3cae67432ddbed2823832e0272577254623c4913e27d15301624d9364d10",
   "report/evidence/z06-summary.json": "d4b9dd045a533edd619af7b21a812d5c7e25a272a9d0bb5baf7c5c943eece8f9",
   "report/evidence/z08-feedback.csv": "5fb9f6e33dcb2336577e4ab2806f389cd1014622412c31284906eb1d1b3e98ba",
-  "experiment/runs/Z04/summary.json": "516255ea5c436b797f67ac9bb7eb69b9bc12473a1bab013f68f3f555e994a714"
+  "experiment/runs/Z04/summary.json": "516255ea5c436b797f67ac9bb7eb69b9bc12473a1bab013f68f3f555e994a714",
+  "report/evidence/review-inference.json": "6d10103b0427ee31df940d8b6d5d2058fc3b875675662b8ce6a03e1b75c02ff3"
 }

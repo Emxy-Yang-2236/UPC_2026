@@ -1,5 +1,11 @@
 # 从交接目录独立复现
 
+## 两轮修订的联合观测及比较基线
+
+在研究仓库根目录运行 `python experiment/src/revision_controls.py --out scratch/revision-controls-replay.json`。本轮使用 Python 3.10.11、NumPy 2.2.6、SciPy 1.15.3，并设定 `OPENBLAS_NUM_THREADS=1`。程序验证两批冻结预测的哈希，只用各自校准集拟合重力概率，在冻结测试集上复算事件和点误差。对题面读数重跑两种时钟、两种坐标误差的组合。原始输入路径、哈希、运行版本、分母和配对区间见 [记录](evidence/revision-controls.json)。可与记录逐项比较科学数值，环境字段反映重跑环境。
+
+运行 `python paper/build_revision_assets.py` 生成正文新表，运行 `python paper/build_visuals.py` 重绘见证等图。图中两条轨迹使用冻结的发球参数，重绘时逐项核对早期坐标与门线点。[两轮改稿记录](two-round-revision.md)
+
 在本目录运行 `python3 -I recheck.py`，Windows 可用 `py -3 -I recheck.py`。只用标准库。它从两个 CSV 独立复算面积、名义格、误差、Brier、原始/校准命中与轨迹对界限。预期 `status=pass`、门内命中 30/33 和 29/33，样例面积 0.357216 m²。点及面积核验容差为 10⁻¹⁰（SI）。[复核脚本](recheck.py)
 
 ## 离线还原上游代码并运行
@@ -71,3 +77,28 @@ python experiment/src/event_sensitivity.py --out scratch/plane-sensitivity-repla
 ```
 
 将结果与冻结汇总、复现档案和事件诊断逐项核对。复现档案保留两个误差情景的输入与真值、全部锁定预测、校准阈值和 720 条评分。墙钟时间和含计时值的文件哈希随机器与重跑而变。取整情景两种气动力方法在匹配操作点均覆盖 70/71，带跟踪误差时重力与两帧气动力方法均覆盖 67/71。 [完整实验说明](coverage-and-crossing.md) · [复现档案](evidence/z09-replay.zip) · [事件诊断](evidence/plane-sensitivity.json)
+
+
+## Z10 稳定旋转球独立留出
+
+在报告目录运行 `python3 recheck_spin.py --run evidence/z10-replay.zip`，标准库即可重算分位秩、命中、面积及代表性曲率诊断。全部归档均可离线使用。[完整运行包](evidence/z10-replay.zip) · [实验结果与限制](stable-spin.md)
+
+要从初始条件重新生成射门，将 Z10 运行包解到空目录，进入解压根目录，安装 `experiment/requirements.txt`，运行 `python experiment/src/stable_spin.py --out scratch/Z10-replay --workers 4`。根目录的两个分布压缩包、两次锁和逐脚表是此前运行的冻结结果。重放输出使用新的目录。浮点末位可能随 NumPy、SciPy 和硬件变化，检查校准样本数、各组命中和打印精度下的科学量，环境信息见归档内 config.json。实验使用相互独立的整脚工作进程和每程一个 BLAS 线程。
+
+交叉阈值诊断可在同一报告目录运行 `python3 cross_spin_calibration.py`。默认读取包内 Z09 与 Z10 归档，输出四个留出批次与校准来源组合。
+
+## 审稿复核 · 题面一脚的几何、物理参数和时差
+
+从报告根目录将 [23 个文件的复现包](evidence/review-replay.zip) 解至空目录。包内含冻结的 B03 配置、模型代码、加权轨迹、现场派生表及本轮三份数值基准。运行环境为科学 Python、NumPy 和 SciPy，原始版本写在推断结果的 environment 字段。每个进程使用单个 BLAS 线程。以下最后一个脚本根据包内的冻结候选参数独立求解两脚飞行。
+
+```sh
+python -m zipfile -e evidence/review-replay.zip replay-review
+cd replay-review
+python experiment/src/review_geometry.py > geom-check.json
+python experiment/src/review_inference.py --workers 2 --out infer-check.json
+python experiment/src/review_rounded_pair.py --out pair-check.json
+```
+
+将三个输出分别对照包内 `report/evidence/review-geometry.json`、`review-inference.json` 和 `review-rounded-pair.json`。同一环境应恢复 3,469 条正权重轨迹、取整轨迹对间距 0.921506 m、含共同相位时的到时分位 383/394/406 ms。换平台时分别核对计数、物理量与软件版本；哈希用于辨识归档材料。图表报告的“误差下界”是两条指定轨迹中至少一条的最坏误差。[结果与适用范围](review-response.md)
+
+在本机另建空目录，直接解压这 23 个文件并执行上述三个入口。三份 JSON 输出均与包内基准逐字节一致。未重新生成 Z09 或 Z10 留出射门。

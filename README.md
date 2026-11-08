@@ -1,11 +1,12 @@
 # UPC 2026 B · 两帧预测点球
 
-本分支是 B 题队友共用的研究工作区。[当前方案](design/README.md) · [实验记录](experiment/README.md)
+队号 **720**。本分支 `research/2026-b` 在稳定旋转球增补稿上完成了对 `bfd0c04` 审稿意见的复核。两次显示读数相同的轨迹可在门面相距 0.922 m，正文也给出横弯力界、参数分布和时钟误差下的到时。[逐条回复与复现证据](report/review-response.md)
+
+论文第 6.6 节与附录 H 检验稳定旋转球的早期预测，将两帧测量误差、升力先验与区域校准分别对照。[阅读论文](paper/manuscript.pdf) · [补充实验设计](design/stable-spin.md) · [完整实验报告](report/stable-spin.md) · [三维模型图](paper/figures/problem-geometry.pdf)
 
 ```sh
 git clone --branch research/2026-b https://github.com/Emxy-Yang-2236/UPC_2026.git
 cd UPC_2026
-python3 design/start.py
 ```
 
 从已有副本接手时先查看 `git status -sb`，工作区干净后 `git fetch origin`、`git switch research/2026-b`、`git pull --ff-only`，并核对交接提交号。设计负责人维护 `design/` 下唯一的当前方案；实验负责人将运行和证据表存入 `experiment/`。实验结论冻结后在 `report/` 形成独立写作交接包，论文放在 `paper/`。
@@ -14,4 +15,4 @@ python3 design/start.py
 
 B01–B03 的[官方样例和合成盲测](experiment/results/README.md)，以及 D01–D03 的[三脚实测与辅助数据检验](report/field.md) 已完成。[整体实验报告](report/README.md)可单独交给写作者，末章列有[后续迭代方向和待解决问题](report/next-steps.md)。
 
-队员可直接[阅读英文论文初稿](paper/manuscript.pdf)或[编辑与编译 TeX](paper/README.md)。审阅后对齐的报告提交为 `10bb233a0e907b7c58ecf36009263d52b49c2847`。
+稳定旋转球的完整实验、冻结预测和交叉阈值结果已归档于 `bff1160`。队员可从图表追溯到逐脚预测，也可从设计和报告包接手复现。[研究总方案](design/README.md) · [编译论文](paper/README.md) · [复现说明](report/reproduction.md)
