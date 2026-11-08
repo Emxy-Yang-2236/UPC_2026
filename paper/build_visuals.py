@@ -669,6 +669,47 @@ def draw_stable_spin(v, data):
     v.save(fig, "stable-spin", [EVIDENCE+"z10-summary.json"], plotted)
 
 
+def draw_calibration_robustness(v, data):
+    fig, (prior, batches) = plt.subplots(1, 2, figsize=(WIDTH, 3.15), layout="constrained",
+                                         gridspec_kw={"width_ratios": [1, 1.18]})
+    names = [("S_half", "S only"), ("E_half", "E only"), ("both_half", "S and E")]
+    paired = []
+    for i, (key, label) in enumerate(names):
+        row = data["stable_spin_prior"][key]
+        centre = 100 * row["error_difference_m"]
+        lo, hi = np.array(row["error_difference_interval95_m"]) * 100
+        prior.errorbar(centre, i, xerr=[[centre-lo], [hi-centre]], color=TEAL,
+                       fmt="o", markersize=4.6, capsize=3, lw=1.3)
+        paired.append([label, centre, float(lo), float(hi)])
+    prior.set(yticks=range(3), yticklabels=[label for _, label in names], ylim=(2.65, -.65),
+              xlabel="Change in mean point error (cm)")
+    panel(prior, "A   Halving each prior range")
+    prior.axvline(0, color=SLATE, ls="--", lw=.8)
+    grid(prior, "x")
+
+    series = {}
+    ticks = [b["batch"] for b in data["calibration_batches"]]
+    for scope, name, c, marker, offset in [
+        ("all", "All entries", TEAL, "o", -.13),
+        ("stable_spin", "Stable-spin entries", OCHRE, "s", .13),
+    ]:
+        delta = [b["test"][scope]["nominal"]["hits"]-b["test"][scope]["gravity"]["hits"]
+                 for b in data["calibration_batches"]]
+        y = np.array(ticks) + offset
+        batches.scatter(delta, y, label=name, marker=marker, c=c, s=22, zorder=3)
+        series[scope] = delta
+    batches.set(yticks=ticks, ylim=(len(ticks)+.55, .45),
+                xlabel="Hits with aero minus hits with gravity", ylabel="Calibration batch")
+    batches.xaxis.set_major_locator(MaxNLocator(nbins=5, integer=True))
+    batches.axvline(0, color=SLATE, ls="--", lw=.8)
+    panel(batches, "B   Changing the calibration batch")
+    grid(batches, "both")
+    fig.legend(*batches.get_legend_handles_labels(), loc="outside lower center", ncol=2)
+    v.save(fig, "calibration-robustness", [EVIDENCE+"z11-summary.json"], {
+        "prior_labels_mean_and_ci_cm": paired, "calibration_batch": ticks, "hit_differences": series,
+    })
+
+
 def main():
     FIGURES.mkdir(exist_ok=True)
     v = Visuals()
@@ -691,6 +732,7 @@ def main():
                v.rows(EVIDENCE + "field/scores.csv"))
     draw_event(v, v.json(EVIDENCE + "plane-sensitivity.json"))
     draw_stable_spin(v, v.json(EVIDENCE + "z10-summary.json"))
+    draw_calibration_robustness(v, v.json(EVIDENCE + "z11-summary.json"))
     ledger = {"sources_sha256": v.sources, "figures": v.figures}
     (PAPER / "visual-data.json").write_text(json.dumps(ledger, ensure_ascii=True, indent=2) + "\n",
                                            encoding="utf-8", newline="\n")

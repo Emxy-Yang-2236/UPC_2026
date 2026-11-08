@@ -2,6 +2,8 @@
 
 [阅读 PDF](manuscript.pdf) · [编辑 LaTeX](manuscript.tex) · [稳定旋转球实验报告与复现](../report/stable-spin.md)
 
+Z11 已写入正文，分开缩减两类升力先验，并用八个独立合成校准批次检验阈值和覆盖排序。图展示同一批测试射门上的配对误差和跨批命中差。[Z11 结果与复现](../report/calibration-robustness.md)
+
 2026-11-08 完成两轮修订与独立审阅。首个正文页集中题面答案，正文增加阈值翻转表、联合误差情景和同输入的概率重力基线。[本轮改稿和核验](../report/two-round-revision.md)
 
 队号 **720**。本稿在 `ea91c1d` 的稳定旋转球研究上修订，核对了针对三维修订稿 `bfd0c04` 的全部审稿意见。第 1 节补出横弯力界，第 3–5 节给出出脚参数、取整轨迹分叉及共享时差下的到时区间。[审稿回复与数值证据](../report/review-response.md)
@@ -20,7 +22,7 @@ cd paper
 tectonic manuscript.tex
 ```
 
-表格脚本只使用 Python 标准库。本轮用 NumPy 2.2.6 与 Matplotlib 3.10.9 重绘 12 幅矢量图。绘图清单记录每幅图的数值、输入路径和 SHA-256。图表和各章 TeX 随仓库交付，直接编译论文只需 TeX。[绘图数据清单](visual-data.json) · [视觉修订说明](../report/visual-revision.md)
+表格脚本只使用 Python 标准库。本轮用 NumPy 2.2.6 与 Matplotlib 3.10.9 重绘 13 幅矢量图。绘图清单记录每幅图的数值、输入路径和 SHA-256。图表和各章 TeX 随仓库交付，直接编译论文只需 TeX。[绘图数据清单](visual-data.json) · [视觉修订说明](../report/visual-revision.md)
 
 关键结果复核：
 
@@ -29,6 +31,7 @@ python report/recheck.py
 python report/recheck_field.py
 python report/recheck_extensions.py
 python report/recheck_spin.py --run report/evidence/z10-replay.zip
+python report/recheck_calibration.py
 python design/start.py
 ```
 

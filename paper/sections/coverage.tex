@@ -112,3 +112,5 @@ Test & Profile & Aero centroid & Gravity & Aero & Gravity binary & Gravity logis
 \end{table}
 
 The centroid lowers mean point error relative to gravity under rounding and raises it under tracking errors in both batches (Table~\ref{tab:decision-controls}). The logistic probability improves gravity's Brier score over its binary prediction in every row. Aerodynamics still scores better under rounding. With tracking errors, the logistic forecast scores better on Z09. On Z10 the difference (aerodynamics minus logistic gravity) has a paired 95\% test-kick bootstrap interval of \([-0.0157,+0.0090]\), with calibration held fixed. These controls reuse the existing test kicks. The prescribed-kick answer uses the highest-probability cell.
+
+\input{sections/calibration-robustness.tex}

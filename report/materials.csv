@@ -1,4 +1,8 @@
 path,role,description
+calibration-robustness.md,section,Z11 单独缩减升力先验与八批独立校准
+recheck_calibration.py,code,从 Z11 评分复算阈值与验证对照
+evidence/z11-summary.json,result,Z11 阈值批次和配对效应的冻结结果
+evidence/z11-scores.zip,result,Z11 合成输入真值评分和校验清单
 two-round-revision.md,section,两轮改稿和复核结果
 evidence/revision-controls.json,result,锁定测试的概率对照与联合观测条件推断
 recheck.py,code,从交接表独立重算的标准库入口

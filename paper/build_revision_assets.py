@@ -85,6 +85,17 @@ def control_tables(evidence):
     write_table('decision-controls.tex', rows)
 
 
+def calibration_robustness_table(evidence):
+    result = json.loads((evidence / 'z11-summary.json').read_text())
+    rows = []
+    for key, label in (('nominal','Nominal'), ('S_half','S only'), ('E_half','E only'),
+                       ('both_half','S and E')):
+        r = result['stable_spin_prior'][key]
+        rows.append([label, f"{r['mean_error_m']:.3f}", f"{r['mean_true_rank']:.2f}",
+                     f"{r['fixed_nominal_hits']}/{r['goals']}"])
+    write_table('separate-lift-priors.tex', rows)
+
+
 def main():
     TABLES.mkdir(exist_ok=True)
     evidence = ROOT / 'report/evidence'
@@ -92,6 +103,7 @@ def main():
     sensitivity_table(json.loads((evidence / 'plane-sensitivity.json').read_text()))
     spin_tables(evidence)
     control_tables(evidence)
+    calibration_robustness_table(evidence)
 
 
 if __name__=='__main__':

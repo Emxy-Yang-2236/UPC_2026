@@ -1,5 +1,9 @@
 # 从交接目录独立复现
 
+## Z11 先验拆分与跨批校准
+
+运行 `python report/recheck_calibration.py`，仅依赖标准库，从报告归档复算 40 个阈值、2,070 条校准评分、1,840 条测试评分及面积和排序。完整重跑用 `python experiment/src/calibration_robustness.py --out scratch/Z11-replay --workers 8`，需 Python 3.10.11、NumPy 2.2.6、SciPy 1.15.3。输出路径应为新目录。校准和冻结测试预测先保存并锁定，再拟合阈值和评分。运行配置记录种子、版本和源文件校验。归档里保留新合成输入、真值及评分。[结果与证据](calibration-robustness.md)
+
 ## 两轮修订的联合观测及比较基线
 
 在研究仓库根目录运行 `python experiment/src/revision_controls.py --out scratch/revision-controls-replay.json`。本轮使用 Python 3.10.11、NumPy 2.2.6、SciPy 1.15.3，并设定 `OPENBLAS_NUM_THREADS=1`。程序验证两批冻结预测的哈希，只用各自校准集拟合重力概率，在冻结测试集上复算事件和点误差。对题面读数重跑两种时钟、两种坐标误差的组合。原始输入路径、哈希、运行版本、分母和配对区间见 [记录](evidence/revision-controls.json)。可与记录逐项比较科学数值，环境字段反映重跑环境。

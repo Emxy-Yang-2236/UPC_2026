@@ -1,0 +1,24 @@
+\subsection{Separating the lift priors and changing the calibration batch}
+\label{sec:z11}
+In Z11 we halve the component half-width of S's effective transverse-force coefficient vector, E's spin vector, or both. The other force priors and the prior weights of the force models stay fixed. Conditioning can change the posterior model weights. We reuse random streams within each kick and draw 8,192 proposals per force model in every arm. The comparison reuses the 600 Z10 tracking-noise inputs at the 100 ms cutoff. Replayed forecasts for the original mixture, joint reduction and gravity agree with their archived counterparts. This isolates changes to the prior specification on a previously examined test cohort.
+
+\begin{table}[htbp]\centering\small
+\caption{Separate prior reductions on the same 110 stable-spin direct entries. Error is mean Euclidean distance from the modal point to the crossing. Rank one is best. All four hit counts use the original Z10 nominal aerodynamic cutoff of 0.8594. A common cutoff can admit different areas.}
+\label{tab:separate-priors}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Prior reduced & Mean point error (m) & Mean true-cell rank & Fixed-cutoff hits\\\midrule
+\csname @@input\endcsname tables/separate-lift-priors.tex
+\bottomrule\end{tabular}
+\end{table}
+
+Reducing S alone lowers mean point error by 0.94 cm and reducing E alone lowers it by 1.46 cm, with paired 95\% test-kick intervals spanning zero in both cases (Fig.~\ref{fig:calibration-robustness}A). Reducing both lowers mean error by 4.17 cm (interval 2.08--6.28 cm). At the original cutoff, reducing E alone gives 101/110 hits, compared with 95/110 for S alone and 99/110 for the joint reduction (Table~\ref{tab:separate-priors}). The point and region comparisons therefore distinguish different effects of the priors.
+
+We also generate eight independent calibration batches of 90 kicks, with 30 kicks from each reference force family per batch and fresh trajectory, observation and inference seeds. Each batch contains 47--56 direct entries. For each batch and method, we fit the pooled 90\% cutoff and apply it to the same frozen Z10 test forecasts. Gravity lacked one region on a direct entry in each of calibration batches 3 and 8. These receive score one in the rank calculation. All test direct entries had usable regions. On their respective score scales, nominal aerodynamics has cutoffs from 0.735 to 0.904 and gravity from 0.065 to 0.083.
+
+\begin{figure}[htbp]\centering
+\includegraphics[width=\linewidth]{calibration-robustness.pdf}
+\caption{\textbf{Sensitivity to lift priors and calibration data.} A shows paired point-error changes from the nominal aerodynamic prior on 110 stable-spin entries, with 95\% kick-bootstrap intervals. B subtracts gravity's hit count from nominal aerodynamics for each independent calibration batch, separately for all 368 direct entries and the 110 stable-spin entries. Both panels reuse the same Z10 test cohort.}
+\label{fig:calibration-robustness}
+\end{figure}
+
+On stable-spin entries, nominal aerodynamics covers 61--97 of 110 and gravity covers 72--101. The aerodynamic method has more hits in two batches and fewer in six, both on stable-spin entries and across all direct entries. In each of the eight batches and both groups, the method with more hits uses a larger mean region. For instance, calibration batch 1 gives 93 versus 77 stable-spin hits in 1.111 versus \(0.885\ \mathrm{m^2}\), while batch 3 gives 61 versus 75 in 0.638 versus \(0.811\ \mathrm{m^2}\). These comparisons quantify sensitivity to calibration within the declared synthetic population. The eight comparisons share test kicks, so they describe the spread across calibration batches.

@@ -19,7 +19,8 @@
     "report/evidence/field/reference.csv": "afe5237ef64ca8df6609483de41c8f0e6e1bb33f292f7ff853f29abbc60555ff",
     "report/evidence/field/scores.csv": "a897dd84055dee3d2833f910f5c7b263534ba0992ac5e84bd241511f526a53b3",
     "report/evidence/plane-sensitivity.json": "295a117bf9d1f2d9a0605487c928954449de78dae808b4bc6f449f72af798a66",
-    "report/evidence/z10-summary.json": "47dbd9f72efd7a8b8fba1f8f70f921f91fdd6b14f521a8a9b19d53b18c1790b3"
+    "report/evidence/z10-summary.json": "47dbd9f72efd7a8b8fba1f8f70f921f91fdd6b14f521a8a9b19d53b18c1790b3",
+    "report/evidence/z11-summary.json": "2fc4cc7095610d740f3df6e1e8f2234a5edd91d0699e2226c837da12cacc34b7"
   },
   "figures": {
     "problem-geometry.pdf": {
@@ -7016,6 +7017,66 @@
             0.8454112
           ]
         ]
+      }
+    },
+    "calibration-robustness.pdf": {
+      "sha256": "7bbf7b73906cdd36a06bba8b3f7009bd7f67a25c6789aac4695d2097e3bbb85f",
+      "sources": [
+        "report/evidence/z11-summary.json"
+      ],
+      "plotted": {
+        "prior_labels_mean_and_ci_cm": [
+          [
+            "S only",
+            -0.9433329908367257,
+            -2.630562993213964,
+            0.8522567252281404
+          ],
+          [
+            "E only",
+            -1.4630266514631067,
+            -3.515941238342319,
+            0.5769683480575187
+          ],
+          [
+            "S and E",
+            -4.174753778053065,
+            -6.2830573881758705,
+            -2.0804808974445734
+          ]
+        ],
+        "calibration_batch": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "hit_differences": {
+          "all": [
+            12,
+            -15,
+            -31,
+            -16,
+            -15,
+            -21,
+            21,
+            -27
+          ],
+          "stable_spin": [
+            16,
+            -8,
+            -14,
+            -11,
+            -8,
+            -12,
+            25,
+            -18
+          ]
+        }
       }
     }
   }
